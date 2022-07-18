@@ -1,32 +1,28 @@
 import React from 'react'
+import './Slider.styles.css'
 
 const Slider = () => {
   return (
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block w-100" src="..." alt="First slide"/>
+      <img src="https://i.ibb.co/Jsw2CmH/prudence-earl-Nw-Bx723-Xa-Hw-unsplash.jpg" class="d-block w-100 slider-img" alt="..."/>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="..." alt="Second slide"/>
+      <img src="https://i.ibb.co/mq3tgwH/ripon-kumar-saha-q-B7-Wdy-No-S5-A-unsplash.jpg" class="d-block w-100 slider-img" alt="..."/>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="..." alt="Third slide"/>
+      <img src="https://i.ibb.co/N95JHz3/thomas-verbruggen-5-A06-OWU6-Wuc-unsplash.jpg" class="d-block w-100 slider-img" alt="..."/>
     </div>
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
   )
 }
