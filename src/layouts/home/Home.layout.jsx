@@ -1,7 +1,6 @@
 import React from 'react'
 import AboutSection from '../../components/about-section/AboutSection.component'
 import BlogSection from '../../components/blog-section/BlogSection.component'
-import Footer from '../../components/footer/Footer.component'
 import ProductSection from '../../components/product-section/ProductSection.component'
 import Slider from '../../components/slider/Slider.component'
 import YoutubeSection from '../../components/youtube-section/YoutubeSection.component'
@@ -14,7 +13,6 @@ const Home = () => {
       <ProductSection/>
       <YoutubeSection/>
       <BlogSection/>
-      <Footer/>
     </>
   )
 }
