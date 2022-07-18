@@ -1,0 +1,13 @@
+.nav-logo{
+    width: 180px;
+}
+
+.search-item{
+    width: 100%;
+}
+
+/* @media only screen and (max-width:600px) {
+    .search-item{
+        width: auto;
+    }
+} */
