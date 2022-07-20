@@ -3,9 +3,8 @@ import React from 'react'
 const YoutubeSection = () => {
   return (
     <div className='row justify-content-center'>
-        <div className='container'>
-            <h1>Lorem Ipsum is simply dummy text</h1>
-        </div>
+        <h3>FIND US ON YOUTUBE</h3>
+      <hr/>
         <div className='row'>
             <div className='col-lg-6 col-sm-12 m-lg-0 m-sm-5'>
                 <div class="ratio ratio-16x9">
