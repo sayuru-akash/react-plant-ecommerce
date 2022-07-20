@@ -6,25 +6,25 @@ const ContactForm = () => {
         <div className='mb-5'>
             <h3>SEND US A MESSAGE</h3>
         </div>
-        <div class="mb-3">
-            <label for="name" class="form-label">Your Name</label>
-            <input type="text" class="form-control"/>
+        <div className="mb-3">
+            <label for="name" className="form-label">Your Name</label>
+            <input type="text" className="form-control"/>
         </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Your Email</label>
-            <input type="email" class="form-control" id="email"/>
+        <div className="mb-3">
+            <label for="email" className="form-label">Your Email</label>
+            <input type="email" className="form-control" id="email"/>
         </div>
-        <div class="mb-3">
-            <label for="subject" class="form-label">Your Subject</label>
-            <input type="text" class="form-control" id="subject"/>
+        <div className="mb-3">
+            <label for="subject" className="form-label">Your Subject</label>
+            <input type="text" className="form-control" id="subject"/>
         </div>
-        <div class="mb-3">
-            <label for="subject" class="form-label">Your Message</label>
-            <textarea rows="5"class="form-control">
+        <div className="mb-3">
+            <label for="subject" className="form-label">Your Message</label>
+            <textarea rows="5"className="form-control">
 
             </textarea>
         </div>
-        <button type="submit" class="btn btn-success mt-4 w-100">Send</button>
+        <button type="submit" className="btn btn-success mt-4 w-100">Send</button>
     </form>
   )
 }

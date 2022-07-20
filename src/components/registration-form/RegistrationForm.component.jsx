@@ -55,55 +55,55 @@ const RegistrationForm = () => {
       <div className="mb-5">
         <h3>REGISTER</h3>
       </div>
-      <div class="mb-3">
-        <label for="displayName" class="form-label">
+      <div className="mb-3">
+        <label for="displayName" className="form-label">
           Display Name
         </label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           onChange={handleChange}
           name="displayName"
           value={displayName}
         />
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">
+      <div className="mb-3">
+        <label for="email" className="form-label">
           Email address
         </label>
         <input
           type="email"
-          class="form-control"
+          className="form-control"
           onChange={handleChange}
           name="email"
           value={email}
         />
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">
+      <div className="mb-3">
+        <label for="password" className="form-label">
           Password
         </label>
         <input
           type="password"
-          class="form-control"
+          className="form-control"
           onChange={handleChange}
           name="password"
           value={password}
         />
       </div>
-      <div class="mb-3">
-        <label for="repassword" class="form-label">
+      <div className="mb-3">
+        <label for="repassword" className="form-label">
           Re-type Password
         </label>
         <input
           type="password"
-          class="form-control"
+          className="form-control"
           onChange={handleChange}
           name="confirmPassword"
           value={confirmPassword}
         />
       </div>
-      <button type="submit" class="btn btn-success mt-4 w-100">
+      <button type="submit" className="btn btn-success mt-4 w-100">
         Register
       </button>
     </form>

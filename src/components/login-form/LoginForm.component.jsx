@@ -60,13 +60,13 @@ const LoginForm = () => {
       <div className="mb-5">
         <h3>LOG IN</h3>
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">
+      <div className="mb-3">
+        <label for="email" className="form-label">
           Username or email address
         </label>
         <input
           type="email"
-          class="form-control"
+          className="form-control"
           id="email"
           onChange={handleChange}
           name="email"
@@ -74,13 +74,13 @@ const LoginForm = () => {
           required
         />
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">
+      <div className="mb-3">
+        <label for="password" className="form-label">
           Password
         </label>
         <input
           type="password"
-          class="form-control"
+          className="form-control"
           id="password"
           onChange={handleChange}
           name="password"
@@ -88,12 +88,12 @@ const LoginForm = () => {
           required
         />
       </div>
-      <button type="submit" class="btn btn-success mt-4 w-100">
+      <button type="submit" className="btn btn-success mt-4 w-100">
         Sign In
       </button>
       <button
         type="button"
-        class="btn btn-primary mt-4 w-100"
+        className="btn btn-primary mt-4 w-100"
         onClick={signInWithGooglePU}
       >
         Sign In With Google

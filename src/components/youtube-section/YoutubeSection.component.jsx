@@ -7,13 +7,13 @@ const YoutubeSection = () => {
       <hr/>
         <div className='row'>
             <div className='col-lg-6 col-sm-12 m-lg-0 m-sm-5'>
-                <div class="ratio ratio-16x9">
-                    <iframe src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowfullscreen></iframe>
+                <div className="ratio ratio-16x9">
+                    <iframe src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowFullScreen></iframe>
                 </div>
             </div>
             <div className='col-lg-6 col-sm-12 m-lg-0 m-sm-5'>
-                <div class="ratio ratio-16x9">
-                    <iframe src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowfullscreen></iframe>
+                <div className="ratio ratio-16x9">
+                    <iframe src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowFullScreen></iframe>
                 </div>
             </div>
         </div>

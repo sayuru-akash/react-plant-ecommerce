@@ -8,13 +8,13 @@ const ContactSection = () => {
             <h1>Contact Us</h1>
         </div>
         <div className='mb-5'>
-        <p><i class="fas fa-home me-3"></i> 254/2, Homagama Town, Sri Lanka</p>
+        <p><i className="fas fa-home me-3"></i> 254/2, Homagama Town, Sri Lanka</p>
             <p>
-                <i class="fas fa-envelope me-3"></i>
+                <i className="fas fa-envelope me-3"></i>
                 fancyhut@gmail.com
             </p>
-            <p><i class="fas fa-phone me-3"></i> + 94 71 245 2345</p>
-            <p><i class="fas fa-print me-3"></i> + 94 71 245 2345</p>
+            <p><i className="fas fa-phone me-3"></i> + 94 71 245 2345</p>
+            <p><i className="fas fa-print me-3"></i> + 94 71 245 2345</p>
         </div>
         
     </div>
