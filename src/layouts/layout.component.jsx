@@ -1,4 +1,5 @@
-import {React, Fragment} from 'react';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from '../components/footer/Footer.component';
 import Header from '../components/header/Header.component';
 import About from './about/About.layout';
@@ -8,11 +9,18 @@ import Home from './home/Home.layout';
 
 function Layout(){
     return(
-        <Fragment>
-            <Header/>
-            <Home/>
-            <Footer/>=
-        </Fragment>
+        <>
+        <Header/>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<Home/>} />
+                    <Route path='/about' element={<About/>} />
+                    <Route path='/contact' element={<Contact/>} />
+                    <Route path='/authentication' element={<Authentication/>} />
+                </Routes>
+            </BrowserRouter>
+        <Footer/>
+        </>
     )
 }
 
