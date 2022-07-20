@@ -36,7 +36,7 @@ const Footer = () => {
                 Products
             </h6>
             <p>
-                <a href="#!" class="text-reset">About Us</a>
+                <a href="/about" class="text-reset">About Us</a>
             </p>
             <p>
                 <a href="#!" class="text-reset">Shop</a>
@@ -45,7 +45,7 @@ const Footer = () => {
                 <a href="#!" class="text-reset">Blog</a>
             </p>
             <p>
-                <a href="#!" class="text-reset">Contact Us</a>
+                <a href="/contact" class="text-reset">Contact Us</a>
             </p>
             </div>
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
@@ -82,7 +82,7 @@ const Footer = () => {
     </section>
     <div class="text-center p-4">
         © 2021 Copyright:
-        <a class="text-reset fw-bold" href="https://mdbootstrap.com/"> Fancy Hut</a>
+        <a class="text-reset fw-bold" href="/"> Fancy Hut</a>
     </div>
     </footer>
   )

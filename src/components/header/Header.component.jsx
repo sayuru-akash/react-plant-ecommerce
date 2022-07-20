@@ -1,4 +1,4 @@
-import { Fragment} from "react";
+import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 import "./Header.styles.css";
 
@@ -70,7 +70,9 @@ const Header = () => {
               <i class="fa-solid fa-bag-shopping fs-3"></i>
             </div>
             <div>
-              <a class="btn btn-outline-success" href="/auth">Sign In</a>
+              <a class="btn btn-outline-success" href="/auth">
+                Sign In
+              </a>
             </div>
           </div>
         </div>
