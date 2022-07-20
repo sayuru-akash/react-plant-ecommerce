@@ -1,4 +1,4 @@
-import { React, Fragment } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Footer from "../components/footer/Footer.component";
 import Header from "../components/header/Header.component";
@@ -8,6 +8,19 @@ import Contact from "./contact/Contact.layout";
 import Home from "./home/Home.layout";
 import Shop from "./shop/Shop.layout";
 import Blog from "./blog/Blog.layout";
+import UserDashboard from "./user-dashboard/UserDashboard.layout";
+import UserDashboardHome from "../components/user-dashboard-home/UserDashboardHome";
+import AddressesView from "../components/addresses-view/AddressesView.component";
+import AddressForm from "../components/address-form/AddressForm";
+import AccountSettings from "../components/account-settings/AccountSettings";
+import Orders from "../components/orders/Orders";
+import AdminDashboard from "./admin-dashboard/AdminDashboard.layout";
+import AdminDashboardHome from "../components/admin-dashboard-home/AdminDashboardHome.component";
+import OrdersTable from "../components/orders-table/OrdersTable.component";
+import UsersTable from "../components/users-table/UsersTable.component";
+import ProductsTable from "../components/products-table/ProductsTable.component";
+import BlogTable from "../components/blog-table/BlogTable.component";
+import Cart from "./cart/Cart.layout";
 
 function Layout() {
   return (
@@ -19,6 +32,21 @@ function Layout() {
         <Route path="shop" element={<Shop/>}/>
         <Route path="blog" element={<Blog/>}/>
         <Route path="auth" element={<Authentication />} />
+        <Route path="cart" element={<Cart/>} />
+        <Route path="dashboard" element={<UserDashboard />} >
+          <Route path="home" element={<UserDashboardHome/>} />
+          <Route path="addresses" element={<AddressesView />} />
+          <Route path="address-modify" element={<AddressForm />} />
+          <Route path="account-settings" element={<AccountSettings/>} />
+          <Route path="orders" element={<Orders/>} />
+        </Route>
+        <Route path="admin" element={<AdminDashboard />} >
+          <Route path="home" element={<AdminDashboardHome/>} />
+          <Route path="orders" element={<OrdersTable />} />
+          <Route path="users" element={<UsersTable/>} />
+          <Route path="blogs" element={<BlogTable/>} />
+          <Route path="products" element={<ProductsTable/>} />
+        </Route>
       </Route>
     </Routes>
   );

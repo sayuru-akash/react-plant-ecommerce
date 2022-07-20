@@ -66,8 +66,10 @@ const Header = () => {
                 </button>
               </form>
             </div>
-            <div className="me-lg-4 me-sm-0 ">
+            <div className="me-lg-4 me-sm-0">
+              <a className="text-dark" href="/cart" >
               <i className="fa-solid fa-bag-shopping fs-3"></i>
+              </a>
             </div>
             <div>
               <a className="btn btn-outline-success" href="/auth">

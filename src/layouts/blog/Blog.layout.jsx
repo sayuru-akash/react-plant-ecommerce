@@ -1,5 +1,21 @@
+import BlogLoop from "../../components/blog-loop/BlogLoop.component"
+
 const Blog = () => {
-    return <></>;
-  };
-  
-  export default Blog;
+  return (
+    <div className="row">
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+      <BlogLoop/>
+    </div>
+  )
+}
+
+export default Blog
