@@ -1,8 +1,21 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import "./Header.styles.css";
 
+import { UserContext } from "../../context/user.context";
+import { signOutUser } from "../../utils/firebase/firebaseauth.utils";
+
 const Header = () => {
+  const { currentUser } = useContext(UserContext);
+  console.log(currentUser);
+
+  const signOutHandler = () => {
+    const signOutFunction = async () => {
+      await signOutUser();
+    };
+    signOutFunction();
+  };
+
   return (
     <Fragment>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -67,14 +80,20 @@ const Header = () => {
               </form>
             </div>
             <div className="me-lg-4 me-sm-0">
-              <a className="text-light" href="/cart" >
-              <i className="fa-solid fa-bag-shopping fs-3"></i>
+              <a className="text-light" href="/cart">
+                <i className="fa-solid fa-bag-shopping fs-3"></i>
               </a>
             </div>
             <div>
-              <a className="btn btn-outline-light" href="/auth">
-                Sign In
-              </a>
+              {currentUser ? (
+                <a className="btn btn-outline-light" onClick={signOutHandler}>
+                  Sign Out
+                </a>
+              ) : (
+                <a className="btn btn-outline-light" href="/auth">
+                  Sign In
+                </a>
+              )}
             </div>
           </div>
         </div>
