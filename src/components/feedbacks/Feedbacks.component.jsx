@@ -1,10 +1,11 @@
+import React from 'react'
 
-const BlogTable = () => {
+const Feedbacks = () => {
   return (
     <>
-        <div className='mb-4 row'>
+        <div className='mb-5 row'>
             <div className="col-lg-6 col-sm-12">
-                <h3>All Blogs Posts</h3>
+                <h3>Feedbacks</h3>
             </div>
             <div className="col-lg-6 col-sm-12">
                 <form className="d-flex">
@@ -19,18 +20,14 @@ const BlogTable = () => {
                     </button>
                 </form>
             </div>
-        </div>
-        <div className='mb-4'>
-            <button type="button" className="btn btn-success"><i className="fa-solid fa-plus me-2"></i>Add Blog Post</button>
-        </div>
+            </div>
             <div className="table-responsive">
             <table className="table bordered striped">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Title</th>
-                        <th>Discription</th>
-                        <th>image</th>
+                        <th>Name</th>
+                        <th>Feedback</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -39,10 +36,9 @@ const BlogTable = () => {
                         <th scope="row">1</th>
                         <td className="table-active">Larry the Bird</td>
                         <td>@twitter</td>
-                        <td><img src="..." className="img-thumbnail" alt="..."/></td>
                         <td>
-                            <button type="button" className="btn btn-warning me-3"><i className="fa-solid fa-pen-to-square me-2"></i>Edit</button>
-                            <button type="button" className="btn btn-danger"><i className="fa-solid fa-trash-can me-2"></i>Delete</button>
+                            <button type="button" className="btn btn-primary me-2"><i class="fa-solid fa-eye me-2"></i>View</button>
+                            <button type="button" className="btn btn-danger me-2"><i className="fa-solid fa-trash-can me-2"></i>Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -52,4 +48,4 @@ const BlogTable = () => {
   )
 }
 
-export default BlogTable
+export default Feedbacks

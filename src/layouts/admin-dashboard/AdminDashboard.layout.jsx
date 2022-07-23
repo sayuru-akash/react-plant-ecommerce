@@ -16,7 +16,7 @@ const AdminDashboard = () => {
                         <a className="nav-link text-dark" href="/admin/products">Products</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-dark" href="/admin/blogs">Blogs</a>
+                        <a className="nav-link text-dark" href="/admin/blogs">Blog Posts</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/admin/orders">Orders</a>
@@ -26,6 +26,12 @@ const AdminDashboard = () => {
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/admin/reports">Reports</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-dark" href="/admin/catagories">Catagories</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-dark" href="/admin/feedbacks">Feedbacks</a>
                     </li>
                 </ul>
             </div>

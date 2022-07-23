@@ -22,6 +22,8 @@ import ProductsTable from "../components/products-table/ProductsTable.component"
 import BlogTable from "../components/blog-table/BlogTable.component";
 import Cart from "./cart/Cart.layout";
 import Reports from "../components/reports/Reports.component";
+import Feedbacks from "../components/feedbacks/Feedbacks.component";
+import Catagories from "../components/catagories/Catagories.component";
 
 function Layout() {
   return (
@@ -48,6 +50,8 @@ function Layout() {
           <Route path="blogs" element={<BlogTable/>} />
           <Route path="products" element={<ProductsTable/>} />
           <Route path="reports" element={<Reports/>} />
+          <Route path="feedbacks" element={<Feedbacks/>} />
+          <Route path="catagories" element={<Catagories/>} />
         </Route>
       </Route>
     </Routes>

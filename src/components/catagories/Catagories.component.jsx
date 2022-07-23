@@ -1,10 +1,11 @@
+import React from 'react'
 
-const BlogTable = () => {
+const Catagories = () => {
   return (
     <>
         <div className='mb-4 row'>
             <div className="col-lg-6 col-sm-12">
-                <h3>All Blogs Posts</h3>
+                <h3>All Catagories</h3>
             </div>
             <div className="col-lg-6 col-sm-12">
                 <form className="d-flex">
@@ -21,16 +22,14 @@ const BlogTable = () => {
             </div>
         </div>
         <div className='mb-4'>
-            <button type="button" className="btn btn-success"><i className="fa-solid fa-plus me-2"></i>Add Blog Post</button>
+            <button type="button" className="btn btn-success"><i className="fa-solid fa-plus me-2"></i>Add Catagory</button>
         </div>
             <div className="table-responsive">
             <table className="table bordered striped">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Title</th>
-                        <th>Discription</th>
-                        <th>image</th>
+                        <th>Catagory Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -38,8 +37,6 @@ const BlogTable = () => {
                     <tr>
                         <th scope="row">1</th>
                         <td className="table-active">Larry the Bird</td>
-                        <td>@twitter</td>
-                        <td><img src="..." className="img-thumbnail" alt="..."/></td>
                         <td>
                             <button type="button" className="btn btn-warning me-3"><i className="fa-solid fa-pen-to-square me-2"></i>Edit</button>
                             <button type="button" className="btn btn-danger"><i className="fa-solid fa-trash-can me-2"></i>Delete</button>
@@ -52,4 +49,4 @@ const BlogTable = () => {
   )
 }
 
-export default BlogTable
+export default Catagories

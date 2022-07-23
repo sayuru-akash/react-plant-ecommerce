@@ -62,6 +62,26 @@ const AdminDashboardHome = () => {
                 </div>
                 <div className="col-lg-6 col-sm-12">
                     <div className="p-4 border m-3">
+                        <a href='/admin/catagories' className="w-100 h-100 text-dark text-decoration-none fw-bold">
+                            <div className="row mb-3">
+                            <i class="fa-solid fa-rectangle-list dashboard-icon"></i>
+                            </div>
+                            <span>Catagories</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-lg-6 col-sm-12">
+                    <div className="p-4 border m-3">
+                        <a href='/admin/feedbacks' className="w-100 h-100 text-dark text-decoration-none fw-bold">
+                            <div className="row mb-3">
+                            <i class="fa-solid fa-comment dashboard-icon"></i>  
+                            </div>
+                            <span>Feedbacks</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-lg-6 col-sm-12">
+                    <div className="p-4 border m-3">
                         <a href='' className="w-100 h-100 text-dark text-decoration-none fw-bold">
                             <div className="row mb-3">
                             <i className="fa-solid fa-right-from-bracket dashboard-icon"></i>
