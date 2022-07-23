@@ -44,9 +44,19 @@ const AdminDashboardHome = () => {
                     <div className="p-4 border m-3">
                         <a href='/admin/users' className="w-100 h-100 text-dark text-decoration-none fw-bold">
                             <div className="row mb-3">
-                                <i className="fa-solid fa-clipboard dashboard-icon"></i>   
+                            <i class="fa-solid fa-users dashboard-icon"></i>   
                             </div>
                             <span>Users</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-lg-6 col-sm-12">
+                    <div className="p-4 border m-3">
+                        <a href='/admin/reports' className="w-100 h-100 text-dark text-decoration-none fw-bold">
+                            <div className="row mb-3">
+                            <i class="fa-solid fa-chart-pie dashboard-icon"></i>   
+                            </div>
+                            <span>Reports</span>
                         </a>
                     </div>
                 </div>

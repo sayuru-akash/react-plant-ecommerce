@@ -21,6 +21,7 @@ import UsersTable from "../components/users-table/UsersTable.component";
 import ProductsTable from "../components/products-table/ProductsTable.component";
 import BlogTable from "../components/blog-table/BlogTable.component";
 import Cart from "./cart/Cart.layout";
+import Reports from "../components/reports/Reports.component";
 
 function Layout() {
   return (
@@ -34,18 +35,19 @@ function Layout() {
         <Route path="auth" element={<Authentication />} />
         <Route path="cart" element={<Cart/>} />
         <Route path="dashboard" element={<UserDashboard />} >
-          <Route path="home" element={<UserDashboardHome/>} />
+          <Route index element={<UserDashboardHome/>} />
           <Route path="addresses" element={<AddressesView />} />
           <Route path="address-modify" element={<AddressForm />} />
           <Route path="account-settings" element={<AccountSettings/>} />
           <Route path="orders" element={<Orders/>} />
         </Route>
         <Route path="admin" element={<AdminDashboard />} >
-          <Route path="home" element={<AdminDashboardHome/>} />
+          <Route index element={<AdminDashboardHome/>} />
           <Route path="orders" element={<OrdersTable />} />
           <Route path="users" element={<UsersTable/>} />
           <Route path="blogs" element={<BlogTable/>} />
           <Route path="products" element={<ProductsTable/>} />
+          <Route path="reports" element={<Reports/>} />
         </Route>
       </Route>
     </Routes>

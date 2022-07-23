@@ -5,6 +5,10 @@
 .search-item{
     width: 100%;
 }
+.navbar{
+    background-color: #4CBB17 !important;
+    color: white !important;
+}
 
 /* @media only screen and (max-width:600px) {
     .search-item{

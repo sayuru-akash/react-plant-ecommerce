@@ -10,7 +10,7 @@ const AdminDashboard = () => {
                 <hr/>
                 <ul className="nav flex-column text-start">
                     <li className="nav-item">
-                        <a className="nav-link active text-dark" aria-current="page" href="/admin/home">Dashboard</a>
+                        <a className="nav-link active text-dark" aria-current="page" href="/admin">Dashboard</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/admin/products">Products</a>
@@ -23,6 +23,9 @@ const AdminDashboard = () => {
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/admin/users">Users</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-dark" href="/admin/reports">Reports</a>
                     </li>
                 </ul>
             </div>

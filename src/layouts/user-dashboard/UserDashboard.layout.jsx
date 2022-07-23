@@ -10,7 +10,7 @@ function UserDashboard() {
                 <hr/>
                 <ul className="nav flex-column text-start">
                     <li className="nav-item">
-                        <a className="nav-link active text-dark" aria-current="page" href="/dashboard/home">Dashboard</a>
+                        <a className="nav-link active text-dark" aria-current="page" href="/dashboard">Dashboard</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/dashboard/orders">Orders</a>

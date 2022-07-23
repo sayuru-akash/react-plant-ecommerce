@@ -5,7 +5,7 @@ import "./Header.styles.css";
 const Header = () => {
   return (
     <Fragment>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="./">
             <img
@@ -33,22 +33,22 @@ const Header = () => {
                 </a>
               </li>
               <li className="nav-item me-lg-2 me-sm-0">
-                <a className="nav-link" href="/shop">
+                <a className="nav-link active" href="/shop">
                   Shop
                 </a>
               </li>
               <li className="nav-item me-lg-2 me-sm-0">
-                <a className="nav-link" href="/blog">
+                <a className="nav-link active" href="/blog">
                   Blog
                 </a>
               </li>
               <li className="nav-item me-lg-2 me-sm-0">
-                <a className="nav-link" href="/about">
+                <a className="nav-link active" href="/about">
                   About
                 </a>
               </li>
               <li className="nav-item me-lg-5 me-sm-0">
-                <a className="nav-link" href="/contact">
+                <a className="nav-link active" href="/contact">
                   Contact
                 </a>
               </li>
@@ -61,18 +61,18 @@ const Header = () => {
                   placeholder="Search"
                   aria-label="Search"
                 ></input>
-                <button className="btn btn-outline-success" type="submit">
+                <button className="btn btn-light" type="submit">
                   Search
                 </button>
               </form>
             </div>
             <div className="me-lg-4 me-sm-0">
-              <a className="text-dark" href="/cart" >
+              <a className="text-light" href="/cart" >
               <i className="fa-solid fa-bag-shopping fs-3"></i>
               </a>
             </div>
             <div>
-              <a className="btn btn-outline-success" href="/auth">
+              <a className="btn btn-outline-light" href="/auth">
                 Sign In
               </a>
             </div>
