@@ -9,7 +9,7 @@ const Header = () => {
         <div className="container-fluid">
           <a className="navbar-brand" href="./">
             <img
-              src="https://i.ibb.co/qjbWXdK/fancy-hut-logo.png"
+              src="https://i.ibb.co/Vgx9sq8/fancy-hut-logo.png"
               alt="logo"
               className="nav-logo"
             />

@@ -24,7 +24,7 @@ const Footer = () => {
         <div className="row mt-3">
             <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
             <div className=" mb-4">
-                <img src="https://i.ibb.co/qjbWXdK/fancy-hut-logo.png" alt="logo" className="nav-logo"/>
+                <img src="https://i.ibb.co/Vgx9sq8/fancy-hut-logo.png" alt="logo" className="nav-logo"/>
             </div>
             <p>
                 Here you can use rows and columns to organize your footer content. Lorem ipsum
