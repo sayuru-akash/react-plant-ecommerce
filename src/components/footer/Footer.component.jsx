@@ -69,20 +69,20 @@ const Footer = () => {
             <h6 className="text-uppercase fw-bold mb-4">
                 Contact
             </h6>
-            <p><i className="fas fa-home me-3"></i> 254/2, Homagama Town, Sri Lanka</p>
+            <p><i className="fas fa-home me-3"></i> 23/A, Pilligalla Road,<br />Angunawela, Peradeniya,<br/>Kandy, Sri Lanka</p>
             <p>
                 <i className="fas fa-envelope me-3"></i>
-                fancyhut@gmail.com
+                fancyhutplants@gmail.com
             </p>
-            <p><i className="fas fa-phone me-3"></i> + 94 71 245 2345</p>
-            <p><i className="fas fa-print me-3"></i> + 94 71 245 2345</p>
+            <p><i className="fas fa-phone me-3"></i> + 94 78 533 7984</p>
+            <p><i className="fas fa-phone me-3"></i> + 94 75 506 5056</p>
             </div>
         </div>
         </div>
     </section>
     <div className="text-center p-4">
         © 2021 Copyright:
-        <a className="text-reset fw-bold" href="/"> Fancy Hut</a>
+        <a className="text-reset fw-bold" href="/"> Fancy Hut Plants</a>
     </div>
     </footer>
   )
