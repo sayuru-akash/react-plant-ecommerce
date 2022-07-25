@@ -4,7 +4,7 @@ import CatagoryLoop from '../catagory-loop/CatagoryLoop.component'
 const CatagorySection = () => {
   return (
     <div className='m-5'>
-      <h3>Catagories</h3>
+      <h3>Categories</h3>
       <hr/>
       <div className='row'>
         <CatagoryLoop/>

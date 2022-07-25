@@ -6,7 +6,7 @@ const CatagoryLoop = () => {
       <div className='card m-2'>
         <img className="card-img-top" src="https://i.ibb.co/fHzsgmf/mango.jpg" alt="Card image cap"/>
         <div className="card-body">
-            <h5 className="card-title">Test Catagory</h5>
+            <h5 className="card-title">Test Category</h5>
         </div>
       </div>
     </div>
