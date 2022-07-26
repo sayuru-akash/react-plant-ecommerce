@@ -5,6 +5,8 @@ import {
   createUserFromAuth,
 } from "../../utils/firebase/firebaseauth.utils";
 
+import {useNavigate} from 'react-router-dom';
+
 const defaultFormState = {
   email: "",
   password: "",
@@ -18,10 +20,13 @@ const LoginForm = () => {
     setFormState(defaultFormState);
   };
 
+  const navigate = useNavigate();
+
   const signInWithGooglePU = async () => {
     const response = await signInWithGooglePopup();
     if (response) {
       await createUserFromAuth(response.user);
+      navigate("/dashboard");
     }
   };
 
@@ -32,6 +37,7 @@ const LoginForm = () => {
         const { user } = await signInUserFromEmailAndPassword(email, password);
         // setCurrentUser(user);
         resetForm();
+        navigate("/dashboard");
       } catch (error) {
         switch (error.code) {
           case "auth/user-not-found":

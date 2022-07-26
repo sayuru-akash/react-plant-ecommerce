@@ -5,6 +5,8 @@ import {
   createUserFromAuth,
 } from "../../utils/firebase/firebaseauth.utils";
 
+import {useNavigate} from 'react-router-dom';
+
 const defaultFormState = {
   displayName: "",
   email: "",
@@ -15,6 +17,8 @@ const defaultFormState = {
 const RegistrationForm = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const { displayName, email, password, confirmPassword } = formState;
+
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setFormState(defaultFormState);
@@ -32,6 +36,7 @@ const RegistrationForm = () => {
         await createUserFromAuth(response.user, { displayName });
         // setCurrentUser(response.user);
         resetForm();
+        navigate("/dashboard");
       } catch (error) {
         if (error.code === "auth/email-already-in-use") {
           alert("Email already in use");
