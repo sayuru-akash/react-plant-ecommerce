@@ -15,6 +15,7 @@ const defaultFormState = {
 };
 
 const RegistrationForm = () => {
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const [formState, setFormState] = useState(defaultFormState);
   const { displayName, email, password, confirmPassword } = formState;
 
@@ -24,6 +25,14 @@ const RegistrationForm = () => {
     setFormState(defaultFormState);
   };
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+  function isValidatePassword(password)
+  {
+    return /^[A-Za-z]\w{7,14}/.test(password)
+  }
+
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
@@ -31,13 +40,13 @@ const RegistrationForm = () => {
         alert("no empty values allowed don't match");
         return;
       }
-      if (email == "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/") {
-        alert("email format is not correct");
-        return;
-      }
-      if (password == "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/") {
-        alert("invalid password format");
-        return;
+      if (!isValidEmail(email)) {
+      alert('Email is invalid');
+      return;
+    }
+      if (!isValidatePassword(password)) {
+        alert('invalid password format');
+        return
       }
       if (password !== confirmPassword) {
         alert("Passwords don't match");
@@ -89,7 +98,7 @@ const RegistrationForm = () => {
           Email address
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control"
           onChange={handleChange}
           name="email"
