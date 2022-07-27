@@ -2,7 +2,6 @@ import { React, useState } from "react";
 import { Outlet } from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
 
-
 const defaultFormState = {
     firstName: "",
     lastName: "",
@@ -23,6 +22,14 @@ const AccountSettings = () => {
     setFormState(defaultFormState);
   };
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+  function isValidatePassword(password)
+  {
+    return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
+  }
+
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
@@ -30,17 +37,15 @@ const AccountSettings = () => {
         alert("no empty values allowed");
         return;
       }
-      if (email == "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/") {
-        alert("email format is not correct");
+      if (!isValidEmail(email)) {
+        alert('Email is invalid');
         return;
       }
-      if (oldPassword == "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/") {
-        alert("old password format is invalid");
-        return;
+      if (!isValidatePassword(oldPassword)) {
+        alert('invalid password  is format');
       }
-      if (newPassword == "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/") {
-        alert("new password format is invalid");
-        return;
+      if (!isValidatePassword(newPassword)) {
+        alert('invalid password  is format');
       }
       if (newPassword !== confirmNewPassword) {
         alert("Passwords don't match");

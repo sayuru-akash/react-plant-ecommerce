@@ -34,6 +34,14 @@ const LoginForm = () => {
     }
   };
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+  function isValidatePassword(password)
+  {
+    return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
+  }
+
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
@@ -41,13 +49,12 @@ const LoginForm = () => {
         alert("no empty values allowed don't match");
         return;
       }
-      if (email == "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/") {
-        alert("email format is not correct");
+      if (!isValidEmail(email)) {
+        alert('Email is invalid');
         return;
       }
-      if (password == "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/") {
-        alert("invalid password format");
-        return;
+      if (!isValidatePassword(password)) {
+        alert('invalid password  is format');
       }
       try {
         const { user } = await signInUserFromEmailAndPassword(email, password);
