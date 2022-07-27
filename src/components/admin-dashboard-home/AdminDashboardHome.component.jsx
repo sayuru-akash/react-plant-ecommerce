@@ -1,11 +1,18 @@
-import { Outlet } from "react-router-dom"
+import {React, useContext} from 'react';
+import { Outlet } from "react-router-dom";
+import { UserContext } from '../../context/user.context';
 
 const AdminDashboardHome = () => {
+    const { currentUser } = useContext(UserContext);
   return (
     <>
     <Outlet/>
         <div className="row m-4">
-            <p >Hello Isuru</p>
+        {currentUser ? (
+               <p >Hello {currentUser.displayName}</p>
+              ) : (
+                <p>Hello Guest</p>
+              )}
             <p>From your account dashboard you can view your recent orders, manage your admin data, 
                 and edit your password and account details.</p>
         </div>

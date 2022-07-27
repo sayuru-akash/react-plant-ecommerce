@@ -27,6 +27,18 @@ const RegistrationForm = () => {
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
+      if (displayName == "" || email == "" || password == "" || confirmPassword == "") {
+        alert("no empty values allowed don't match");
+        return;
+      }
+      if (email == "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/") {
+        alert("email format is not correct");
+        return;
+      }
+      if (password == "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/") {
+        alert("invalid password format");
+        return;
+      }
       if (password !== confirmPassword) {
         alert("Passwords don't match");
         return;
