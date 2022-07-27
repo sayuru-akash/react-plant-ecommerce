@@ -1,8 +1,6 @@
 import { React, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
-
 import { UserContext } from "../context/user.context";
 
 import Footer from "../components/footer/Footer.component";
@@ -32,7 +30,6 @@ import Catagories from "../components/catagories/Catagories.component";
 
 function Layout() {
   const { currentUser } = useContext(UserContext);
-  const navigate = useNavigate();
 
   return (
     <Routes>
@@ -61,7 +58,7 @@ function Layout() {
             <Route path="orders" element={<Orders />} />
           </Route>
         )}{" "}
-        {currentUser && currentUser.email === "fancyhut0@gmail.com" && (
+        {currentUser && currentUser.email === "admin@fancyhut.com" && (
           <Route path="admin" element={<AdminDashboard />}>
             <Route index element={<AdminDashboardHome />} />
             <Route path="orders" element={<OrdersTable />} />

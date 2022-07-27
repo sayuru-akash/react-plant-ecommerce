@@ -2,8 +2,23 @@ import {React, useContext} from 'react';
 import { Outlet } from "react-router-dom";
 import { UserContext } from '../../context/user.context';
 
+import {useNavigate} from 'react-router-dom';
+
+import { signOutUser } from '../../utils/firebase/firebaseauth.utils';
+
 const AdminDashboardHome = () => {
     const { currentUser } = useContext(UserContext);
+
+    const navigate = useNavigate();
+
+    const signOutHandler = () => {
+        const signOutFunction = async () => {
+          await signOutUser();
+          navigate("/auth");
+        };
+        signOutFunction();
+      };
+
   return (
     <>
     <Outlet/>
@@ -51,7 +66,7 @@ const AdminDashboardHome = () => {
                     <div className="p-4 border m-3">
                         <a href='/admin/users' className="w-100 h-100 text-dark text-decoration-none fw-bold">
                             <div className="row mb-3">
-                            <i class="fa-solid fa-users dashboard-icon"></i>   
+                            <i className="fa-solid fa-users dashboard-icon"></i>   
                             </div>
                             <span>Users</span>
                         </a>
@@ -61,7 +76,7 @@ const AdminDashboardHome = () => {
                     <div className="p-4 border m-3">
                         <a href='/admin/reports' className="w-100 h-100 text-dark text-decoration-none fw-bold">
                             <div className="row mb-3">
-                            <i class="fa-solid fa-chart-pie dashboard-icon"></i>   
+                            <i className="fa-solid fa-chart-pie dashboard-icon"></i>   
                             </div>
                             <span>Reports</span>
                         </a>
@@ -71,7 +86,7 @@ const AdminDashboardHome = () => {
                     <div className="p-4 border m-3">
                         <a href='/admin/catagories' className="w-100 h-100 text-dark text-decoration-none fw-bold">
                             <div className="row mb-3">
-                            <i class="fa-solid fa-rectangle-list dashboard-icon"></i>
+                            <i className="fa-solid fa-rectangle-list dashboard-icon"></i>
                             </div>
                             <span>Catagories</span>
                         </a>
@@ -81,7 +96,7 @@ const AdminDashboardHome = () => {
                     <div className="p-4 border m-3">
                         <a href='/admin/feedbacks' className="w-100 h-100 text-dark text-decoration-none fw-bold">
                             <div className="row mb-3">
-                            <i class="fa-solid fa-comment dashboard-icon"></i>  
+                            <i className="fa-solid fa-comment dashboard-icon"></i>  
                             </div>
                             <span>Feedbacks</span>
                         </a>
@@ -89,7 +104,7 @@ const AdminDashboardHome = () => {
                 </div>
                 <div className="col-lg-6 col-sm-12">
                     <div className="p-4 border m-3">
-                        <a href='' className="w-100 h-100 text-dark text-decoration-none fw-bold">
+                        <a className="w-100 h-100 text-dark text-decoration-none fw-bold" type='button' onClick={signOutHandler}>
                             <div className="row mb-3">
                             <i className="fa-solid fa-right-from-bracket dashboard-icon"></i>
                             </div>

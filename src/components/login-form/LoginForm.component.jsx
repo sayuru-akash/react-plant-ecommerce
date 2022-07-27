@@ -26,7 +26,7 @@ const LoginForm = () => {
     const response = await signInWithGooglePopup();
     if (response) {
       await createUserFromAuth(response.user);
-      if (response.user.email==="fancyhut0@gmail.com") {
+      if (response.user.email==="admin@fancyhut.com") {
         navigate("/admin");
       }else{
         navigate("/dashboard");
@@ -34,33 +34,18 @@ const LoginForm = () => {
     }
   };
 
-  function isValidEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
-  }
-  function isValidatePassword(password)
-  {
-    return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
-  }
-
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
-      if (email == "" || password == "" ) {
+      if (email === "" || password === "" ) {
         alert("no empty values allowed don't match");
         return;
-      }
-      if (!isValidEmail(email)) {
-        alert('Email is invalid');
-        return;
-      }
-      if (!isValidatePassword(password)) {
-        alert('invalid password  is format');
       }
       try {
         const { user } = await signInUserFromEmailAndPassword(email, password);
         // setCurrentUser(user);
         resetForm();
-        if (user.email==="fancyhut0@gmail.com") {
+        if (user.email==="admin@fancyhut.com") {
           navigate("/admin");
         }else{
           navigate("/dashboard");

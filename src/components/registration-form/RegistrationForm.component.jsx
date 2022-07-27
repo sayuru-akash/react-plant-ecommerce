@@ -5,7 +5,7 @@ import {
   createUserFromAuth,
 } from "../../utils/firebase/firebaseauth.utils";
 
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const defaultFormState = {
   displayName: "",
@@ -15,7 +15,6 @@ const defaultFormState = {
 };
 
 const RegistrationForm = () => {
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const [formState, setFormState] = useState(defaultFormState);
   const { displayName, email, password, confirmPassword } = formState;
 
@@ -25,28 +24,17 @@ const RegistrationForm = () => {
     setFormState(defaultFormState);
   };
 
-  function isValidEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
-  }
-  function isValidatePassword(password)
-  {
-    return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
-  }
-
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
-      if (displayName == "" || email == "" || password == "" || confirmPassword == "") {
+      if (
+        displayName === "" ||
+        email === "" ||
+        password === "" ||
+        confirmPassword === ""
+      ) {
         alert("no empty values allowed don't match");
         return;
-      }
-      if (!isValidEmail(email)) {
-      alert('Email is invalid');
-      return;
-    }
-      if (!isValidatePassword(password)) {
-        alert('invalid password format');
-        return
       }
       if (password !== confirmPassword) {
         alert("Passwords don't match");

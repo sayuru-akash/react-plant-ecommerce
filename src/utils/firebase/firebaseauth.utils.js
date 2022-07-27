@@ -52,12 +52,14 @@ export const createUserFromEmailAndPassword = async (email, password) => {
 };
 
 export const signInUserFromEmailAndPassword = async (email, password) => {
-    if (!email || !password) return;
-    
-    return await signInWithEmailAndPassword(auth, email, password);
-}
+  if (!email || !password) return;
 
-export const signOutUser = async () => await auth.signOut();
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => {
+  await auth.signOut();
+};
 
 export const onAuthStateChangedListner = (callback) =>
   onAuthStateChanged(auth, callback);
