@@ -27,7 +27,7 @@ const AccountSettings = () => {
   }
   function isValidatePassword(password)
   {
-    return /^[A-Za-z]\w{7,14}/.test(password)
+    return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
   }
 
   const handleSubmit = (event) => {
