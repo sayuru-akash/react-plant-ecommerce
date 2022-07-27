@@ -9,7 +9,7 @@ const AdminDashboardHome = () => {
     <Outlet/>
         <div className="row m-4">
         {currentUser ? (
-               <p >Hello {currentUser.displayName}</p>
+               <p >Hello Admin!</p>
               ) : (
                 <p>Hello Guest</p>
               )}

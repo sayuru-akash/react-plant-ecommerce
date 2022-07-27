@@ -2,16 +2,21 @@ import { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import "./Header.styles.css";
 
+import {useNavigate} from 'react-router-dom';
+
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase/firebaseauth.utils";
 
 const Header = () => {
   const { currentUser } = useContext(UserContext);
-  console.log(currentUser);
+  //console.log(currentUser);
+
+  const navigate = useNavigate();
 
   const signOutHandler = () => {
     const signOutFunction = async () => {
       await signOutUser();
+      navigate("/auth");
     };
     signOutFunction();
   };

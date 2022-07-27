@@ -26,7 +26,11 @@ const LoginForm = () => {
     const response = await signInWithGooglePopup();
     if (response) {
       await createUserFromAuth(response.user);
-      navigate("/dashboard");
+      if (response.user.email==="fancyhut0@gmail.com") {
+        navigate("/admin");
+      }else{
+        navigate("/dashboard");
+      }
     }
   };
 
@@ -49,7 +53,11 @@ const LoginForm = () => {
         const { user } = await signInUserFromEmailAndPassword(email, password);
         // setCurrentUser(user);
         resetForm();
-        navigate("/dashboard");
+        if (user.email==="fancyhut0@gmail.com") {
+          navigate("/admin");
+        }else{
+          navigate("/dashboard");
+        }
       } catch (error) {
         switch (error.code) {
           case "auth/user-not-found":

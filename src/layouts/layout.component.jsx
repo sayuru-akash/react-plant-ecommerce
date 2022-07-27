@@ -1,5 +1,10 @@
-import React from "react";
+import { React, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+
+import { UserContext } from "../context/user.context";
+
 import Footer from "../components/footer/Footer.component";
 import Header from "../components/header/Header.component";
 import About from "./about/About.layout";
@@ -26,33 +31,48 @@ import Feedbacks from "../components/feedbacks/Feedbacks.component";
 import Catagories from "../components/catagories/Catagories.component";
 
 function Layout() {
+  const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   return (
     <Routes>
-      <Route path="/" element={<><Header/><Footer/></>}>
+      <Route
+        path="/"
+        element={
+          <>
+            <Header />
+            <Footer />
+          </>
+        }
+      >
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="shop" element={<Shop/>}/>
-        <Route path="blog" element={<Blog/>}/>
+        <Route path="shop" element={<Shop />} />
+        <Route path="blog" element={<Blog />} />
         <Route path="auth" element={<Authentication />} />
-        <Route path="cart" element={<Cart/>} />
-        <Route path="dashboard" element={<UserDashboard />} >
-          <Route index element={<UserDashboardHome/>} />
-          <Route path="addresses" element={<AddressesView />} />
-          <Route path="address-modify" element={<AddressForm />} />
-          <Route path="account-settings" element={<AccountSettings/>} />
-          <Route path="orders" element={<Orders/>} />
-        </Route>
-        <Route path="admin" element={<AdminDashboard />} >
-          <Route index element={<AdminDashboardHome/>} />
-          <Route path="orders" element={<OrdersTable />} />
-          <Route path="users" element={<UsersTable/>} />
-          <Route path="blogs" element={<BlogTable/>} />
-          <Route path="products" element={<ProductsTable/>} />
-          <Route path="reports" element={<Reports/>} />
-          <Route path="feedbacks" element={<Feedbacks/>} />
-          <Route path="catagories" element={<Catagories/>} />
-        </Route>
+        <Route path="cart" element={<Cart />} />
+        {currentUser && (
+          <Route path="dashboard" element={<UserDashboard />}>
+            <Route index element={<UserDashboardHome />} />
+            <Route path="addresses" element={<AddressesView />} />
+            <Route path="address-modify" element={<AddressForm />} />
+            <Route path="account-settings" element={<AccountSettings />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
+        )}{" "}
+        {currentUser && currentUser.email === "fancyhut0@gmail.com" && (
+          <Route path="admin" element={<AdminDashboard />}>
+            <Route index element={<AdminDashboardHome />} />
+            <Route path="orders" element={<OrdersTable />} />
+            <Route path="users" element={<UsersTable />} />
+            <Route path="blogs" element={<BlogTable />} />
+            <Route path="products" element={<ProductsTable />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="feedbacks" element={<Feedbacks />} />
+            <Route path="catagories" element={<Catagories />} />
+          </Route>
+        )}{" "}
       </Route>
     </Routes>
   );
