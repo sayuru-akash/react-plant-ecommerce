@@ -1,3 +1,4 @@
+import AddBlogPosts from "../add-blog-posts/AddBlogPosts.component"
 
 const BlogTable = () => {
   return (
@@ -21,7 +22,7 @@ const BlogTable = () => {
             </div>
         </div>
         <div className='mb-4'>
-            <button type="button" className="btn btn-success"><i className="fa-solid fa-plus me-2"></i>Add Blog Post</button>
+            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBlogPostsModal"><i className="fa-solid fa-plus me-2"></i>Add Blog Post</button>
         </div>
             <div className="table-responsive">
             <table className="table bordered striped">
@@ -48,6 +49,9 @@ const BlogTable = () => {
                 </tbody>
             </table>
         </div>
+        
+        {/* add blog post modal */}
+        <AddBlogPosts/>
     </>
   )
 }

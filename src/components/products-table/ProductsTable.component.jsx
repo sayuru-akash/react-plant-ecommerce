@@ -1,4 +1,4 @@
-import React from "react";
+import AddProducts from "../add-products/AddProducts.component";
 
 const ProductsTable = () => {
   return (
@@ -22,7 +22,7 @@ const ProductsTable = () => {
         </div>
       </div>
       <div className="mb-4">
-        <button type="button" className="btn btn-success">
+        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
           <i className="fa-solid fa-plus me-2"></i>Add Product
         </button>
       </div>
@@ -32,9 +32,10 @@ const ProductsTable = () => {
             <tr>
               <th>#</th>
               <th>Product</th>
+              <th>Catagory</th>
               <th>Discription</th>
-              <th>Price</th>
               <th>Image</th>
+              <th>Price</th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +46,7 @@ const ProductsTable = () => {
               <td>
                 <img src="..." className="img-thumbnail" alt="..." />
               </td>
+              <td>2000/=</td>
               <td>
                 <button type="button" className="btn btn-warning me-3">
                   <i className="fa-solid fa-pen-to-square me-2"></i>Edit
@@ -57,6 +59,9 @@ const ProductsTable = () => {
           </tbody>
         </table>
       </div>
+
+      {/* add products modal */}
+      <AddProducts/>
     </>
   );
 };
