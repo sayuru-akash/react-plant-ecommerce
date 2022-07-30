@@ -49,7 +49,7 @@ function Layout() {
         <Route path="blog" element={<Blog />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="cart" element={<Cart />} />
-        {/* {currentUser && ( */}
+        {currentUser && (
           <Route path="dashboard" element={<UserDashboard />}>
             <Route index element={<UserDashboardHome />} />
             <Route path="addresses" element={<AddressesView />} />
@@ -57,8 +57,8 @@ function Layout() {
             <Route path="account-settings" element={<AccountSettings />} />
             <Route path="orders" element={<Orders />} />
           </Route>
-        {/* )}{" "} */}
-        {/* {currentUser && currentUser.email === "admin@fancyhut.com" && ( */}
+        )}{" "}
+        {currentUser && currentUser.email === "admin@fancyhut.com" && (
           <Route path="admin" element={<AdminDashboard />}>
             <Route index element={<AdminDashboardHome />} />
             <Route path="orders" element={<OrdersTable />} />
@@ -69,7 +69,7 @@ function Layout() {
             <Route path="feedbacks" element={<Feedbacks />} />
             <Route path="catagories" element={<Catagories />} />
           </Route>
-        {/* )}{" "} */}
+        )}{" "}
       </Route>
     </Routes>
   );
