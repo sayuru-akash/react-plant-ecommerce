@@ -1,44 +1,176 @@
+import { useState } from "react";
+
+import { addProduct } from "../../utils/firebase/firebasefirestore.utils";
+
+const defaultFormState = {
+  productName: "",
+  category: "",
+  description: "",
+  price: "",
+  quantity: "",
+};
 
 const AddProducts = () => {
-  return (
-        <div className="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-            <div className="modal-header text-center">
-                <h5 className="modal-title" id="exampleModalLabel">Add Product</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-                <form className="row justify-content-center container">
-                    <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
-                        <label htmlFor="productName" className="form-label">Product Name</label>
-                        <input type="text" class="form-control" name="productName"/>
-                    </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                        <label htmlFor="catagory" className="form-label">Catagory</label>
-                        <input type="text" class="form-control" name="catagory"/>
-                    </div>
-                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                        <label htmlFor="description" className="form-label">Description</label>
-                        <textarea className="form-control" name="description" rows="5"></textarea>
-                    </div>
-                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                        <label htmlFor="productImages" className="form-label">Product Images</label>
-                        <input className="form-control" name="productImage" type ="file" multiple/>
-                    </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                        <label htmlFor="price" className="form-label">Price</label>
-                        <input type="text" className="form-control" name="price"/>
-                    </div>
-                    <div className="row justify-content-center">
-                        <button type="submit" className="btn btn-success mt-4 mb-4 w-75">Add Product</button>
-                    </div>
-                </form>
-            </div>
-            </div>
-        </div>
-        </div>
-  )
-}
+  const [formState, setFormState] = useState(defaultFormState);
+  const { productName, category, description, price, quantity } = formState;
 
-export default AddProducts
+  const resetForm = () => {
+    setFormState(defaultFormState);
+  };
+
+  function handleSubmit(e) {
+    const handler = async () => {
+      e.preventDefault();
+
+      if (
+        productName.length === 0 ||
+        category.length === 0 ||
+        description.length === 0 ||
+        price.length === 0 ||
+        quantity.length === 0
+      ) {
+        return;
+      }
+      try {
+        const response = await addProduct({
+          productName,
+          category,
+          description,
+          price,
+          quantity,
+        });
+        alert("Product Added Successfully" + response);
+        resetForm();
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+    handler().catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
+  return (
+    <div
+      className="modal fade"
+      id="addProductModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              Add Product
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form
+              className="row justify-content-center container"
+              onSubmit={handleSubmit}
+            >
+              <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="productName" className="form-label">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  id="productName"
+                  class="form-control"
+                  name="productName"
+                  value={productName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="category" className="form-label">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  id="category"
+                  name="category"
+                  class="form-control"
+                  value={category}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="description" className="form-label">
+                  Description
+                </label>
+                <textarea
+                  className="form-control"
+                  id="description"
+                  name="description"
+                  rows="5"
+                  value={description}
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="productImages" className="form-label">
+                  Product Images
+                </label>
+                <input
+                  className="form-control"
+                  name="productImage"
+                  type="file"
+                  multiple
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="price" className="form-label">
+                  Price
+                </label>
+                <input
+                  type="text"
+                  id="price"
+                  name="price"
+                  className="form-control"
+                  value={price}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="quantity" className="form-label">
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  className="form-control"
+                  value={quantity}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="row justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-success mt-4 mb-4 w-75"
+                >
+                  Add Product
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddProducts;
