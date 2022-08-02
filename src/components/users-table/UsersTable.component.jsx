@@ -52,16 +52,6 @@ const UsersTable = () => {
                 </td>
               </tr>
             ))}
-            {/* <tr>
-              <th scope="row">1</th>
-              <td className="table-active">Larry the Bird</td>
-              <td>@twitter</td>
-              <td>
-                <button type="button" className="btn btn-danger">
-                  <i className="fa-solid fa-trash-can me-2"></i>Delete
-                </button>
-              </td>
-            </tr> */}
           </tbody>
         </table>
         <nav aria-label="Page navigation example">
