@@ -1,5 +1,5 @@
 import { auth, db } from "./firebaseauth.utils";
-import { collection, getDocs, addDoc, doc } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 export const getUsers = async () => {
   if (!auth) return;
@@ -13,6 +13,7 @@ export const addCategory = async (category) => {
   const categoryCollectionRef = collection(db, "categories");
   const docRef = await addDoc(categoryCollectionRef, {
     name: category.categoryName,
+    image: category.categoryImage,
   });
   if (docRef.id) {
     return true;

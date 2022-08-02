@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 import "./firebase.utils.js";
@@ -19,6 +20,8 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
+
+export const storage = getStorage();
 
 export const createUserFromAuth = async (authUser, additionalInfo = {}) => {
   if (!authUser) return;

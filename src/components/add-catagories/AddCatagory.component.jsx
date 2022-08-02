@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import { addCategory } from "../../utils/firebase/firebasefirestore.utils";
 
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+import { storage } from "../../utils/firebase/firebaseauth.utils";
+
 const defaultFormState = {
   categoryName: "",
 };
@@ -10,7 +14,51 @@ const AddCatagory = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const { categoryName } = formState;
 
-  const resetForm = () => {
+  const [file, setFile] = useState("");
+
+  const [percent, setPercent] = useState(0);
+
+  function handleImgChange(event) {
+    setFile(event.target.files[0]);
+  }
+
+  const handleUpload = () => {
+    const handlerUp = async () => {
+      if (!file) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      const storageRef = ref(storage, `/categoryimg/${file.name}`);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            addCategory({
+              categoryName,
+              categoryImage: url.toString(),
+            });
+          });
+        }
+      );
+    };
+    handlerUp();
+  };
+
+  const resetForm = (event) => {
     setFormState(defaultFormState);
   };
 
@@ -22,10 +70,13 @@ const AddCatagory = () => {
         return;
       }
       try {
-        const response = await addCategory({
-          categoryName,
-        });
-        alert("Category Added Successfully - " + response);
+      } catch (error) {
+        alert(error.message);
+      }
+      try {
+        await handleUpload();
+
+        alert("Category Added Successfully");
         resetForm();
       } catch (error) {
         alert(error.message);
@@ -81,13 +132,16 @@ const AddCatagory = () => {
                 />
               </div>
               <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                <label htmlFor="productImages" className="form-label">
+                <label htmlFor="categoryImage" className="form-label">
                   Category Image
                 </label>
                 <input
                   className="form-control"
                   name="categoryImage"
                   type="file"
+                  id="categoryImage"
+                  accept="/image/*"
+                  onChange={handleImgChange}
                 />
               </div>
               <div className="row justify-content-center">
