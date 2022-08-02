@@ -52,8 +52,15 @@ export const addBlogPosts = async (post) => {
 };
 
 export const getCategories = async () => {
+  if (!auth) return;
+  const catRef = collection(db, "categories");
+  const catSnapshot = await getDocs(catRef);
+  return catSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+};
+
+export const getBlogPosts = async () => {
     if (!auth) return;
-    const catRef = collection(db, "categories");
-    const catSnapshot = await getDocs(catRef);
-    return catSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+    const blogRef = collection(db, "posts");
+    const blogSnapshot = await getDocs(blogRef);
+    return blogSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
   };

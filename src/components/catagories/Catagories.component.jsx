@@ -50,18 +50,6 @@ const Catagories = () => {
             </tr>
           </thead>
           <tbody>
-            {/* <tr>
-              <th scope="row">1</th>
-              <td className="table-active">Larry the Bird</td>
-              <td>
-                <button type="button" className="btn btn-warning me-3">
-                  <i className="fa-solid fa-pen-to-square me-2"></i>Edit
-                </button>
-                <button type="button" className="btn btn-danger">
-                  <i className="fa-solid fa-trash-can me-2"></i>Delete
-                </button>
-              </td>
-            </tr> */}
             {categories.map((category, index) => (
               <tr key={category.count}>
                 <th scope="row">{index}</th>
