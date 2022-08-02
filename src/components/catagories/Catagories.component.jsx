@@ -23,14 +23,14 @@ const Catagories = () => {
             </div>
         </div>
         <div className='mb-4'>
-            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCatagorieModal"><i className="fa-solid fa-plus me-2"></i>Add Catagary</button>
+            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCatagorieModal"><i className="fa-solid fa-plus me-2"></i>Add Category</button>
         </div>
             <div className="table-responsive">
             <table className="table bordered striped">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Catagory Name</th>
+                        <th>Category Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
