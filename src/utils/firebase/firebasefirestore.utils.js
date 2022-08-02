@@ -59,8 +59,15 @@ export const getCategories = async () => {
 };
 
 export const getBlogPosts = async () => {
-    if (!auth) return;
-    const blogRef = collection(db, "posts");
-    const blogSnapshot = await getDocs(blogRef);
-    return blogSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
-  };
+  if (!auth) return;
+  const blogRef = collection(db, "posts");
+  const blogSnapshot = await getDocs(blogRef);
+  return blogSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+};
+
+export const getProducts = async () => {
+  if (!auth) return;
+  const prodRef = collection(db, "products");
+  const prodSnapshot = await getDocs(prodRef);
+  return prodSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+};

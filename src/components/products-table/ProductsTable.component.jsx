@@ -1,6 +1,16 @@
+import { useEffect, useState } from "react";
+
 import AddProducts from "../add-products/AddProducts.component";
 
+import { getProducts } from "../../utils/firebase/firebasefirestore.utils";
+
 const ProductsTable = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts().then((products) => setProducts(products));
+  }, []);
+
   return (
     <>
       <div className="mb-4 row">
@@ -22,7 +32,12 @@ const ProductsTable = () => {
         </div>
       </div>
       <div className="mb-4">
-        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <button
+          type="button"
+          className="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#addProductModal"
+        >
           <i className="fa-solid fa-plus me-2"></i>Add Product
         </button>
       </div>
@@ -31,37 +46,37 @@ const ProductsTable = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Product</th>
+              <th>Product Name</th>
               <th>Catagory</th>
-              <th>Discription</th>
-              <th>Image</th>
               <th>Price</th>
+              <th>Quantity</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td className="table-active">Larry the Bird</td>
-              <td>@twitter</td>
-              <td>
-                <img src="..." className="img-thumbnail" alt="..." />
-              </td>
-              <td>2000/=</td>
-              <td>
-                <button type="button" className="btn btn-warning me-3">
-                  <i className="fa-solid fa-pen-to-square me-2"></i>Edit
-                </button>
-                <button type="button" className="btn btn-danger">
-                  <i className="fa-solid fa-trash-can me-2"></i>Delete
-                </button>
-              </td>
-            </tr>
+            {products.map((product, index) => (
+              <tr key={product.count}>
+                <th scope="row">{index}</th>
+                <td>{product.data.name}</td>
+                <td>{product.data.category}</td>
+                <td>{product.data.price}</td>
+                <td>{product.data.quantity}</td>
+                <td>
+                  <button type="button" className="btn btn-warning me-3">
+                    <i className="fa-solid fa-pen-to-square me-2"></i>Edit
+                  </button>
+                  <button type="button" className="btn btn-danger">
+                    <i className="fa-solid fa-trash-can me-2"></i>Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
       {/* add products modal */}
-      <AddProducts/>
+      <AddProducts />
     </>
   );
 };
