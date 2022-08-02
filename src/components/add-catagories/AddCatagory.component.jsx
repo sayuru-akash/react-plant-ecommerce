@@ -74,7 +74,7 @@ const AddCatagory = () => {
         alert(error.message);
       }
       try {
-        await handleUpload();
+        const response = await handleUpload();
 
         alert("Category Added Successfully");
         resetForm();

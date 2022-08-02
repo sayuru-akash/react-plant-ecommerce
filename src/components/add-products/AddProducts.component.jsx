@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import { addProduct } from "../../utils/firebase/firebasefirestore.utils";
 
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+import { storage } from "../../utils/firebase/firebaseauth.utils";
+
 const defaultFormState = {
   productName: "",
   category: "",
@@ -13,6 +17,54 @@ const defaultFormState = {
 const AddProducts = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const { productName, category, description, price, quantity } = formState;
+
+  const [file, setFile] = useState("");
+
+  const [percent, setPercent] = useState(0);
+
+  function handleImgChange(event) {
+    setFile(event.target.files[0]);
+  }
+
+  const handleUpload = () => {
+    const handlerUp = async () => {
+      if (!file) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      const storageRef = ref(storage, `/productimg/${file.name}`);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            addProduct({
+              productName,
+              category,
+              description,
+              price,
+              quantity,
+              productImage: url.toString(),
+            });
+          });
+        }
+      );
+    };
+    handlerUp();
+  };
 
   const resetForm = () => {
     setFormState(defaultFormState);
@@ -32,14 +84,8 @@ const AddProducts = () => {
         return;
       }
       try {
-        const response = await addProduct({
-          productName,
-          category,
-          description,
-          price,
-          quantity,
-        });
-        alert("Product Added Successfully - " + response);
+        const response = await handleUpload();
+        alert("Product Added Successfully");
         resetForm();
       } catch (error) {
         alert(error.message);
@@ -128,6 +174,9 @@ const AddProducts = () => {
                   className="form-control"
                   name="productImage"
                   type="file"
+                  accept="/image/*"
+                  id="productImages"
+                  onChange={handleImgChange}
                 />
               </div>
               <div class="mb-3 col-lg-6 col-md-6 col-sm-12">

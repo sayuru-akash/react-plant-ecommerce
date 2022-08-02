@@ -30,6 +30,7 @@ export const addProduct = async (product) => {
     description: product.description,
     price: product.price,
     quantity: product.quantity,
+    image: product.productImage,
   });
   if (docRef.id) {
     return true;
@@ -45,6 +46,7 @@ export const addBlogPosts = async (post) => {
     author: post.author,
     date: post.date,
     content: post.content,
+    image: post.postImage,
   });
   if (docRef.id) {
     return true;

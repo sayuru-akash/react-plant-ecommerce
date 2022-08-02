@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import { addBlogPosts } from "../../utils/firebase/firebasefirestore.utils";
 
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+import { storage } from "../../utils/firebase/firebaseauth.utils";
+
 const defaultFormState = {
   postName: "",
   author: "",
@@ -12,6 +16,53 @@ const defaultFormState = {
 const AddBlogPosts = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const { postName, author, date, content } = formState;
+
+  const [file, setFile] = useState("");
+
+  const [percent, setPercent] = useState(0);
+
+  function handleImgChange(event) {
+    setFile(event.target.files[0]);
+  }
+
+  const handleUpload = () => {
+    const handlerUp = async () => {
+      if (!file) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      const storageRef = ref(storage, `/postimg/${file.name}`);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            addBlogPosts({
+              postName,
+              author,
+              date,
+              content,
+              postImage: url.toString(),
+            });
+          });
+        }
+      );
+    };
+    handlerUp();
+  };
 
   const resetForm = () => {
     setFormState(defaultFormState);
@@ -30,13 +81,8 @@ const AddBlogPosts = () => {
         return;
       }
       try {
-        const response = await addBlogPosts({
-          postName,
-          author,
-          date,
-          content,
-        });
-        alert("Post Added Successfully - " + response);
+        const response = await handleUpload();
+        alert("Post Added Successfully");
         resetForm();
       } catch (error) {
         alert(error.message);
@@ -135,6 +181,9 @@ const AddBlogPosts = () => {
                   className="form-control"
                   name="articleImage"
                   type="file"
+                  id="articleImages"
+                  onChange={handleImgChange}
+                  accept="image/*"
                 />
               </div>
               <div className="row justify-content-center">
