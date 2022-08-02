@@ -28,7 +28,7 @@ const AdminDashboard = () => {
                         <a className="nav-link text-dark" href="/admin/reports">Reports</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-dark" href="/admin/catagories">Catagories</a>
+                        <a className="nav-link text-dark" href="/admin/categories">Categories</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/admin/feedbacks">Feedbacks</a>

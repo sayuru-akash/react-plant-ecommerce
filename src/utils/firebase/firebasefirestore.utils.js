@@ -17,3 +17,13 @@ export const addProduct = async (product) => {
     }
     return false;
 }
+
+export const addBlogPosts = async (post) => {
+    if (!auth) return;
+    const postsCollectionRef = collection(db, "posts");
+    const docRef = await addDoc(postsCollectionRef, {title: post.postName, author: post.author, date: post.date, content: post.content});
+    if (docRef.id) {
+        return true;
+    }
+    return false;
+}

@@ -67,7 +67,7 @@ function Layout() {
             <Route path="products" element={<ProductsTable />} />
             <Route path="reports" element={<Reports />} />
             <Route path="feedbacks" element={<Feedbacks />} />
-            <Route path="catagories" element={<Catagories />} />
+            <Route path="categories" element={<Catagories />} />
           </Route>
         )}{" "}
       </Route>

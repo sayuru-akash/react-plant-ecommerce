@@ -6,7 +6,7 @@ const Catagories = () => {
     <>
         <div className='mb-4 row'>
             <div className="col-lg-6 col-sm-12">
-                <h3>All Catagories</h3>
+                <h3>All Categories</h3>
             </div>
             <div className="col-lg-6 col-sm-12">
                 <form className="d-flex">

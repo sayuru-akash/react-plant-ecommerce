@@ -39,7 +39,7 @@ const AddProducts = () => {
           price,
           quantity,
         });
-        alert("Product Added Successfully" + response);
+        alert("Product Added Successfully - " + response);
         resetForm();
       } catch (error) {
         alert(error.message);
@@ -128,7 +128,6 @@ const AddProducts = () => {
                   className="form-control"
                   name="productImage"
                   type="file"
-                  multiple
                 />
               </div>
               <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
