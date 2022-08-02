@@ -8,6 +8,16 @@ export const getUsers = async () => {
     return userSnapshot.docs.map(doc => ({data: doc.data(), id: doc.id}));
 }
 
+export const addCategory = async (category) => {
+    if (!auth) return;
+    const categoryCollectionRef = collection(db, "categories");
+    const docRef = await addDoc(categoryCollectionRef, {name: category});
+    if (docRef.id) {
+        return true;
+    }
+    return false;
+}
+
 export const addProduct = async (product) => {
     if (!auth) return;
     const productsCollectionRef = collection(db, "products");
