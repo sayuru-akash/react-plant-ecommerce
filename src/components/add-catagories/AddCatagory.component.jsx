@@ -1,6 +1,46 @@
-import React from "react";
+import { useState } from "react";
+
+import { addCategory } from "../../utils/firebase/firebasefirestore.utils";
+
+const defaultFormState = {
+  categoryName: "",
+};
 
 const AddCatagory = () => {
+  const [formState, setFormState] = useState(defaultFormState);
+  const { categoryName } = formState;
+
+  const resetForm = () => {
+    setFormState(defaultFormState);
+  };
+
+  function handleSubmit(e) {
+    const handler = async () => {
+      e.preventDefault();
+
+      if (categoryName.length === 0) {
+        return;
+      }
+      try {
+        const response = await addCategory({
+          categoryName,
+        });
+        alert("Category Added Successfully - " + response);
+        resetForm();
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+    handler().catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
   return (
     <div
       className="modal fade"
@@ -23,12 +63,32 @@ const AddCatagory = () => {
             ></button>
           </div>
           <div className="modal-body">
-            <form className="row justify-content-center container">
-              <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
+            <form
+              className="row justify-content-center container"
+              onSubmit={handleSubmit}
+            >
+              <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
                 <label htmlFor="categoryName" className="form-label">
                   Category Name
                 </label>
-                <input type="text" class="form-control" name="categoryName" />
+                <input
+                  type="text"
+                  id="categoryName"
+                  class="form-control"
+                  name="categoryName"
+                  value={categoryName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="productImages" className="form-label">
+                  Category Image
+                </label>
+                <input
+                  className="form-control"
+                  name="categoryImage"
+                  type="file"
+                />
               </div>
               <div className="row justify-content-center">
                 <button
