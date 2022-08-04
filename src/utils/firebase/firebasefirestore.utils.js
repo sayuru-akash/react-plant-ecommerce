@@ -1,12 +1,25 @@
 import { auth, db } from "./firebaseauth.utils";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, limit, startAfter } from "firebase/firestore";
+// import { async } from "@firebase/util";
 
 export const getUsers = async () => {
   if (!auth) return;
-  const userRef = collection(db, "users");
-  const userSnapshot = await getDocs(userRef);
-  return userSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const first = query(collection(db, "users"), limit(10));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  console.log("last", lastVisible);
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
 };
+
+export const getNextUsers = async (lastItem) => {
+  if (!auth) return;
+  const next = query(collection(db, "users"),startAfter(lastItem),limit(10));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
+}
 
 export const addCategory = async (category) => {
   if (!auth) return;

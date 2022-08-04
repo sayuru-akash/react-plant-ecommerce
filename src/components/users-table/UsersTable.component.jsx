@@ -1,13 +1,24 @@
 import { React, useState, useEffect } from "react";
 
-import { getUsers } from "../../utils/firebase/firebasefirestore.utils";
+import { getNextUsers, getUsers } from "../../utils/firebase/firebasefirestore.utils";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    getUsers().then((users) => setUsers(users));
+    getUsers().then((userData) => {
+      setUsers(userData.data);
+      setLastItem(userData.lastVisible);
+    });
   }, []);
+
+  const loadNext = ()=>{
+    getNextUsers(lastItem).then((userData) => {
+      setUsers([...users, ...userData.data])
+      setLastItem(userData.lastVisible);
+    });
+  }
 
   return (
     <>
@@ -54,25 +65,7 @@ const UsersTable = () => {
             ))}
           </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item">
-              <a className="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span className="sr-only">Previous</span>
-              </a>
-            </li>
-            <li className="page-item"><a class="page-link" href="#">1</a></li>
-            <li className="page-item"><a class="page-link" href="#">2</a></li>
-            <li className="page-item"><a class="page-link" href="#">3</a></li>
-            <li className="page-item">
-              <a className="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span className="sr-only">Next</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
     </>
   );
