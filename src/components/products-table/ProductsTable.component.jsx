@@ -2,14 +2,25 @@ import { useEffect, useState } from "react";
 
 import AddProducts from "../add-products/AddProducts.component";
 
-import { getProducts } from "../../utils/firebase/firebasefirestore.utils";
+import { getNextProducts, getProducts } from "../../utils/firebase/firebasefirestore.utils";
 
 const ProductsTable = () => {
   const [products, setProducts] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    getProducts().then((products) => setProducts(products));
+    getProducts().then((userData) => {
+      setProducts(userData.data);
+      setLastItem(userData.lastVisible);
+    });
   }, []);
+
+  const loadNext = ()=>{
+      getNextProducts(lastItem).then((productData) => {
+      setProducts([...products, ...productData.data])
+      setLastItem(productData.lastVisible);
+    });
+  }
 
   return (
     <>
@@ -73,6 +84,7 @@ const ProductsTable = () => {
             ))}
           </tbody>
         </table>
+        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
 
       {/* add products modal */}

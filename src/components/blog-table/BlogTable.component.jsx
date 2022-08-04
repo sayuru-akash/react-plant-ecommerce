@@ -2,14 +2,25 @@ import { useState, useEffect } from "react";
 
 import AddBlogPosts from "../add-blog-posts/AddBlogPosts.component";
 
-import { getBlogPosts } from "../../utils/firebase/firebasefirestore.utils";
+import { getBlogPosts, getNextPosts, getPosts } from "../../utils/firebase/firebasefirestore.utils";
 
 const BlogTable = () => {
-  const [blogPosts, setBlogPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    getBlogPosts().then((blogPosts) => setBlogPosts(blogPosts));
+    getPosts().then((userData) => {
+      setPosts(userData.data);
+      setLastItem(userData.lastVisible);
+    });
   }, []);
+
+  const loadNext = ()=>{
+      getNextPosts(lastItem).then((productData) => {
+      setPosts([...posts, ...productData.data])
+      setLastItem(productData.lastVisible);
+    });
+  }
 
   return (
     <>
@@ -53,7 +64,7 @@ const BlogTable = () => {
             </tr>
           </thead>
           <tbody>
-            {blogPosts.map((blogPost, index) => (
+            {posts.map((blogPost, index) => (
               <tr key={blogPost.count}>
                 <th scope="row">{index}</th>
                 <td>{blogPost.data.title}</td>
@@ -71,6 +82,7 @@ const BlogTable = () => {
             ))}
           </tbody>
         </table>
+        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
 
       <AddBlogPosts />

@@ -1,14 +1,25 @@
 import {useState, useEffect} from "react";
 import AddCatagory from "../add-catagories/AddCatagory.component";
 
-import { getCategories } from "../../utils/firebase/firebasefirestore.utils";
+import { getCatagories, getNextCatagories } from "../../utils/firebase/firebasefirestore.utils";
 
 const Catagories = () => {
-  const [categories, setCategories] = useState([]);
+  const [catagories, setCatagories] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    getCategories().then((categories) => setCategories(categories));
+    getCatagories().then((catagorieData) => {
+      setCatagories(catagorieData.data);
+      setLastItem(catagorieData.lastVisible);
+    });
   }, []);
+
+  const loadNext = ()=>{
+    getNextCatagories(lastItem).then((catagorieData) => {
+      setCatagories([...catagories, ...catagorieData.data])
+      setLastItem(catagorieData.lastVisible);
+    });
+  }
 
   return (
     <>
@@ -50,7 +61,7 @@ const Catagories = () => {
             </tr>
           </thead>
           <tbody>
-            {categories.map((category, index) => (
+            {catagories.map((category, index) => (
               <tr key={category.count}>
                 <th scope="row">{index}</th>
                 <td>{category.data.name}</td>
@@ -66,6 +77,7 @@ const Catagories = () => {
             ))}
           </tbody>
         </table>
+        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
       <AddCatagory />
     </>

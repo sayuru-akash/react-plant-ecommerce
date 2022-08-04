@@ -67,23 +67,60 @@ export const addBlogPosts = async (post) => {
   return false;
 };
 
-export const getCategories = async () => {
+export const getCatagories = async () => {
   if (!auth) return;
-  const catRef = collection(db, "categories");
-  const catSnapshot = await getDocs(catRef);
-  return catSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const first = query(collection(db, "categories"), limit(10));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  console.log("last", lastVisible);
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
 };
 
-export const getBlogPosts = async () => {
+export const getNextCatagories = async (lastItem) => {
   if (!auth) return;
-  const blogRef = collection(db, "posts");
-  const blogSnapshot = await getDocs(blogRef);
-  return blogSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const next = query(collection(db, "categories"),startAfter(lastItem),limit(10));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
+}
+
+export const getPosts = async () => {
+  if (!auth) return;
+  const first = query(collection(db, "posts"), limit(10));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  console.log("last", lastVisible);
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
 };
+
+export const getNextPosts = async (lastItem) => {
+  if (!auth) return;
+  const next = query(collection(db, "posts"),startAfter(lastItem),limit(10));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
+}
 
 export const getProducts = async () => {
   if (!auth) return;
-  const prodRef = collection(db, "products");
-  const prodSnapshot = await getDocs(prodRef);
-  return prodSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const first = query(collection(db, "products"), limit(10));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  console.log("last", lastVisible);
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
 };
+
+export const getNextProducts = async (lastItem) => {
+  if (!auth) return;
+  const next = query(collection(db, "products"),startAfter(lastItem),limit(10));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+
+  return {data : documentSnapshots.docs.map((doc) => ({ data: doc.data(), id: doc.id })), lastVisible}
+}
+
