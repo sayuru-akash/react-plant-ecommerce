@@ -2,7 +2,7 @@ import { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import "./Header.styles.css";
 
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase/firebaseauth.utils";
@@ -25,7 +25,7 @@ const Header = () => {
     <Fragment>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <a className="navbar-brand" href="./">
+          <a className="navbar-brand" href="/">
             <img
               src="https://i.ibb.co/Vgx9sq8/fancy-hut-logo.png"
               alt="logo"
@@ -46,7 +46,7 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item me-lg-2 me-sm-0">
-                <a className="nav-link active" aria-current="page" href="./">
+                <a className="nav-link active" aria-current="page" href="/">
                   Home
                 </a>
               </li>

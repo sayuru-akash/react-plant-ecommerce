@@ -8,11 +8,6 @@ const CatagorySection = () => {
       <hr/>
       <div className='row'>
         <CatagoryLoop/>
-        <CatagoryLoop/>
-        <CatagoryLoop/>
-        <CatagoryLoop/>
-        <CatagoryLoop/>
-        <CatagoryLoop/>
       </div>
     </div>
   )

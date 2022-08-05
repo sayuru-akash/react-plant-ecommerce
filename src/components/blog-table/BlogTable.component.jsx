@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import AddBlogPosts from "../add-blog-posts/AddBlogPosts.component";
 
-import { getBlogPosts, getNextPosts, getPosts } from "../../utils/firebase/firebasefirestore.utils";
+import { getNextPosts, getPosts, deleteBlogPosts } from "../../utils/firebase/firebasefirestore.utils";
 
 const BlogTable = () => {
   const [posts, setPosts] = useState([]);
@@ -13,7 +13,7 @@ const BlogTable = () => {
       setPosts(userData.data);
       setLastItem(userData.lastVisible);
     });
-  }, []);
+  }, [posts]);
 
   const loadNext = ()=>{
       getNextPosts(lastItem).then((productData) => {
@@ -74,7 +74,7 @@ const BlogTable = () => {
                   <button type="button" className="btn btn-warning me-3">
                     <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                   </button>
-                  <button type="button" className="btn btn-danger">
+                  <button onClick={()=> deleteBlogPosts(blogPost.id)} className="btn btn-danger">
                     <i className="fa-solid fa-trash-can me-2"></i>Delete
                   </button>
                 </td>

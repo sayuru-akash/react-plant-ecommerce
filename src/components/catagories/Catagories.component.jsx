@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
 import AddCatagory from "../add-catagories/AddCatagory.component";
 
-import { getCatagories, getNextCatagories } from "../../utils/firebase/firebasefirestore.utils";
+import { getCatagories, getNextCatagories, deleteCategory } from "../../utils/firebase/firebasefirestore.utils";
 
 const Catagories = () => {
   const [catagories, setCatagories] = useState([]);
@@ -12,7 +12,7 @@ const Catagories = () => {
       setCatagories(catagorieData.data);
       setLastItem(catagorieData.lastVisible);
     });
-  }, []);
+  }, [catagories]);
 
   const loadNext = ()=>{
     getNextCatagories(lastItem).then((catagorieData) => {
@@ -69,7 +69,7 @@ const Catagories = () => {
                 <button type="button" className="btn btn-warning me-3">
                   <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                 </button>
-                <button type="button" className="btn btn-danger">
+                <button onClick={() => deleteCategory(category.id)} className="btn btn-danger">
                   <i className="fa-solid fa-trash-can me-2"></i>Delete
                 </button>
                 </td>

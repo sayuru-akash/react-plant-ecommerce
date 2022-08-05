@@ -8,9 +8,6 @@ const BlogSection = () => {
       <hr/>
       <div className='row'>
         <BlogLoop/>
-        <BlogLoop/>
-        <BlogLoop/>
-        <BlogLoop/>
       </div>
     </div>
   )

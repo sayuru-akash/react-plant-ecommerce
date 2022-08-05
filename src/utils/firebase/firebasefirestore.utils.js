@@ -1,12 +1,15 @@
 import { auth, db } from "./firebaseauth.utils";
 import {
+    doc,
   collection,
   getDocs,
   addDoc,
+  deleteDoc,
   query,
   limit,
   startAfter,
 } from "firebase/firestore";
+
 
 export const getUsers = async () => {
   if (!auth) return;
@@ -23,6 +26,17 @@ export const getUsers = async () => {
     lastVisible,
   };
 };
+
+//modify to delete user via auth as well
+export const deleteUser = async (userId) => {
+    if (!auth) return;
+    await deleteDoc(doc(db, "users", userId));
+    if (deleteDoc) {
+      alert("User deleted");
+    }else{
+      alert("User not deleted");
+    }
+  };
 
 export const getNextUsers = async (lastItem) => {
   if (!auth) return;
@@ -52,6 +66,16 @@ export const addCategory = async (category) => {
   return false;
 };
 
+export const deleteCategory = async (categoryId) => {
+  if (!auth) return;
+  await deleteDoc(doc(db, "categories", categoryId));
+  if (deleteDoc) {
+    alert("Category deleted");
+  }else{
+    alert("Category not deleted");
+  }
+};
+
 export const addProduct = async (product) => {
   if (!auth) return;
   const productsCollectionRef = collection(db, "products");
@@ -69,6 +93,16 @@ export const addProduct = async (product) => {
   return false;
 };
 
+export const deleteProduct = async (productId) => {
+    if (!auth) return;
+    await deleteDoc(doc(db, "products", productId));
+    if (deleteDoc) {
+      alert("Product deleted");
+    }else{
+      alert("Product not deleted");
+    }
+  };
+
 export const addBlogPosts = async (post) => {
   if (!auth) return;
   const postsCollectionRef = collection(db, "posts");
@@ -84,6 +118,16 @@ export const addBlogPosts = async (post) => {
   }
   return false;
 };
+
+export const deleteBlogPosts = async (postId) => {
+    if (!auth) return;
+    await deleteDoc(doc(db, "posts", postId));
+    if (deleteDoc) {
+      alert("Post deleted");
+    }else{
+      alert("Post not deleted");
+    }
+  };
 
 export const getCatagories = async () => {
   if (!auth) return;
@@ -120,6 +164,12 @@ export const getNextCatagories = async (lastItem) => {
   };
 };
 
+export const getCatagoriesToLoop = async () => {
+  const catRef = query(collection(db, "categories"), limit(6));
+  const catSnapshot = await getDocs(catRef);
+  return catSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+};
+
 export const getPosts = async () => {
   if (!auth) return;
   const first = query(collection(db, "posts"), limit(10));
@@ -149,6 +199,12 @@ export const getNextPosts = async (lastItem) => {
     })),
     lastVisible,
   };
+};
+
+export const getPostsToLoop = async () => {
+  const postsRef = query(collection(db, "posts"), limit(12));
+  const postsSnapshot = await getDocs(postsRef);
+  return postsSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
 };
 
 export const getProducts = async () => {
@@ -184,4 +240,10 @@ export const getNextProducts = async (lastItem) => {
     })),
     lastVisible,
   };
+};
+
+export const getProductsToLoop = async () => {
+  const prodRef = query(collection(db, "products"), limit(12));
+  const prodSnapshot = await getDocs(prodRef);
+  return prodSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
 };

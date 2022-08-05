@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 
-import { getNextUsers, getUsers } from "../../utils/firebase/firebasefirestore.utils";
+import { getNextUsers, getUsers, deleteUser } from "../../utils/firebase/firebasefirestore.utils";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -57,7 +57,7 @@ const UsersTable = () => {
                 <td>{user.data.email}</td>
                 <td>{user.data.displayName}</td>
                 <td>
-                  <button type="button" className="btn btn-danger">
+                  <button onClick={()=>deleteUser(user.id)} className="btn btn-danger">
                     <i className="fa-solid fa-trash-can me-2"></i>Delete
                   </button>
                 </td>

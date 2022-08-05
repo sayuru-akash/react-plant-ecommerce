@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import AddProducts from "../add-products/AddProducts.component";
 
-import { getNextProducts, getProducts } from "../../utils/firebase/firebasefirestore.utils";
+import { getNextProducts, getProducts, deleteProduct } from "../../utils/firebase/firebasefirestore.utils";
 
 const ProductsTable = () => {
   const [products, setProducts] = useState([]);
@@ -13,7 +13,7 @@ const ProductsTable = () => {
       setProducts(userData.data);
       setLastItem(userData.lastVisible);
     });
-  }, []);
+  }, [products]);
 
   const loadNext = ()=>{
       getNextProducts(lastItem).then((productData) => {
@@ -76,7 +76,7 @@ const ProductsTable = () => {
                   <button type="button" className="btn btn-warning me-3">
                     <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                   </button>
-                  <button type="button" className="btn btn-danger">
+                  <button onClick={()=> deleteProduct(product.id)} className="btn btn-danger">
                     <i className="fa-solid fa-trash-can me-2"></i>Delete
                   </button>
                 </td>
