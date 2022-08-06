@@ -60,6 +60,7 @@ const AddBlogPosts = () => {
           });
         }
       );
+      alert("Post Added Successfully");
     };
     handlerUp();
   };
@@ -82,7 +83,6 @@ const AddBlogPosts = () => {
       }
       try {
         const response = await handleUpload();
-        alert("Post Added Successfully");
         resetForm();
       } catch (error) {
         alert(error.message);
