@@ -41,6 +41,15 @@ const LoginForm = () => {
         alert("no empty values allowed don't match");
         return;
       }
+      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if(!email || regex.test(email) === false){
+          alert("email is not valid");
+          return;
+      }
+      if(password.length<=8){
+          alert("password should have more than 8 characters");
+          return;
+      }
       try {
         const { user } = await signInUserFromEmailAndPassword(email, password);
         // setCurrentUser(user);
@@ -89,7 +98,7 @@ const LoginForm = () => {
           onChange={handleChange}
           name="email"
           value={email}
-          required
+       
         />
       </div>
       <div className="mb-3">
@@ -103,7 +112,6 @@ const LoginForm = () => {
           onChange={handleChange}
           name="password"
           value={password}
-          required
         />
       </div>
       <button type="submit" className="btn btn-success mt-4 w-100">

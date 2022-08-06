@@ -36,6 +36,15 @@ const RegistrationForm = () => {
         alert("no empty values allowed don't match");
         return;
       }
+      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if(!email || regex.test(email) === false){
+          alert("email is not valid");
+          return;
+      }
+      if(password.length<=8){
+          alert("password should have more than 8 characters");
+          return;
+      }
       if (password !== confirmPassword) {
         alert("Passwords don't match");
         return;
