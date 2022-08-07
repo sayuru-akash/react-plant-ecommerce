@@ -190,9 +190,31 @@ export const getNextCatagories = async (lastItem) => {
 };
 
 export const getCatagoriesToLoop = async () => {
-  const catRef = query(collection(db, "categories"), limit(6));
-  const catSnapshot = await getDocs(catRef);
-  return catSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const first = query(collection(db, "categories"), limit(6));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+  console.log("last", lastVisible);
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
+export const getNextCatagoriesToLoop = async (lastItem) => {
+  const next = query(collection(db, "categories"), startAfter(lastItem), limit(6));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
 };
 
 export const getPosts = async () => {
@@ -227,9 +249,32 @@ export const getNextPosts = async (lastItem) => {
 };
 
 export const getPostsToLoop = async () => {
-  const postsRef = query(collection(db, "posts"), limit(12));
-  const postsSnapshot = await getDocs(postsRef);
-  return postsSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const first = query(collection(db, "posts"), limit(6));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+  console.log("last", lastVisible);
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
+
+export const getNextPostsToLoop = async (lastItem) => {
+  const next = query(collection(db, "posts"), startAfter(lastItem), limit(6));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
 };
 
 export const getProducts = async () => {
@@ -268,7 +313,30 @@ export const getNextProducts = async (lastItem) => {
 };
 
 export const getProductsToLoop = async () => {
-  const prodRef = query(collection(db, "products"), limit(12));
-  const prodSnapshot = await getDocs(prodRef);
-  return prodSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+  const first = query(collection(db, "products"), limit(6));
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+  console.log("last", lastVisible);
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
+
+export const getNextProductsToLoop = async (lastItem) => {
+  const next = query(collection(db, "products"), startAfter(lastItem), limit(6));
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
 };

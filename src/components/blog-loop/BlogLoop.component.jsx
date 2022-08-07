@@ -1,16 +1,27 @@
 import { useState, useEffect } from "react"
 
-import { getPostsToLoop } from "../../utils/firebase/firebasefirestore.utils"
+import { getNextPostsToLoop, getPostsToLoop } from "../../utils/firebase/firebasefirestore.utils"
 
 import './BlogLoop.styles.css';
 
 const BlogLoop = () => {
 
   const [posts, setPosts] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    getPostsToLoop().then((posts) => setPosts(posts));
+    getPostsToLoop().then((userData) => {
+      setPosts(userData.data);
+      setLastItem(userData.lastVisible);
+    });
   }, []);
+
+  const loadNext = ()=>{
+    getNextPostsToLoop(lastItem).then((postData) => {
+      setPosts([...posts, ...postData.data])
+      setLastItem(postData.lastVisible);
+    });
+  }
 
   return (
     <>
@@ -34,6 +45,9 @@ const BlogLoop = () => {
       </div>
     </div>
     ))}
+    <div>
+      <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
+    </div>
     </>
   );
 };

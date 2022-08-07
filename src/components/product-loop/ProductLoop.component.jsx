@@ -1,17 +1,27 @@
 import { useState, useEffect } from "react"
 
-import { getProductsToLoop } from "../../utils/firebase/firebasefirestore.utils"
+import { getNextProductsToLoop, getProductsToLoop } from "../../utils/firebase/firebasefirestore.utils"
 
 import './ProductLoop.styles.css';
 
 const ProductLoop = () => {
 
   const [products, setProducts] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    getProductsToLoop().then((products) => setProducts(products));
+    getProductsToLoop().then((productData) => {
+      setProducts(productData.data);
+      setLastItem(productData.lastVisible);
+    });
   }, []);
 
+  const loadNext = ()=>{
+    getNextProductsToLoop(lastItem).then((productData) => {
+      setProducts([...products, ...productData.data])
+      setLastItem(productData.lastVisible);
+    });
+  }
   return (
     <>
     {products.map((product) => (
@@ -25,6 +35,9 @@ const ProductLoop = () => {
       </div>
     </div>
     ))}
+    <div>
+      <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
+    </div>
     </>
   )
 }
