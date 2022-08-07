@@ -15,7 +15,7 @@ const ProductLoop = () => {
   return (
     <>
     {products.map((product) => (
-    <div className="col-sm-12 col-lg-3 col-md-4" key={product.count}>
+    <div className="col-sm-12 col-lg-3 col-md-4" key={product.id}>
       <div className='card m-4'>
         <img className="card-img-top product-img" src={product.data.image} alt={product.data.name} />
         <div className="card-body">

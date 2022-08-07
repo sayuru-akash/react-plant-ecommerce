@@ -1,6 +1,6 @@
 import { auth, db } from "./firebaseauth.utils";
 import {
-    doc,
+  doc,
   collection,
   getDocs,
   addDoc,
@@ -10,6 +10,31 @@ import {
   startAfter,
 } from "firebase/firestore";
 
+export const sendMessage = async (formData) => {
+  const { name, email, subject, message } = formData;
+  const newMessage = {
+    name,
+    email,
+    subject,
+    message,
+    createdAt: new Date(),
+  };
+  const messageCollectionRef = collection(db, "messages");
+  const response = await addDoc(messageCollectionRef, newMessage);
+  if (response) {
+    alert(
+      "Message sent! One of our team members will get back to you shortly."
+    );
+  } else {
+    alert("Message not sent. Please try again.");
+  }
+};
+
+export const getMessages = async () => {
+  const messageRef = query(collection(db, "messages"));
+  const messageSnapshot = await getDocs(messageRef);
+  return messageSnapshot.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+};
 
 export const getUsers = async () => {
   if (!auth) return;
@@ -27,17 +52,6 @@ export const getUsers = async () => {
   };
 };
 
-//modify to delete user via auth as well
-export const deleteUser = async (userId) => {
-    if (!auth) return;
-    await deleteDoc(doc(db, "users", userId));
-    if (deleteDoc) {
-      alert("User deleted");
-    }else{
-      alert("User not deleted");
-    }
-  };
-
 export const getNextUsers = async (lastItem) => {
   if (!auth) return;
   const next = query(collection(db, "users"), startAfter(lastItem), limit(10));
@@ -51,6 +65,17 @@ export const getNextUsers = async (lastItem) => {
     })),
     lastVisible,
   };
+};
+
+//modify to delete user via auth as well
+export const deleteUser = async (userId) => {
+  if (!auth) return;
+  await deleteDoc(doc(db, "users", userId));
+  if (deleteDoc) {
+    alert("User deleted");
+  } else {
+    alert("User not deleted");
+  }
 };
 
 export const addCategory = async (category) => {
@@ -71,7 +96,7 @@ export const deleteCategory = async (categoryId) => {
   await deleteDoc(doc(db, "categories", categoryId));
   if (deleteDoc) {
     alert("Category deleted");
-  }else{
+  } else {
     alert("Category not deleted");
   }
 };
@@ -94,14 +119,14 @@ export const addProduct = async (product) => {
 };
 
 export const deleteProduct = async (productId) => {
-    if (!auth) return;
-    await deleteDoc(doc(db, "products", productId));
-    if (deleteDoc) {
-      alert("Product deleted");
-    }else{
-      alert("Product not deleted");
-    }
-  };
+  if (!auth) return;
+  await deleteDoc(doc(db, "products", productId));
+  if (deleteDoc) {
+    alert("Product deleted");
+  } else {
+    alert("Product not deleted");
+  }
+};
 
 export const addBlogPosts = async (post) => {
   if (!auth) return;
@@ -120,14 +145,14 @@ export const addBlogPosts = async (post) => {
 };
 
 export const deleteBlogPosts = async (postId) => {
-    if (!auth) return;
-    await deleteDoc(doc(db, "posts", postId));
-    if (deleteDoc) {
-      alert("Post deleted");
-    }else{
-      alert("Post not deleted");
-    }
-  };
+  if (!auth) return;
+  await deleteDoc(doc(db, "posts", postId));
+  if (deleteDoc) {
+    alert("Post deleted");
+  } else {
+    alert("Post not deleted");
+  }
+};
 
 export const getCatagories = async () => {
   if (!auth) return;
