@@ -4,16 +4,6 @@ const Blog = () => {
   return (
     <div className="row">
       <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
-      <BlogLoop/>
     </div>
   )
 }

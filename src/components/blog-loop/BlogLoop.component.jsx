@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 
 import { getPostsToLoop } from "../../utils/firebase/firebasefirestore.utils"
 
+import './BlogLoop.styles.css';
+
 const BlogLoop = () => {
 
   const [posts, setPosts] = useState([]);
@@ -16,15 +18,14 @@ const BlogLoop = () => {
     <div className="col-sm-12 col-lg-3 col-md-4">
       <div className="card m-4">
         <img
-          className="card-img-top"
+          className="card-img-top blog-loop-image"
           src={post.data.image}
           alt={post.data.title}
         />
         <div className="card-body">
           <h5 className="card-title">{post.data.title}</h5>
           <p className="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            {post.data.content.substring(0, 100)}
           </p>
         </div>
         <div className="card-footer">
