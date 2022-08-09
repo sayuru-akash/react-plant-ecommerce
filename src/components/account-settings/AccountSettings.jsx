@@ -22,14 +22,6 @@ const AccountSettings = () => {
     setFormState(defaultFormState);
   };
 
-  function isValidEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
-  }
-  function isValidatePassword(password)
-  {
-    return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password)
-  }
-
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
@@ -37,14 +29,15 @@ const AccountSettings = () => {
         alert("no empty values allowed");
         return;
       }
-      if (!isValidEmail(email)) {
-        alert('Email is invalid');
-        return;
+      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if(!email || regex.test(email) === false){
+          alert("email is not valid");
+          return;
       }
-      if (!isValidatePassword(oldPassword)) {
+      if (oldPassword.length<=7) {
         alert('invalid password  is format');
       }
-      if (!isValidatePassword(newPassword)) {
+      if (newPassword.length<=7) {
         alert('invalid password  is format');
       }
       if (newPassword !== confirmNewPassword) {
@@ -111,7 +104,11 @@ const AccountSettings = () => {
         </div>
         <div className="mb-3">
             <label htmlFor="email" className="form-label">Email Address</label>
-            <input type="email" className="form-control"/>
+            <input type="email" className="form-control"
+            onChange={handleChange}
+            name='email'
+            value={email}
+            />
         </div>
         <div className='mb-5 mt-5'>
             <h3>Change Password</h3>

@@ -27,6 +27,8 @@ import Cart from "./cart/Cart.layout";
 import Reports from "../components/reports/Reports.component";
 import Feedbacks from "../components/feedbacks/Feedbacks.component";
 import Catagories from "../components/catagories/Catagories.component";
+import ProductSingle from "../components/product-single/ProductSingle.component";
+import BlogSingle from "../components/blog-single/BlogSingle.component";
 
 function Layout() {
   const { currentUser } = useContext(UserContext);
@@ -49,6 +51,8 @@ function Layout() {
         <Route path="blog" element={<Blog />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="product-single" element={<ProductSingle />} />
+        <Route path="blog-single" element={<BlogSingle />} />
         {currentUser && (
           <Route path="dashboard" element={<UserDashboard />}>
             <Route index element={<UserDashboardHome />} />

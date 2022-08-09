@@ -30,9 +30,10 @@ const AddressForm = () => {
         alert("no empty values allowed");
         return;
       }
-      if (email == "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/") {
-        alert("email format is not correct");
-        return;
+      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if(!email || regex.test(email) === false){
+          alert("email is not valid");
+          return;
       }
       try {
         // const response = await createUserFromEmailAndPassword(email, password);
