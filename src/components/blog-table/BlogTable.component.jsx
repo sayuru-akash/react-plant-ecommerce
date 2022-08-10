@@ -3,17 +3,42 @@ import { useState, useEffect } from "react";
 import AddBlogPosts from "../add-blog-posts/AddBlogPosts.component";
 
 import { getNextPosts, getPosts, deleteBlogPosts } from "../../utils/firebase/firebasefirestore.utils";
+import EditBlogPosts from "../edit-blog-post/EditBlogPosts.component";
 
 const BlogTable = () => {
+  const defaultFormState = {
+    searchKey: "",
+  };
+
+  const [formState, setFormState] = useState(defaultFormState);
+  const {searchKey} = formState;
+
   const [posts, setPosts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
 
+  const handleSubmit = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      try {
+        getPosts(searchKey).then((postData) => {
+          setPosts(postData.data);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
+    });
+  };
+
   useEffect(() => {
-    getPosts().then((userData) => {
+    getPosts(searchKey).then((userData) => {
       setPosts(userData.data);
       setLastItem(userData.lastVisible);
     });
-  }, [posts]);
+  }, []);
 
   const loadNext = ()=>{
       getNextPosts(lastItem).then((productData) => {
@@ -22,6 +47,11 @@ const BlogTable = () => {
     });
   }
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
   return (
     <>
       <div className="mb-4 row">
@@ -29,12 +59,15 @@ const BlogTable = () => {
           <h3>All Blogs Posts</h3>
         </div>
         <div className="col-lg-6 col-sm-12">
-          <form className="d-flex">
+          <form onSubmit={handleSubmit} className="d-flex">
             <input
               className="form-control me-2 search-item"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              onChange={handleChange}
+              name="searchKey"
+              value={searchKey}
             ></input>
             <button className="btn btn-outline-success" type="submit">
               Search
@@ -71,7 +104,9 @@ const BlogTable = () => {
                 <td>{blogPost.data.author}</td>
                 <td>{blogPost.data.date}</td>
                 <td>
-                  <button type="button" className="btn btn-warning me-3">
+                  <button type="button" className="btn btn-warning me-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editBlogPostsModal">
                     <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                   </button>
                   <button onClick={()=> deleteBlogPosts(blogPost.id)} className="btn btn-danger">
@@ -86,6 +121,7 @@ const BlogTable = () => {
       </div>
 
       <AddBlogPosts />
+      <EditBlogPosts/>
     </>
   );
 };

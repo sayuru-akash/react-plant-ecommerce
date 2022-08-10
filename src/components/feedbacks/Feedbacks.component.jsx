@@ -1,13 +1,53 @@
 import { useState, useEffect } from "react";
 
-import { getMessages } from "../../utils/firebase/firebasefirestore.utils";
+import { getMessages, getNextMessages } from "../../utils/firebase/firebasefirestore.utils";
 
 const Feedbacks = () => {
+  const defaultFormState = {
+    searchKey: "",
+  };
+
+  const [formState, setFormState] = useState(defaultFormState);
+  const {searchKey} = formState;
+
   const [messages, setMessages] = useState([]);
+  const [lastItem, setLastItem] = useState(null);
+
+  const handleSubmit = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      try {
+        getMessages(searchKey).then((messageData) => {
+          setMessages(messageData.data);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
+    });
+  };
 
   useEffect(() => {
-    getMessages().then((messages) => setMessages(messages));
+    getMessages(searchKey).then((messageData) => {
+      setMessages(messageData.data);
+      setLastItem(messageData.lastVisible);
+    });
   }, []);
+
+  const loadNext = ()=>{
+    getNextMessages(lastItem).then((messageData) => {
+      setMessages([...messages, ...messageData.data])
+      setLastItem(messageData.lastVisible);
+    });
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
+  };
 
   return (
     <>
@@ -16,12 +56,15 @@ const Feedbacks = () => {
           <h3>Feedbacks</h3>
         </div>
         <div className="col-lg-6 col-sm-12">
-          <form className="d-flex">
+          <form onSubmit={handleSubmit} className="d-flex">
             <input
               className="form-control me-2 search-item"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              onChange={handleChange}
+              name="searchKey"
+              value={searchKey}
             ></input>
             <button className="btn btn-outline-success" type="submit">
               Search
@@ -59,6 +102,7 @@ const Feedbacks = () => {
             ))}
           </tbody>
         </table>
+        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
     </>
   );

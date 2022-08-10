@@ -3,24 +3,54 @@ import { useEffect, useState } from "react";
 import AddProducts from "../add-products/AddProducts.component";
 
 import { getNextProducts, getProducts, deleteProduct } from "../../utils/firebase/firebasefirestore.utils";
+import EditProduct from "../edit-products/EditProduct.component";
 
 const ProductsTable = () => {
+  const defaultFormState = {
+    searchKey: "",
+  };
+
+  const [formState, setFormState] = useState(defaultFormState);
+  const {searchKey} = formState;
+
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
 
-  useEffect(() => {
-    getProducts().then((userData) => {
-      setProducts(userData.data);
-      setLastItem(userData.lastVisible);
+  const handleSubmit = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      try {
+        getProducts(searchKey).then((productData) => {
+          setProducts(productData.data);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
     });
-  }, [products]);
+  };
+
+  useEffect(() => {
+    getProducts(searchKey).then((productData) => {
+      setProducts(productData.data);
+      setLastItem(productData.lastVisible);
+    });
+  }, []);
 
   const loadNext = ()=>{
       getNextProducts(lastItem).then((productData) => {
       setProducts([...products, ...productData.data])
       setLastItem(productData.lastVisible);
     });
-  }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
+  };
 
   return (
     <>
@@ -29,12 +59,15 @@ const ProductsTable = () => {
           <h3>All Products</h3>
         </div>
         <div className="col-lg-6 col-sm-12">
-          <form className="d-flex">
+          <form onSubmit={handleSubmit} className="d-flex">
             <input
               className="form-control me-2 search-item"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              onChange={handleChange}
+              name="searchKey"
+              value={searchKey}
             ></input>
             <button className="btn btn-outline-success" type="submit">
               Search
@@ -73,7 +106,10 @@ const ProductsTable = () => {
                 <td>{product.data.price}</td>
                 <td>{product.data.quantity}</td>
                 <td>
-                  <button type="button" className="btn btn-warning me-3">
+                  <button type="button"
+                    className="btn btn-warning me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal">
                     <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                   </button>
                   <button onClick={()=> deleteProduct(product.id)} className="btn btn-danger">
@@ -89,6 +125,7 @@ const ProductsTable = () => {
 
       {/* add products modal */}
       <AddProducts />
+      <EditProduct/>
     </>
   );
 };
