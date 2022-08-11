@@ -242,7 +242,7 @@ export const getCategoryList = async () => {
     data: doc.data(),
     id: doc.id,
   }));
-}
+};
 
 export const getCatagories = async (searchKey) => {
   if (!auth) return;
@@ -596,3 +596,55 @@ export const getPostData = async (id) => {
   return (await data).data();
 };
 
+export const addUserAddress = async (address) => {
+  if (!auth) return;
+  const userId = auth.currentUser.uid;
+  const addressCollectionRef = collection(db, "addresses");
+  const docRef = await addDoc(addressCollectionRef, {
+    user: userId,
+    ...address,
+  });
+  if (docRef.id) {
+    alert("Address added");
+  } else {
+    alert("Address not added");
+  }
+};
+
+export const getUserAddresses = async (uid) => {
+  const addressesCollectionRef = await collection(db, "addresses");
+  const querySnapshot = await getDocs(
+    query(addressesCollectionRef, where("user", "==", uid))
+  );
+  return querySnapshot.docs.map((doc) => ({
+    data: doc.data(),
+    id: doc.id,
+  }));
+};
+
+export const deleteUserAddress = async (addressId) => {
+  if (!auth) return;
+  await deleteDoc(doc(db, "addresses", addressId));
+  if (deleteDoc) {
+    alert("Address removed");
+  } else {
+    alert("Address not removed");
+  }
+}
+
+export const updateUser = async (uid, firstName, lastName) => {
+  if (!auth) return;
+  const userCollectionRef = collection(db, "users");
+  await updateDoc(doc(userCollectionRef, uid), { firstName, lastName });
+  if (updateDoc) {
+    alert("User updated");
+  } else {
+    alert("User not updated");
+  }
+}
+
+export const getUser = async (uid) => {
+  const userCollectionRef = collection(db, "users");
+  const data = await getDoc(doc(userCollectionRef, uid));
+  return (await data).data();
+}

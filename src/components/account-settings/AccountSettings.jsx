@@ -1,22 +1,56 @@
-import { React, useState } from "react";
+import { React, useContext, useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/user.context";
+import {
+  getUser,
+  updateUser,
+} from "../../utils/firebase/firebasefirestore.utils";
 
 const defaultFormState = {
-    firstName: "",
-    lastName: "",
-    displayName: "",
-    email: "",
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  };
+  firstName: "",
+  lastName: "",
+  displayName: "",
+  email: "",
+  oldPassword: "",
+  newPassword: "",
+  confirmNewPassword: "",
+};
 
 const AccountSettings = () => {
+  const { currentUser } = useContext(UserContext);
+  const currentUserID = currentUser.uid;
+
+  const [userData, setUserData] = useState([]);
   const [formState, setFormState] = useState(defaultFormState);
-  const { firstName, lastName, displayName,  email, oldPassword, newPassword,confirmNewPassword } = formState;
+
+  const {
+    firstName,
+    lastName,
+    displayName,
+    email,
+    oldPassword,
+    newPassword,
+    confirmNewPassword,
+  } = formState;
+
+  const getUserData = async () => {
+    const userData = await getUser(currentUserID);
+    await setUserData(userData);
+  };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getUserData();
+    setFormState({
+      ...formState,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      displayName: currentUser.displayName,
+      email: currentUser.email,
+    });
+  }, [currentUser, userData.firstName, userData.lastName]);
 
   const resetForm = () => {
     setFormState(defaultFormState);
@@ -25,36 +59,28 @@ const AccountSettings = () => {
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
-      if (firstName == "" || lastName == "" || displayName == "" || email == "" || oldPassword == "" || newPassword == "" || confirmNewPassword == "") {
+      if (
+        firstName == "" ||
+        lastName == "" ||
+        displayName == "" ||
+        email == ""
+      ) {
         alert("no empty values allowed");
         return;
       }
-      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-      if(!email || regex.test(email) === false){
-          alert("email is not valid");
-          return;
-      }
-      if (oldPassword.length<=7) {
-        alert('invalid password  is format');
-      }
-      if (newPassword.length<=7) {
-        alert('invalid password  is format');
-      }
-      if (newPassword !== confirmNewPassword) {
-        alert("Passwords don't match");
+      const regex =
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (!email || regex.test(email) === false) {
+        alert("email is not valid");
         return;
       }
       try {
-        // const response = await createUserFromEmailAndPassword(email, password);
-        // await createUserFromAuth(response.user, { displayName });
-        // setCurrentUser(response.user);
+        await updateUser(currentUserID, firstName, lastName);
         resetForm();
-        navigate("/dashboard");
+        getUserData();
+        navigate("/dashboard/account-settings");
       } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-          alert("Email already in use");
-        }
-        console.error("error during user creation", error);
+        console.error("error occurred", error);
       }
     };
 
@@ -70,76 +96,108 @@ const AccountSettings = () => {
 
   return (
     <>
-    <Outlet/>
-    <form className='mb-5 p-5' onSubmit={handleSubmit}>
-        <div className='mb-5'>
-            <h3>Account Settings</h3>
+      <Outlet />
+      <form className="mb-5 p-5" onSubmit={handleSubmit}>
+        <div className="mb-5">
+          <h3>Account Settings</h3>
         </div>
         <div className="mb-3">
-            <label htmlFor="first_name" className="form-label">First Name</label>
-            <input 
-            type="text" 
+          <label htmlFor="first_name" className="form-label">
+            First Name
+          </label>
+          <input
+            type="text"
             className="form-control"
             onChange={handleChange}
             name="firstName"
-            value={firstName}/>
+            value={firstName}
+          />
         </div>
         <div className="mb-3">
-            <label htmlFor="last_name" className="form-label">Last Name</label>
-            <input type="text"
+          <label htmlFor="last_name" className="form-label">
+            Last Name
+          </label>
+          <input
+            type="text"
             className="form-control"
             onChange={handleChange}
             name="lastName"
             value={lastName}
-            />
+          />
         </div>
         <div className="mb-3">
-            <label htmlFor="city" className="form-label">Display Name</label>
-            <input type="text" 
+          <label htmlFor="city" className="form-label">
+            Display Name
+          </label>
+          <input
+            type="text"
             className="form-control"
             onChange={handleChange}
             name="displayName"
             value={displayName}
-            />
+            disabled
+          />
         </div>
         <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email Address</label>
-            <input type="email" className="form-control"
+          <label htmlFor="email" className="form-label">
+            Email Address
+          </label>
+          <input
+            type="email"
+            className="form-control"
             onChange={handleChange}
-            name='email'
+            name="email"
             value={email}
-            />
+            disabled
+          />
         </div>
-        <div className='mb-5 mt-5'>
-            <h3>Change Password</h3>
+        <div className="mb-5 mt-5">
+          <h3>Change Password</h3>
         </div>
         <div className="row g-3">
-            <div className="mb-3">
-                <label htmlFor="city" className="form-label">Current password (leave blank to leave unchanged)</label>
-                <input type="text" className="form-control"
-                onChange={handleChange}
-                name="oldPassword"
-                value={oldPassword}/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="email" className="form-label">New password (leave blank to leave unchanged)</label>
-                <input type="email" className="form-control"
-                onChange={handleChange}
-                name="newPassword"
-                value={newPassword}/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="email" className="form-label">Confirm new password</label>
-                <input type="email" className="form-control"
-                onChange={handleChange}
-                name="confirmNewPassword"
-                value={confirmNewPassword}/>
-            </div>
+          <div className="mb-3">
+            <label htmlFor="city" className="form-label">
+              Current password (leave blank to leave unchanged)
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={handleChange}
+              name="oldPassword"
+              value={oldPassword}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              New password (leave blank to leave unchanged)
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              onChange={handleChange}
+              name="newPassword"
+              value={newPassword}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Confirm new password (leave blank to leave unchanged)
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              onChange={handleChange}
+              name="confirmNewPassword"
+              value={confirmNewPassword}
+            />
+          </div>
         </div>
-        <button type="submit" className="btn btn-success mt-4 w-100">Save Changes</button>
-    </form>
+        <button type="submit" className="btn btn-success mt-4 w-100">
+          Save Changes
+        </button>
+      </form>
     </>
-  )
-}
+  );
+};
 
-export default AccountSettings
+export default AccountSettings;

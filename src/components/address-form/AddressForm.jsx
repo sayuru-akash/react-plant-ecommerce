@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { Outlet } from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
+import { addUserAddress } from "../../utils/firebase/firebasefirestore.utils";
 
 const defaultFormState = {
     firstName: "",
@@ -36,16 +37,11 @@ const AddressForm = () => {
           return;
       }
       try {
-        // const response = await createUserFromEmailAndPassword(email, password);
-        // await createUserFromAuth(response.user, { displayName });
-        // setCurrentUser(response.user);
+        await addUserAddress(formState);
         resetForm();
-        navigate("/dashboard");
+        navigate("/dashboard/addresses");
       } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-          alert("Email already in use");
-        }
-        console.error("error during user creation", error);
+        console.error("error occurred", error);
       }
     };
 
@@ -77,7 +73,7 @@ const AddressForm = () => {
             <input type="text" className="form-control"
             onChange={handleChange}
             name="lastName"
-            value={firstName}/>
+            value={lastName}/>
         </div>
         <div className="mb-3">
             <label for="select_country" className="form-label">Select Country</label>
@@ -85,10 +81,10 @@ const AddressForm = () => {
             onChange={handleChange}
             name="country"
             value={country}>
-                <option selected>Select Country</option>
-                <option value="1">Sri Lanka</option>
-                <option value="2">UK</option>
-                <option value="3">USA</option>
+                <option value="" selected>Select Country</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="UK">UK</option>
+                <option value="US">USA</option>
             </select>
         </div>
         <div className="mb-3">
@@ -115,14 +111,14 @@ const AddressForm = () => {
         </div>
         <div className="mb-3">
             <label for="phone" className="form-label">Phone</label>
-            <input type="text" className="form-control"
+            <input type="mobile" className="form-control"
             onChange={handleChange}
             name="phone"
             value={phone}/>
         </div>
         <div className="mb-3">
             <label for="email" className="form-label">Email Address</label>
-            <input type="text" className="form-control"
+            <input type="email" className="form-control"
             onChange={handleChange}
             name="email"
             value={email}/>
