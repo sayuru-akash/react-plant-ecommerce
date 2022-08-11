@@ -9,6 +9,7 @@ const ProductLoop = () => {
 
   const [searchParams] = useSearchParams();
   const sKey = (searchParams.get('search'));
+  console.log(sKey);
 
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);

@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./Header.styles.css";
 
@@ -7,7 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase/firebaseauth.utils";
 
+const defaultFormState = {
+  sKey: "",
+};
+
 const Header = () => {
+  const [formState, setFormState] = useState(defaultFormState);
+  const { sKey } = formState;
   const { currentUser } = useContext(UserContext);
   //console.log(currentUser);
 
@@ -19,6 +25,16 @@ const Header = () => {
       navigate("/auth");
     };
     signOutFunction();
+  };
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    navigate(`/shop?search=${sKey}`);
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
   };
 
   return (
@@ -72,12 +88,15 @@ const Header = () => {
               </li>
             </ul>
             <div className="me-lg-4 me-sm-0 ">
-              <form className="d-flex ">
+              <form className="d-flex" onSubmit={searchHandler}>
                 <input
                   className="form-control me-2 search-item"
-                  type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  id="sKey"
+                  name="sKey"
+                  value={sKey}
+                  onChange={handleChange}
                 ></input>
                 <button className="btn btn-light" type="submit">
                   Search
