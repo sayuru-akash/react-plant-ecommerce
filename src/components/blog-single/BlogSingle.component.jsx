@@ -24,8 +24,8 @@ const BlogSingle = () => {
         alt={postData.title}
         className="blog-single-image img-thumbnail mt-4"
       />
-      <h2 className="mt-5">{postData.title}</h2>
-      <h4 className="text-start">{postData.author}</h4>
+      <h1 className="mt-5">{postData.title}</h1>
+      <h5 className="text-start">{postData.author}</h5>
       <p className="text-start">{postData.date}</p>
       <p className="mt-5 text-start">{postData.content}</p>
     </div>

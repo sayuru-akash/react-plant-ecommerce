@@ -29,7 +29,7 @@ const ProductSingle = () => {
             alt={productData.name}
             className="product-single-image img-thumbnail mt-4"
           />
-          <p className="mt-5 text-start">{productData.description}</p>
+          <p className="mt-5 text-center">{productData.description}</p>
         </div>
       </div>
       <div className="col-lg-4 col-md-12 col-sm-12 text-start">
