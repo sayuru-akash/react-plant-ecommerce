@@ -1,9 +1,22 @@
 import { useState, useEffect } from "react";
 import { auth } from "../../utils/firebase/firebaseauth.utils";
 
-import { getCartData } from "../../utils/firebase/firebasefirestore.utils";
+import {
+  getCartData,
+  increaseQty,
+  decreaseQty,
+  deleteCartItem,
+} from "../../utils/firebase/firebasefirestore.utils";
 
 import "./Cart.styles.css";
+
+const calculateTotal = (cartItems) => {
+  const total = cartItems.reduce(
+    (count, cartItem) => count + cartItem.data.data.price * cartItem.data.qty,
+    0
+  );
+  return total;
+};
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -28,7 +41,7 @@ const Cart = () => {
           <table className="table bordered striped">
             <thead>
               <tr>
-                <th></th>
+                <th>#</th>
                 <th>Image</th>
                 <th>Product</th>
                 <th>Price</th>
@@ -37,49 +50,95 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((cartItem) => (
-                <tr key={cartItem.id}>
-                  <td>
-                    <button type="button" className="btn ">
-                      <i className="fa-solid fa-xmark"></i>
-                    </button>
-                  </td>
-                  <td>
-                    <img
-                      src={cartItem.data.data.image}
-                      alt={cartItem.data.data.name}
-                      className="img-thumbnail cart-itm-img"
-                    />
-                  </td>
-                  <td>{cartItem.data.data.name}</td>
-                  <td>Rs. {cartItem.data.data.price}/=</td>
-                  <td>
-                    <div
-                      className="btn-group"
-                      role="group"
-                      aria-label="Basic example"
-                    >
-                      <button type="button" className="btn btn-success">
-                        -
+              {cartItems.length > 0 ? (
+                cartItems.map((cartItem) => (
+                  <tr key={cartItem.id}>
+                    <td>
+                      <button
+                        onClick={() =>
+                          deleteCartItem(cartItem.id).then(() => {
+                            getCartData(auth.currentUser.uid).then(
+                              (cartData) => {
+                                setCartItems(cartData);
+                              }
+                            );
+                          })
+                        }
+                        type="button"
+                        className="btn "
+                      >
+                        <i className="fa-solid fa-xmark"></i>
                       </button>
-                      <button type="button" className="btn btn-success">
-                        {cartItem.data.qty}
-                      </button>
-                      <button type="button" className="btn btn-success">
-                        +
-                      </button>
-                    </div>
+                    </td>
+                    <td>
+                      <img
+                        src={cartItem.data.data.image}
+                        alt={cartItem.data.data.name}
+                        className="img-thumbnail cart-itm-img"
+                      />
+                    </td>
+                    <td>{cartItem.data.data.name}</td>
+                    <td>Rs. {cartItem.data.data.price}/=</td>
+                    <td>
+                      <div
+                        className="btn-group"
+                        role="group"
+                        aria-label="Basic example"
+                      >
+                        <button
+                          onClick={() =>
+                            decreaseQty(cartItem.id).then(() => {
+                              getCartData(auth.currentUser.uid).then(
+                                (cartData) => {
+                                  setCartItems(cartData);
+                                }
+                              );
+                            })
+                          }
+                          type="button"
+                          className="btn btn-success"
+                        >
+                          -
+                        </button>
+                        <button type="button" className="btn btn-success">
+                          {cartItem.data.qty}
+                        </button>
+                        <button
+                          onClick={() =>
+                            increaseQty(cartItem.id).then(() => {
+                              getCartData(auth.currentUser.uid).then(
+                                (cartData) => {
+                                  setCartItems(cartData);
+                                }
+                              );
+                            })
+                          }
+                          type="button"
+                          className="btn btn-success"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      Rs. {cartItem.data.data.price * cartItem.data.qty}/=
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    Your cart is empty
                   </td>
-                  <td>FIND</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
         <div className="row justify-content-center">
-          <button type="button" className="btn btn-success w-50">
+          <a href="/cart" type="button" className="btn btn-success w-50">
             Update Cart
-          </button>
+          </a>
         </div>
       </div>
       <div className="col-lg-4 col-sm-12">
@@ -93,24 +152,29 @@ const Cart = () => {
                 <h6 className="card-subtitle mb-2 mt-2 text-start">Subtotal</h6>
               </div>
               <div className="col-6">
-                <h6 className="card-subtitle mb-2 mt-2 text-end">රු85.00</h6>
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                  Rs. {calculateTotal(cartItems)}/=
+                </h6>
               </div>
               <hr />
               <div className="col-6">
                 <h6 className="card-subtitle mb-2 mt-2 text-start">Shipping</h6>
               </div>
               <div className="col-6">
-                <h6 className="card-subtitle mb-2 mt-2 text-end">රු400.00</h6>
+                <h6 className="card-subtitle mb-2 mt-2 text-end">Rs. 400/=</h6>
               </div>
-              <p className="card-subtitle mb-2 mt-2 text-end">
-                Deliver to my shipping address
+              <hr />
+              <p className="card-subtitle mb-4 mt-2 text-start">
+                Will be delivered to your shipping address within 2-3 days
               </p>
               <hr />
               <div className="col-6">
                 <h4 className="card-subtitle mb-2 mt-2 text-start">Total</h4>
               </div>
               <div className="col-6">
-                <h4 className="card-subtitle mb-2 mt-2 text-end">රු85.00</h4>
+                <h4 className="card-subtitle mb-2 mt-2 text-end">
+                  Rs. {calculateTotal(cartItems) + 400}/=
+                </h4>
               </div>
               <button type="button" className="btn btn-success mt-4 mb-2">
                 PROCEED TO CHECKOUT

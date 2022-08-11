@@ -12,6 +12,8 @@ import {
   endAt,
   where,
   orderBy,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 export const sendMessage = async (formData) => {
@@ -108,7 +110,6 @@ export const getUsers = async (searchKey) => {
       lastVisible,
     };
   } else {
-    const search_array = ["username", "email"];
     const first = query(
       collection(db, "users"),
       orderBy("email", "asc"),
@@ -522,6 +523,34 @@ export const getCartData = async (uid) => {
     data: doc.data(),
     id: doc.id,
   }));
+};
+
+export const deleteCartItem = async (cartItemId) => {
+  if (!auth) return;
+  await deleteDoc(doc(db, "cart", cartItemId));
+  if (deleteDoc) {
+    alert("Item removed from cart");
+  } else {
+    alert("Item not removed from cart");
+  }
+};
+
+export const increaseQty = async (id) => {
+  if (!auth) return;
+  const cartCollectionRef = await collection(db, "cart");
+  const data = getDoc(doc(cartCollectionRef, id));
+  const qty = (await data).data().qty + 1;
+  await updateDoc(doc(cartCollectionRef, id), { qty: qty });
+  return qty;
+};
+
+export const decreaseQty = async (id) => {
+  if (!auth) return;
+  const cartCollectionRef = await collection(db, "cart");
+  const data = getDoc(doc(cartCollectionRef, id));
+  const qty = (await data).data().qty - 1;
+  await updateDoc(doc(cartCollectionRef, id), { qty: qty });
+  return qty;
 };
 
 export const getSearchProductsToLoop = async (searchKey) => {
