@@ -15,16 +15,16 @@ const CatagoryLoop = () => {
     });
   }, []);
 
-  const loadNext = ()=>{
-    getNextCatagoriesToLoop(lastItem).then((catagorieData) => {
-      setCatagories([...catagories, ...catagorieData.data])
-      setLastItem(catagorieData.lastVisible);
-    });
-  }
+  // const loadNext = ()=>{
+  //   getNextCatagoriesToLoop(lastItem).then((catagorieData) => {
+  //     setCatagories([...catagories, ...catagorieData.data])
+  //     setLastItem(catagorieData.lastVisible);
+  //   });
+  // }
 
   return (
     <>
-    <div className="d-flex">
+    <div className="d-flex row">
       {catagories.map((category) => (
         <div className="col-sm-12 col-lg-2 col-md-4" key={category.count}>
           <div className="card m-2">
@@ -41,7 +41,7 @@ const CatagoryLoop = () => {
       ))}
     </div>
     <div>
-      <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
+      {/* <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button> */}
     </div>
     </>
   );
