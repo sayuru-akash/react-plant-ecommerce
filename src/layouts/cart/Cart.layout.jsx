@@ -161,7 +161,9 @@ const Cart = () => {
                 <h6 className="card-subtitle mb-2 mt-2 text-start">Shipping</h6>
               </div>
               <div className="col-6">
-                <h6 className="card-subtitle mb-2 mt-2 text-end">Rs. 400/=</h6>
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                  {cartItems.length > 0 ? "Rs. 400/= " : "Rs. 0/= "}
+                </h6>
               </div>
               <hr />
               <p className="card-subtitle mb-4 mt-2 text-start">
@@ -173,7 +175,9 @@ const Cart = () => {
               </div>
               <div className="col-6">
                 <h4 className="card-subtitle mb-2 mt-2 text-end">
-                  Rs. {calculateTotal(cartItems) + 400}/=
+                  {cartItems.length > 0
+                    ? "Rs." + (calculateTotal(cartItems) + 400) + "/="
+                    : "Rs. 0/= "}
                 </h4>
               </div>
               <button type="button" className="btn btn-success mt-4 mb-2">
