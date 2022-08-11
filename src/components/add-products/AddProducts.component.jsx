@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { addProduct } from "../../utils/firebase/firebasefirestore.utils";
+import { addProduct, getCategoryList } from "../../utils/firebase/firebasefirestore.utils";
 
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
@@ -17,10 +17,17 @@ const defaultFormState = {
 const AddProducts = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const { productName, category, description, price, quantity } = formState;
+  const [categoryList, setCategoryList] = useState([]);
 
   const [file, setFile] = useState("");
 
   const [percent, setPercent] = useState(0);
+
+  useEffect(() => {
+    getCategoryList().then((categoryList) => {
+      setCategoryList(categoryList);
+    })
+  }, []);
 
   function handleImgChange(event) {
     setFile(event.target.files[0]);
@@ -144,14 +151,19 @@ const AddProducts = () => {
                 <label htmlFor="category" className="form-label">
                   Category
                 </label>
-                <input
-                  type="text"
+                <select
                   id="category"
                   name="category"
                   class="form-control"
                   value={category}
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Select Category</option>
+                  {categoryList.map((category) => (
+                    <option key={category.id} value={category.data.name} >{category.data.name}</option>
+                  )
+                  )}
+                </select>
               </div>
               <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
                 <label htmlFor="description" className="form-label">

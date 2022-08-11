@@ -234,6 +234,16 @@ export const deleteBlogPosts = async (postId) => {
   }
 };
 
+export const getCategoryList = async () => {
+  if (!auth) return;
+  const categoryCollectionRef = collection(db, "categories");
+  const documentSnapshots = await getDocs(categoryCollectionRef);
+  return documentSnapshots.docs.map((doc) => ({
+    data: doc.data(),
+    id: doc.id,
+  }));
+}
+
 export const getCatagories = async (searchKey) => {
   if (!auth) return;
   if (searchKey === "") {
@@ -585,3 +595,4 @@ export const getPostData = async (id) => {
   const data = getDoc(doc(postCollectionRef, id));
   return (await data).data();
 };
+
