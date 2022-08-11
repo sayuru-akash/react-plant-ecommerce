@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react"
+import { useSearchParams } from 'react-router-dom';
 
-import { getNextProductsToLoop, getProductsToLoop } from "../../utils/firebase/firebasefirestore.utils"
+import { getNextProductsToLoop, getProductsToLoop, addProductToCart } from "../../utils/firebase/firebasefirestore.utils"
 
 import './ProductLoop.styles.css';
 
 const ProductLoop = () => {
+
+  const [searchParams] = useSearchParams();
+  const sKey = (searchParams.get('search'));
 
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
@@ -30,7 +34,8 @@ const ProductLoop = () => {
         <img className="card-img-top product-img" src={product.data.image} alt={product.data.name} />
         <div className="card-body">
             <h5 className="card-title">{product.data.name}</h5>
-            <a href="#" className="btn btn-outline-success">ADD TO CART</a>
+            <p className="card-text">Rs. {product.data.price}/=</p>
+            <a className="btn btn-outline-success" onClick={()=>addProductToCart(product)} >ADD TO CART</a>
         </div>
       </div>
     </div>
