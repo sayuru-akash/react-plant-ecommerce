@@ -464,3 +464,31 @@ export const getNextProductsToLoop = async (lastItem) => {
     lastVisible,
   };
 };
+
+export const addProductToCart = async (product) => {
+  if (!auth) return;
+  const userId = auth.currentUser.uid;
+  const cartCollectionRef = collection(db, "cart");
+  const docRef = await addDoc(cartCollectionRef, {
+    user: userId,
+    ...product,
+    qty: 1,
+  });
+  if (docRef.id) {
+    alert("Item added to cart");
+  }else{
+    alert("Item not added to cart");
+  }
+}
+
+export const getCartData = async (uid) => {
+  if (!auth) return;
+  const cartCollectionRef = await collection(db, "cart");
+  const querySnapshot = await getDocs(
+    query(cartCollectionRef, where("user", "==", uid))
+  );
+  return querySnapshot.docs.map((doc) => ({
+    data: doc.data(),
+    id: doc.id,
+  }));
+}
