@@ -40,9 +40,6 @@ const CatagoryLoop = () => {
         </div>
       ))}
     </div>
-    <div>
-      <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
-    </div>
     </>
   );
 };
