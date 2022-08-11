@@ -15,12 +15,12 @@ const CatagoryLoop = () => {
     });
   }, []);
 
-  // const loadNext = ()=>{
-  //   getNextCatagoriesToLoop(lastItem).then((catagorieData) => {
-  //     setCatagories([...catagories, ...catagorieData.data])
-  //     setLastItem(catagorieData.lastVisible);
-  //   });
-  // }
+  const loadNext = ()=>{
+    getNextCatagoriesToLoop(lastItem).then((catagorieData) => {
+      setCatagories([...catagories, ...catagorieData.data])
+      setLastItem(catagorieData.lastVisible);
+    });
+  }
 
   return (
     <>
@@ -41,7 +41,7 @@ const CatagoryLoop = () => {
       ))}
     </div>
     <div>
-      {/* <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button> */}
+      <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
     </div>
     </>
   );
