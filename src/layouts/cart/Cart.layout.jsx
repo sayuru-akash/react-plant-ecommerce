@@ -35,7 +35,7 @@ const Cart = () => {
     <div className="m-3 row">
       <div className="col-lg-8 col-sm-12">
         <div className="mb-3 row mt-2">
-          <h3>Cart Items</h3>
+          <h3 className="mb-3 mt-3">Cart</h3>
         </div>
         <div className="table-responsive">
           <table className="table bordered striped">
