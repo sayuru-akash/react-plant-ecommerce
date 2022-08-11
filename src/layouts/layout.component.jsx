@@ -51,8 +51,8 @@ function Layout() {
         <Route path="blog" element={<Blog />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="product-single" element={<ProductSingle />} />
-        <Route path="blog-single" element={<BlogSingle />} />
+        <Route path="product" element={<ProductSingle />} />
+        <Route path="post" element={<BlogSingle />} />
         {currentUser && (
           <Route path="dashboard" element={<UserDashboard />}>
             <Route index element={<UserDashboardHome />} />

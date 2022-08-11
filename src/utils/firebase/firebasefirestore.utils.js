@@ -573,3 +573,15 @@ export const getSearchProductsToLoop = async (searchKey) => {
     lastVisible,
   };
 };
+
+export const getProductData = async (id) => {
+  const productsCollectionRef = await collection(db, "products");
+  const data = getDoc(doc(productsCollectionRef, id));
+  return (await data).data();
+};
+
+export const getPostData = async (id) => {
+  const postCollectionRef = await collection(db, "posts");
+  const data = getDoc(doc(postCollectionRef, id));
+  return (await data).data();
+};

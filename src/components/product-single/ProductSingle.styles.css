@@ -1,6 +1,6 @@
-.product-image {
-    width: 400px;
-    height: 400px;
+.product-single-image {
+    width: 600px;
+    height: 500px;
     object-fit: cover;
   }
   .quantity-changer{

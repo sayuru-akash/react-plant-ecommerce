@@ -26,8 +26,9 @@ const BlogLoop = () => {
   return (
     <>
     {posts.map((post) => (
-    <div className="col-sm-12 col-lg-3 col-md-4">
+    <div className="col-sm-12 col-lg-3 col-md-4" key={post.id}>
       <div className="card m-4">
+        <a href={`/post?read=${post.id}`}>
         <img
           className="card-img-top blog-loop-image"
           src={post.data.image}
@@ -42,11 +43,12 @@ const BlogLoop = () => {
         <div className="card-footer">
           <span> {post.data.date} </span> <span> {post.data.author} </span>
         </div>
+        </a>
       </div>
     </div>
     ))}
     <div>
-      <button class="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
+      <button className="btn btn-outline-dark shadow-none mt-4" onClick={loadNext}>Load More...</button>
     </div>
     </>
   );
