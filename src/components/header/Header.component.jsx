@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <Fragment>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark mt-4">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
