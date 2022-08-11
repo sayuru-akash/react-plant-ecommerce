@@ -106,7 +106,7 @@ const Footer = () => {
         </div>
       </section>
       <div className="text-center p-4">
-        © 2021 Copyright:
+        © 2022 Copyright:
         <a className="text-reset fw-bold" href="/">
           {" "}
           Fancy Hut Plants
