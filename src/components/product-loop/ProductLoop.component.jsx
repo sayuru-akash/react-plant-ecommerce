@@ -30,7 +30,7 @@ const ProductLoop = () => {
         setLastItem(productData.lastVisible);
       });
     }
-  }, []);
+  }, [sKey]);
 
   const loadNext = () => {
     getNextProductsToLoop(lastItem).then((productData) => {
