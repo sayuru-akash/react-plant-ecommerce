@@ -358,7 +358,7 @@ export const getNextPosts = async (lastItem) => {
 };
 
 export const getPostsToLoop = async () => {
-  const first = query(collection(db, "posts"), limit(6));
+  const first = query(collection(db, "posts"), limit(4));
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
   console.log("last", lastVisible);
@@ -373,7 +373,7 @@ export const getPostsToLoop = async () => {
 };
 
 export const getNextPostsToLoop = async (lastItem) => {
-  const next = query(collection(db, "posts"), startAfter(lastItem), limit(6));
+  const next = query(collection(db, "posts"), startAfter(lastItem), limit(4));
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -437,7 +437,7 @@ export const getNextProducts = async (lastItem) => {
 };
 
 export const getProductsToLoop = async () => {
-  const first = query(collection(db, "products"), limit(6));
+  const first = query(collection(db, "products"), limit(4));
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
   console.log("last", lastVisible);
@@ -452,7 +452,7 @@ export const getProductsToLoop = async () => {
 };
 
 export const getNextProductsToLoop = async (lastItem) => {
-  const next = query(collection(db, "products"), startAfter(lastItem), limit(6));
+  const next = query(collection(db, "products"), startAfter(lastItem), limit(4));
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 

@@ -4,16 +4,6 @@ const Shop = () => {
   return (
     <div className="row">
       <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
-      <ProductLoop/>
     </div>
   )
 }
