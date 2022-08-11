@@ -91,8 +91,8 @@ const Header = () => {
               <form className="d-flex" onSubmit={searchHandler}>
                 <input
                   className="form-control me-2 search-item"
-                  placeholder="Search"
-                  aria-label="Search"
+                  placeholder="Search Products"
+                  aria-label="Search Products"
                   id="sKey"
                   name="sKey"
                   value={sKey}

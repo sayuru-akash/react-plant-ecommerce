@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from 'react-router-dom';
 
-import { getNextProductsToLoop, getProductsToLoop, addProductToCart } from "../../utils/firebase/firebasefirestore.utils"
+import { getNextProductsToLoop, getProductsToLoop, addProductToCart, getSearchProductsToLoop } from "../../utils/firebase/firebasefirestore.utils"
 
 import './ProductLoop.styles.css';
 
@@ -15,10 +15,17 @@ const ProductLoop = () => {
   const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
+    if (sKey === null) {
     getProductsToLoop().then((productData) => {
       setProducts(productData.data);
       setLastItem(productData.lastVisible);
     });
+  } else{
+    getSearchProductsToLoop(sKey).then((productData) => {
+      setProducts(productData.data);
+      setLastItem(productData.lastVisible);
+    });
+  }
   }, []);
 
   const loadNext = ()=>{

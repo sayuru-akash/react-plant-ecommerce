@@ -36,12 +36,13 @@ export const sendMessage = async (formData) => {
 
 export const getMessages = async (searchKey) => {
   if (!auth) return;
-  if(searchKey===""){
+  if (searchKey === "") {
     const first = query(collection(db, "messages"), limit(10));
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -49,17 +50,19 @@ export const getMessages = async (searchKey) => {
       })),
       lastVisible,
     };
-  }
-  else{
-    const first = query(collection(db, "messages")
-    ,orderBy("email","asc")
-    ,startAt(searchKey)
-    ,endAt(searchKey+"\uf8ff")
-    ,limit(10));
+  } else {
+    const first = query(
+      collection(db, "messages"),
+      orderBy("email", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     // console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -72,7 +75,11 @@ export const getMessages = async (searchKey) => {
 
 export const getNextMessages = async (lastItem) => {
   if (!auth) return;
-  const next = query(collection(db, "messages"), startAfter(lastItem), limit(10));
+  const next = query(
+    collection(db, "messages"),
+    startAfter(lastItem),
+    limit(10)
+  );
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -86,39 +93,42 @@ export const getNextMessages = async (lastItem) => {
 };
 
 export const getUsers = async (searchKey) => {
-  if(searchKey===""){
-  const first = query(collection(db, "users"), limit(10));
-  const documentSnapshots = await getDocs(first);
-  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  console.log("last", lastVisible);
+  if (searchKey === "") {
+    const first = query(collection(db, "users"), limit(10));
+    const documentSnapshots = await getDocs(first);
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    console.log("last", lastVisible);
 
-  return {
-    data: documentSnapshots.docs.map((doc) => ({
-      data: doc.data(),
-      id: doc.id,
-    })),
-    lastVisible,
-  };
-}
-else{
-  const search_array=['username','email'];
-  const first = query(collection(db, "users")
-  ,orderBy("email","asc")
-  ,startAt(searchKey)
-  ,endAt(searchKey+"\uf8ff")
-  ,limit(10));
-  const documentSnapshots = await getDocs(first);
-  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  // console.log("last", lastVisible);
+    return {
+      data: documentSnapshots.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })),
+      lastVisible,
+    };
+  } else {
+    const search_array = ["username", "email"];
+    const first = query(
+      collection(db, "users"),
+      orderBy("email", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
+    const documentSnapshots = await getDocs(first);
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    // console.log("last", lastVisible);
 
-  return {
-    data: documentSnapshots.docs.map((doc) => ({
-      data: doc.data(),
-      id: doc.id,
-    })),
-    lastVisible,
-  };
-}
+    return {
+      data: documentSnapshots.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })),
+      lastVisible,
+    };
+  }
 };
 
 export const getNextUsers = async (lastItem) => {
@@ -225,12 +235,13 @@ export const deleteBlogPosts = async (postId) => {
 
 export const getCatagories = async (searchKey) => {
   if (!auth) return;
-  if(searchKey===""){
+  if (searchKey === "") {
     const first = query(collection(db, "categories"), limit(10));
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -238,17 +249,19 @@ export const getCatagories = async (searchKey) => {
       })),
       lastVisible,
     };
-  }
-  else{
-    const first = query(collection(db, "categories")
-    ,orderBy("name","asc")
-    ,startAt(searchKey)
-    ,endAt(searchKey+"\uf8ff")
-    ,limit(10));
+  } else {
+    const first = query(
+      collection(db, "categories"),
+      orderBy("name", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     // console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -293,7 +306,11 @@ export const getCatagoriesToLoop = async () => {
   };
 };
 export const getNextCatagoriesToLoop = async (lastItem) => {
-  const next = query(collection(db, "categories"), startAfter(lastItem), limit(6));
+  const next = query(
+    collection(db, "categories"),
+    startAfter(lastItem),
+    limit(6)
+  );
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -308,12 +325,13 @@ export const getNextCatagoriesToLoop = async (lastItem) => {
 
 export const getPosts = async (searchKey) => {
   if (!auth) return;
-  if(searchKey===""){
+  if (searchKey === "") {
     const first = query(collection(db, "posts"), limit(10));
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -321,17 +339,19 @@ export const getPosts = async (searchKey) => {
       })),
       lastVisible,
     };
-  }
-  else{
-    const first = query(collection(db, "posts")
-    ,orderBy("title","asc")
-    ,startAt(searchKey)
-    ,endAt(searchKey+"\uf8ff")
-    ,limit(10));
+  } else {
+    const first = query(
+      collection(db, "posts"),
+      orderBy("title", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     // console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -387,12 +407,13 @@ export const getNextPostsToLoop = async (lastItem) => {
 };
 
 export const getProducts = async (searchKey) => {
-  if(searchKey===""){
+  if (searchKey === "") {
     const first = query(collection(db, "products"), limit(10));
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -400,17 +421,19 @@ export const getProducts = async (searchKey) => {
       })),
       lastVisible,
     };
-  }
-  else{
-    const first = query(collection(db, "products")
-    ,orderBy("name","asc")
-    ,startAt(searchKey)
-    ,endAt(searchKey+"\uf8ff")
-    ,limit(10));
+  } else {
+    const first = query(
+      collection(db, "products"),
+      orderBy("name", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
     // console.log("last", lastVisible);
-  
+
     return {
       data: documentSnapshots.docs.map((doc) => ({
         data: doc.data(),
@@ -423,7 +446,11 @@ export const getProducts = async (searchKey) => {
 
 export const getNextProducts = async (lastItem) => {
   if (!auth) return;
-  const next = query(collection(db, "products"), startAfter(lastItem), limit(10));
+  const next = query(
+    collection(db, "products"),
+    startAfter(lastItem),
+    limit(10)
+  );
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -452,7 +479,11 @@ export const getProductsToLoop = async () => {
 };
 
 export const getNextProductsToLoop = async (lastItem) => {
-  const next = query(collection(db, "products"), startAfter(lastItem), limit(4));
+  const next = query(
+    collection(db, "products"),
+    startAfter(lastItem),
+    limit(4)
+  );
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -476,10 +507,10 @@ export const addProductToCart = async (product) => {
   });
   if (docRef.id) {
     alert("Item added to cart");
-  }else{
+  } else {
     alert("Item not added to cart");
   }
-}
+};
 
 export const getCartData = async (uid) => {
   if (!auth) return;
@@ -491,4 +522,25 @@ export const getCartData = async (uid) => {
     data: doc.data(),
     id: doc.id,
   }));
-}
+};
+
+export const getSearchProductsToLoop = async (searchKey) => {
+  const first = query(
+    collection(db, "products"),
+    orderBy("name", "asc"),
+    startAt(searchKey),
+    endAt(searchKey + "\uf8ff"),
+    limit(4)
+  );
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+  console.log("last", lastVisible);
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
