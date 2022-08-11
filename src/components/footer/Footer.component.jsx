@@ -37,19 +37,19 @@ const Footer = () => {
               </p>
             </div>
             <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Products</h6>
+              <h6 className="text-uppercase fw-bold mb-4">Navigation</h6>
               <p>
                 <a href="/about" className="text-reset">
                   About Us
                 </a>
               </p>
               <p>
-                <a href="#!" className="text-reset">
+                <a href="/shop" className="text-reset">
                   Shop
                 </a>
               </p>
               <p>
-                <a href="#!" className="text-reset">
+                <a href="/blog" className="text-reset">
                   Blog
                 </a>
               </p>
