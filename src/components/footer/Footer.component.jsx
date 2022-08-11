@@ -8,13 +8,13 @@ const Footer = () => {
           <span>Get connected with us on social networks:</span>
         </div>
         <div>
-          <a href="" className="me-4 text-reset">
+          <a href="#" className="me-4 text-reset">
             <i className="fab fa-facebook-f"></i>
           </a>
-          <a href="" className="me-4 text-reset">
+          <a href="#" className="me-4 text-reset">
             <i className="fab fa-twitter"></i>
           </a>
-          <a href="" className="me-4 text-reset">
+          <a href="#" className="me-4 text-reset">
             <i className="fab fa-google"></i>
           </a>
         </div>
@@ -62,22 +62,22 @@ const Footer = () => {
             <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
               <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
               <p>
-                <a href="#!" className="text-reset">
+                <a href="#" className="text-reset">
                   Pricing
                 </a>
               </p>
               <p>
-                <a href="#!" className="text-reset">
+                <a href="#" className="text-reset">
                   Settings
                 </a>
               </p>
               <p>
-                <a href="#!" className="text-reset">
+                <a href="#" className="text-reset">
                   Orders
                 </a>
               </p>
               <p>
-                <a href="#!" className="text-reset">
+                <a href="#" className="text-reset">
                   Help
                 </a>
               </p>
