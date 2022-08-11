@@ -77,7 +77,11 @@ const Cart = () => {
                         className="img-thumbnail cart-itm-img"
                       />
                     </td>
+                    <a
+                      href={`/product/?item=${cartItem.data.id}`}
+                    >
                     <td>{cartItem.data.data.name}</td>
+                    </a>
                     <td>Rs. {cartItem.data.data.price}/=</td>
                     <td>
                       <div

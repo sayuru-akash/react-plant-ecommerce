@@ -52,14 +52,16 @@ const ProductLoop = () => {
               <div className="card-body">
                 <h5 className="card-title">{product.data.name}</h5>
                 <p className="card-text">Rs. {product.data.price}/=</p>
-                <a
-                  className="btn btn-outline-success"
-                  onClick={() => addProductToCart(product)}
-                >
-                  ADD TO CART
-                </a>
               </div>
             </a>
+            <div className="card-footer">
+              <a
+                className="btn btn-outline-success"
+                onClick={() => addProductToCart(product)}
+              >
+                ADD TO CART
+              </a>
+            </div>
           </div>
         </div>
       ))}
