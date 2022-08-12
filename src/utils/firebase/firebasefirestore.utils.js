@@ -545,6 +545,14 @@ export const deleteCartItem = async (cartItemId) => {
   }
 };
 
+export const clearCart = async (cartItems) => {
+  if (!auth) return;
+  const cartCollectionRef = collection(db, "cart");
+  cartItems.forEach((item) => {
+    deleteDoc(doc(db, "cart", item.id));
+  });
+};
+
 export const increaseQty = async (id) => {
   if (!auth) return;
   const cartCollectionRef = await collection(db, "cart");
@@ -616,7 +624,6 @@ export const getUserAddresses = async (uid) => {
   const querySnapshot = await getDocs(
     query(addressesCollectionRef, where("user", "==", uid))
   );
-  console.log(querySnapshot);
   return querySnapshot.docs.map((doc) => ({
     data: doc.data(),
     id: doc.id,
@@ -631,7 +638,7 @@ export const deleteUserAddress = async (addressId) => {
   } else {
     alert("Address not removed");
   }
-}
+};
 
 export const updateUser = async (uid, firstName, lastName) => {
   if (!auth) return;
@@ -642,33 +649,48 @@ export const updateUser = async (uid, firstName, lastName) => {
   } else {
     alert("User not updated");
   }
-}
+};
 
 export const getUser = async (uid) => {
   const userCollectionRef = collection(db, "users");
   const data = await getDoc(doc(userCollectionRef, uid));
   return (await data).data();
-}
+};
 
-export const addCheckout = async (checkout) => {
+export const placeCODOrder = async (
+  uid,
+  cartItems,
+  deliveryDate,
+  address,
+  total
+) => {
   if (!auth) return;
-  const userId = auth.currentUser.uid;
-  const today = new Date();
-  const checkoutCollectionRef = collection(db, "checkout");
-  const docRef = await addDoc(checkoutCollectionRef, {
-    user: userId,
-    deliveryAddress: checkout.deliveryDate,
-    deliveryDate: checkout.deliveryAddress,
-    ammount: checkout.ammount,
-    paymentMethod: "cash on delivery",
-    cartItems:{
-      productName: checkout.productName,
-      quantity: checkout.quantity,
-    },
-    orderedDate: today.getDate(),
+  if (!address) {
+    alert("Please select an address");
+    return;
+  }
+  if (!deliveryDate) {
+    alert("Please select a delivery date");
+    return;
+  }
+  if (!cartItems.length) {
+    alert("Cart is empty");
+    return;
+  }
+  const orderCollectionRef = collection(db, "orders");
+  const docRef = await addDoc(orderCollectionRef, {
+    user: uid,
+    cartItems,
+    deliveryDate,
+    address,
+    total,
+    paymentMethod: "COD",
+    status: "pending",
   });
   if (docRef.id) {
-    return true;
+    await clearCart(cartItems);
+    alert("Order placed");
+  } else {
+    alert("Order not placed");
   }
-  return false;
 };

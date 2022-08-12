@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { auth } from '../../utils/firebase/firebaseauth.utils';
-import { addCheckout, getCartData, getUserAddresses } from '../../utils/firebase/firebasefirestore.utils';
+import { getCartData, getUserAddresses, placeCODOrder } from '../../utils/firebase/firebasefirestore.utils';
+import { UserContext } from '../../context/user.context';
 
 const calculateTotal = (cartItems) => {
     const total = cartItems.reduce(
@@ -13,11 +14,6 @@ const calculateTotal = (cartItems) => {
 const defaultFormState = {
     deliveryDate: "",
     deliveryAddress: "",
-    ammount: "",
-    cartItems:{
-        productName:"",
-        quantity:"",
-    }
   };
 
 const Checkout = () => {
@@ -25,9 +21,9 @@ const Checkout = () => {
   const [addresses, setUserAddresses] = useState([]);
 
   const [formState, setFormState] = useState(defaultFormState);
-  const { deliveryDate, deliveryAddress, ammount} = formState;
+  const { deliveryDate, deliveryAddress} = formState;
 
-//   const navigate = useNavigate();
+  const { currentUser } = useContext(UserContext);
 
   const resetForm = () => {
     setFormState(defaultFormState);
@@ -40,8 +36,7 @@ const Checkout = () => {
       event.preventDefault();
       if (
         deliveryAddress === "" ||
-        deliveryDate === ""||
-        ammount === ""
+        deliveryDate === ""
       ) {
         alert("no empty values allowed");
         return;
@@ -53,9 +48,8 @@ const Checkout = () => {
         return;
       }
       try {
-        await addCheckout(formState);
+        await placeCODOrder(currentUser.uid, cartItems, deliveryDate, deliveryAddress, calculateTotal(cartItems));
         resetForm();
-        alert("Order placed successfully");
       } catch (error) {
         console.error("error during placing order", error);
       }
@@ -74,6 +68,7 @@ const Checkout = () => {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        console.log("user");
         getCartData(user.uid).then((cartData) => {
           setCartItems(cartData);
         });
@@ -83,7 +78,8 @@ const Checkout = () => {
         });
       }
     });
-  }, []);
+  }, [deliveryAddress, deliveryDate]);
+  
   return (
     <div className="m-3 row justify-content-center">
         <div className='col-lg-6 col-md-8 col-sm-12'>
@@ -156,10 +152,6 @@ const Checkout = () => {
       </div>
       <div className='col-lg-6 col-md-8 col-sm-12'>
       <form onSubmit={handleSubmit}>
-      <input type="text" class="form-control" hidden
-                        name='ammount'
-                        onChange={handleChange}
-                        value={ammount}/>
       <div className="card m-3">
           <div className="card-body text-start m-2">
           <div className="row">
@@ -174,7 +166,7 @@ const Checkout = () => {
                 <option selected value="" disabled>Select Address</option>
                 {addresses.length > 0 ? (
                 addresses.map((address) => (
-                    <option key={address.id} value={address.id}>{address.data.address},{address.data.town},{address.data.postalCode},{address.data.country}</option>
+                    <option key={address} value={address.id}>{address.data.address},{address.data.town},{address.data.postalCode},{address.data.country}</option>
                 ))
               ) : (
                 <option value="" disabled>No Added Address</option>
@@ -183,7 +175,7 @@ const Checkout = () => {
               </div>
               <div className="col-12 mt-5">
                 <div class="mb-3">
-                        <label htmlFor="deleiveryDate" className="form-label">Delivery Date</label>
+                        <label htmlFor="deliveryDate" className="form-label">Delivery Date</label>
                         <input type="Date" class="form-control" id="date" 
                         name='deliveryDate'
                         onChange={handleChange}
@@ -194,7 +186,7 @@ const Checkout = () => {
                 <i class="fa-brands fa-paypal me-3"></i>
                 Paypal
               </button>
-              <button type="button" className="btn btn-success mt-4 mb-2 w-100">
+              <button type="submit" className="btn btn-success mt-4 mb-2 w-100">
                 Cash On Delivery
               </button>
       </div>

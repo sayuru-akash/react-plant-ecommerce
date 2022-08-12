@@ -184,9 +184,9 @@ const Cart = () => {
                     : "Rs. 0/= "}
                 </h4>
               </div>
-              <button type="button" className="btn btn-success mt-4 mb-2">
+              <a href="/checkout" type="button" className="btn btn-success mt-4 mb-2">
                 PROCEED TO CHECKOUT
-              </button>
+              </a>
             </div>
           </div>
         </div>
