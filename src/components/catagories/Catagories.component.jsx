@@ -95,7 +95,7 @@ const Catagories = () => {
           </thead>
           <tbody>
             {catagories.map((category, index) => (
-              <tr key={category.count}>
+              <tr key={category.id}>
                 <th scope="row">{index}</th>
                 <td>{category.data.name}</td>
                 <td>

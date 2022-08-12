@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { getMessages, getNextMessages } from "../../utils/firebase/firebasefirestore.utils";
+import ViewFeedback from "../view-feedback/ViewFeedback.component";
 
 const Feedbacks = () => {
   const defaultFormState = {
@@ -91,8 +92,11 @@ const Feedbacks = () => {
                 <td>{message.data.email}</td>
                 <td>{message.data.subject}</td>
                 <td>
-                  <button type="button" className="btn btn-primary me-2">
-                    <i class="fa-solid fa-eye me-2"></i>View
+                  <button type="button" className="btn btn-primary me-2"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#viewFeedbackModal">
+                    <i class="fa-solid fa-eye me-2"
+                    ></i>View
                   </button>
                   <button type="button" className="btn btn-danger me-2">
                     <i className="fa-solid fa-trash-can me-2"></i>Delete
@@ -104,6 +108,7 @@ const Feedbacks = () => {
         </table>
         <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
+      <ViewFeedback/>
     </>
   );
 };

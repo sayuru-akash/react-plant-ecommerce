@@ -616,6 +616,7 @@ export const getUserAddresses = async (uid) => {
   const querySnapshot = await getDocs(
     query(addressesCollectionRef, where("user", "==", uid))
   );
+  console.log(querySnapshot);
   return querySnapshot.docs.map((doc) => ({
     data: doc.data(),
     id: doc.id,
@@ -648,3 +649,26 @@ export const getUser = async (uid) => {
   const data = await getDoc(doc(userCollectionRef, uid));
   return (await data).data();
 }
+
+export const addCheckout = async (checkout) => {
+  if (!auth) return;
+  const userId = auth.currentUser.uid;
+  const today = new Date();
+  const checkoutCollectionRef = collection(db, "checkout");
+  const docRef = await addDoc(checkoutCollectionRef, {
+    user: userId,
+    deliveryAddress: checkout.deliveryDate,
+    deliveryDate: checkout.deliveryAddress,
+    ammount: checkout.ammount,
+    paymentMethod: "cash on delivery",
+    cartItems:{
+      productName: checkout.productName,
+      quantity: checkout.quantity,
+    },
+    orderedDate: today.getDate(),
+  });
+  if (docRef.id) {
+    return true;
+  }
+  return false;
+};

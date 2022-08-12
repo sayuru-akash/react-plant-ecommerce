@@ -13,7 +13,7 @@ const AddressesView = () => {
     getUserAddresses(userId).then((addresses) => {
       setAddresses(addresses);
     });
-  }, [addresses]);
+  }, []);
 
   return (
     <>
