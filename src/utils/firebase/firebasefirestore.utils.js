@@ -547,7 +547,6 @@ export const deleteCartItem = async (cartItemId) => {
 
 export const clearCart = async (cartItems) => {
   if (!auth) return;
-  const cartCollectionRef = collection(db, "cart");
   cartItems.forEach((item) => {
     deleteDoc(doc(db, "cart", item.id));
   });
