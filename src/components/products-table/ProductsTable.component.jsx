@@ -2,16 +2,30 @@ import { useEffect, useState } from "react";
 
 import AddProducts from "../add-products/AddProducts.component";
 
-import { getNextProducts, getProducts, deleteProduct } from "../../utils/firebase/firebasefirestore.utils";
-import EditProduct from "../edit-products/EditProduct.component";
+import {
+  getNextProducts,
+  getProducts,
+  deleteProduct,
+} from "../../utils/firebase/firebasefirestore.utils";
+
+const defaultProductFormState = {
+  productName: "",
+  category: "",
+  description: "",
+  price: "",
+  quantity: "",
+};
+
+const defaultFormState = {
+  searchKey: "",
+};
 
 const ProductsTable = () => {
-  const defaultFormState = {
-    searchKey: "",
-  };
-
   const [formState, setFormState] = useState(defaultFormState);
-  const {searchKey} = formState;
+  const { searchKey } = formState;
+
+  const [productFormState, setProductFormState] = useState(defaultProductFormState);
+  const { productName, category, description, price, quantity } = productFormState;
 
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
@@ -33,6 +47,22 @@ const ProductsTable = () => {
     });
   };
 
+  const handleSubmitProduct = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      try {
+        //await addProduct(productName, category, description, price, quantity);
+        //setProductFormState(defaultProductFormState);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
+    });
+  }
+
   useEffect(() => {
     getProducts(searchKey).then((productData) => {
       setProducts(productData.data);
@@ -40,9 +70,9 @@ const ProductsTable = () => {
     });
   }, []);
 
-  const loadNext = ()=>{
-      getNextProducts(lastItem).then((productData) => {
-      setProducts([...products, ...productData.data])
+  const loadNext = () => {
+    getNextProducts(lastItem).then((productData) => {
+      setProducts([...products, ...productData.data]);
       setLastItem(productData.lastVisible);
     });
   };
@@ -51,6 +81,11 @@ const ProductsTable = () => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
+
+  const handleChangeProduct = (event) => {
+    const { name, value } = event.target;
+    setProductFormState({ ...productFormState, [name]: value });
+  }
 
   return (
     <>
@@ -106,13 +141,28 @@ const ProductsTable = () => {
                 <td>{product.data.price}</td>
                 <td>{product.data.quantity}</td>
                 <td>
-                  <button type="button"
+                  <button
+                    type="button"
                     className="btn btn-warning me-3"
                     data-bs-toggle="modal"
-                    data-bs-target="#editProductModal">
+                    data-bs-target="#editProductModal"
+                    onClick={() => {
+                      setProductFormState({
+                        ...formState,
+                        productName: product.data.name,
+                        category: product.data.category,
+                        description: product.data.description,
+                        price: product.data.price,
+                        quantity: product.data.quantity,
+                      });
+                    }}
+                  >
                     <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                   </button>
-                  <button onClick={()=> deleteProduct(product.id)} className="btn btn-danger">
+                  <button
+                    onClick={() => deleteProduct(product.id)}
+                    className="btn btn-danger"
+                  >
                     <i className="fa-solid fa-trash-can me-2"></i>Delete
                   </button>
                 </td>
@@ -120,128 +170,126 @@ const ProductsTable = () => {
             ))}
           </tbody>
         </table>
-        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
+        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>
+          Load More...
+        </button>
       </div>
 
       {/* add products modal */}
       <AddProducts />
       {/* <EditProduct/> */}
       <div
-      className="modal fade"
-      id="editProductModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-lg">
-        <div className="modal-content">
-          <div className="modal-header text-center">
-            <h5 className="modal-title" id="exampleModalLabel">
-              Edit Product
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form
-              className="row justify-content-center container"
-              onSubmit={handleSubmit}
-            >
-              <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
-                <label htmlFor="productName" className="form-label">
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  id="productName"
-                  class="form-control"
-                  name="productName"
-                  value={productName}
-                  onChange={handleChange}
-                />
-              </div>
-              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                <label htmlFor="category" className="form-label">
-                  Category
-                </label>
-                <input
-                  type="text"
-                  id="category"
-                  name="category"
-                  class="form-control"
-                  value={category}
-                  onChange={handleChange}
-                />
-              </div>
-              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                <label htmlFor="description" className="form-label">
-                  Description
-                </label>
-                <textarea
-                  className="form-control"
-                  id="description"
-                  name="description"
-                  rows="5"
-                  value={description}
-                  onChange={handleChange}
-                ></textarea>
-              </div>
-              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                <label htmlFor="productImages" className="form-label">
-                  Product Images
-                </label>
-                <input
-                  className="form-control"
-                  name="productImage"
-                  type="file"
-                  accept="/image/*"
-                  id="productImages"
-                  onChange={handleImgChange}
-                />
-              </div>
-              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                <label htmlFor="price" className="form-label">
-                  Price
-                </label>
-                <input
-                  type="text"
-                  id="price"
-                  name="price"
-                  className="form-control"
-                  value={price}
-                  onChange={handleChange}
-                />
-              </div>
-              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                <label htmlFor="quantity" className="form-label">
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  className="form-control"
-                  value={quantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="row justify-content-center">
-                <button
-                  type="submit"
-                  className="btn btn-warning mt-4 mb-4 w-75"
-                >
-                  Edit Product
-                </button>
-              </div>
-            </form>
+        className="modal fade"
+        id="editProductModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header text-center">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Edit Product
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form className="row justify-content-center container">
+                <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
+                  <label htmlFor="productName" className="form-label">
+                    Product Name
+                  </label>
+                  <input
+                    type="text"
+                    id="productName"
+                    class="form-control"
+                    name="productName"
+                    value={productFormState.productName}
+                    onChange={handleChangeProduct}
+                  />
+                </div>
+                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                  <label htmlFor="category" className="form-label">
+                    Category
+                  </label>
+                  <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    class="form-control"
+                    value={productFormState.category}
+                    onChange={handleChangeProduct}
+                  />
+                </div>
+                <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                  <label htmlFor="description" className="form-label">
+                    Description
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="description"
+                    name="description"
+                    rows="5"
+                    value={productFormState.description}
+                    onChange={handleChangeProduct}
+                  ></textarea>
+                </div>
+                <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                  <label htmlFor="productImages" className="form-label">
+                    Product Images
+                  </label>
+                  <input
+                    className="form-control"
+                    name="productImage"
+                    type="file"
+                    accept="/image/*"
+                    id="productImages"
+                  />
+                </div>
+                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                  <label htmlFor="price" className="form-label">
+                    Price
+                  </label>
+                  <input
+                    type="text"
+                    id="price"
+                    name="price"
+                    className="form-control"
+                    value={productFormState.price}
+                    onChange={handleChangeProduct}
+                  />
+                </div>
+                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                  <label htmlFor="quantity" className="form-label">
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    className="form-control"
+                    value={productFormState.quantity}
+                    onChange={handleChangeProduct}
+                  />
+                </div>
+                <div className="row justify-content-center">
+                  <button
+                    type="submit"
+                    className="btn btn-warning mt-4 mb-4 w-75"
+                  >
+                    Edit Product
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
