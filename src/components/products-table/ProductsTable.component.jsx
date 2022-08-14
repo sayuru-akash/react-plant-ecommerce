@@ -47,7 +47,7 @@ const ProductsTable = () => {
     });
   };
 
-  const handleSubmitProduct = (event) => {
+  const handleEditProduct = (event) => {
     const handler = async () => {
       event.preventDefault();
       try {
@@ -198,7 +198,7 @@ const ProductsTable = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <form className="row justify-content-center container">
+              <form onSubmit={handleEditProduct} className="row justify-content-center container">
                 <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
                   <label htmlFor="productName" className="form-label">
                     Product Name
