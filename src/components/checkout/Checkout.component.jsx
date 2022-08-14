@@ -31,8 +31,8 @@ const Checkout = () => {
 
   const handleSubmit = (event) => {
     const handler = async () => {
-        const today = new Date()
-        const date = today.addOne;
+        // const today = new Date()
+        // const date = today.addOne;
       event.preventDefault();
       if (
         deliveryAddress === "" ||
@@ -41,12 +41,12 @@ const Checkout = () => {
         alert("no empty values allowed");
         return;
       }
-      if (
-        deliveryDate < date.toString()
-      ) {
-        alert("Date should be +3 days after placing the order");
-        return;
-      }
+      // if (
+      //   deliveryDate < date.toString()
+      // ) {
+      //   alert("Date should be +3 days after placing the order");
+      //   return;
+      // }
       try {
         await placeCODOrder(currentUser.uid, cartItems, deliveryDate, deliveryAddress, calculateTotal(cartItems));
         resetForm();

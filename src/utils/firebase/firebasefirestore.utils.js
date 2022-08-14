@@ -474,7 +474,7 @@ export const getNextProducts = async (lastItem) => {
   };
 };
 
-export const getOrders = async (userEmail,uid,searchKey) => {
+export const getOrders = async (uid,searchKey) => {
   if (!auth) return;
   if (searchKey === "") {
     const ordersCollectionRef = await collection(db, "orders");

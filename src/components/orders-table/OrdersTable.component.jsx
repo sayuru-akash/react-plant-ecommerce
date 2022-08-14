@@ -8,7 +8,6 @@ const OrdersTable = () => {
     searchKey: "",
   };
   const { currentUser } = useContext(UserContext);
-  const currentUserEmail = currentUser.email;
   const currentUserID = currentUser.uid;
 
   const [formState, setFormState] = useState(defaultFormState);
@@ -21,7 +20,7 @@ const OrdersTable = () => {
     const handler = async () => {
       event.preventDefault();
       try {
-        getOrders(currentUserEmail,currentUserID,searchKey).then((orderData) => {
+        getOrders(currentUserID,searchKey).then((orderData) => {
           setOrders(orderData.data);
           setLastItem(orderData.lastVisible);
         });
@@ -36,7 +35,7 @@ const OrdersTable = () => {
   };
 
   useEffect(() => {
-    getOrders(currentUserEmail,currentUserID,searchKey).then((orderData) => {
+    getOrders(currentUserID,searchKey).then((orderData) => {
       console.log(orderData);
       setOrders(orderData.data);
       setLastItem(orderData.lastVisible);
@@ -44,7 +43,7 @@ const OrdersTable = () => {
   }, []);
 
   const loadNext = ()=>{
-    getNextOrders(currentUserEmail,currentUserID,lastItem).then((orderData) => {
+    getNextOrders(currentUserID,lastItem).then((orderData) => {
       setOrders([...orders, ...orderData.data])
       setLastItem(orderData.lastVisible);
     });
