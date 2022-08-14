@@ -30,6 +30,7 @@ import Catagories from "../components/catagories/Catagories.component";
 import ProductSingle from "../components/product-single/ProductSingle.component";
 import BlogSingle from "../components/blog-single/BlogSingle.component";
 import Checkout from "../components/checkout/Checkout.component";
+import AdminOrders from "../components/admin-orders/AdminOrders.component";
 
 function Layout() {
   const { currentUser } = useContext(UserContext);
@@ -60,6 +61,7 @@ function Layout() {
             <Route index element={<UserDashboardHome />} />
             <Route path="addresses" element={<AddressesView />} />
             <Route path="address-modify" element={<AddressForm />} />
+            <Route path="orders" element={<OrdersTable />} />
             <Route path="account-settings" element={<AccountSettings />} />
             <Route path="orders" element={<Orders />} />
           </Route>
@@ -67,7 +69,7 @@ function Layout() {
         {currentUser && currentUser.email === "admin@fancyhut.com" && (
           <Route path="admin" element={<AdminDashboard />}>
             <Route index element={<AdminDashboardHome />} />
-            <Route path="orders" element={<OrdersTable />} />
+            <Route path="admin-orders" element={<AdminOrders/>} />
             <Route path="users" element={<UsersTable />} />
             <Route path="blogs" element={<BlogTable />} />
             <Route path="products" element={<ProductsTable />} />

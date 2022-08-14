@@ -19,7 +19,7 @@ const AdminDashboard = () => {
                         <a className="nav-link text-dark" href="/admin/blogs">Blog Posts</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-dark" href="/admin/orders">Orders</a>
+                        <a className="nav-link text-dark" href="/admin/admin-orders">Orders</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link text-dark" href="/admin/users">Users</a>

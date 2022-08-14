@@ -1,28 +1,25 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../context/user.context";
-import { deleteOrder, getNextOrders, getOrders } from "../../utils/firebase/firebasefirestore.utils";
+import { useEffect, useState } from "react";
+import { deleteOrder, getAdminOrders, getNextAdminOrders } from "../../utils/firebase/firebasefirestore.utils";
 import ViewOrder from "../view-order/ViewOrder.component";
 
-const OrdersTable = () => {
+
+const AdminOrders = () => {
   const defaultFormState = {
     searchKey: "",
   };
-  const { currentUser } = useContext(UserContext);
-  const currentUserEmail = currentUser.email;
-  const currentUserID = currentUser.uid;
 
   const [formState, setFormState] = useState(defaultFormState);
   const {searchKey} = formState;
 
-  const [orders, setOrders] = useState([]);
+  const [adminOrders, setAdminOrders] = useState([]);
   const [lastItem, setLastItem] = useState(null);
 
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
       try {
-        getOrders(currentUserEmail,currentUserID,searchKey).then((orderData) => {
-          setOrders(orderData.data);
+        getAdminOrders(searchKey).then((orderData) => {
+          setAdminOrders(orderData.data);
           setLastItem(orderData.lastVisible);
         });
       } catch (error) {
@@ -36,16 +33,16 @@ const OrdersTable = () => {
   };
 
   useEffect(() => {
-    getOrders(currentUserEmail,currentUserID,searchKey).then((orderData) => {
+    getAdminOrders(searchKey).then((orderData) => {
       console.log(orderData);
-      setOrders(orderData.data);
+      setAdminOrders(orderData.data);
       setLastItem(orderData.lastVisible);
     });
   }, []);
 
   const loadNext = ()=>{
-    getNextOrders(currentUserEmail,currentUserID,lastItem).then((orderData) => {
-      setOrders([...orders, ...orderData.data])
+    getNextAdminOrders(lastItem).then((orderData) => {
+      setAdminOrders([...adminOrders, ...orderData.data])
       setLastItem(orderData.lastVisible);
     });
   };
@@ -91,7 +88,7 @@ const OrdersTable = () => {
             </tr>
           </thead>
           <tbody>
-          {orders.map((order, index) => (
+          {adminOrders.map((order, index) => (
               <tr key={order.id}>
                 <th scope="row">{index}</th>
                 <td>{order.data.user}</td>
@@ -119,4 +116,4 @@ const OrdersTable = () => {
   );
 };
 
-export default OrdersTable;
+export default AdminOrders;

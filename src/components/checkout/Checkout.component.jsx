@@ -31,8 +31,8 @@ const Checkout = () => {
 
   const handleSubmit = (event) => {
     const handler = async () => {
-        const today =new Date()
-        const date = today.getDate()+3;
+        const today = new Date()
+        const date = today.addOne;
       event.preventDefault();
       if (
         deliveryAddress === "" ||
@@ -42,7 +42,7 @@ const Checkout = () => {
         return;
       }
       if (
-        deliveryDate < date
+        deliveryDate < date.toString()
       ) {
         alert("Date should be +3 days after placing the order");
         return;
@@ -166,7 +166,7 @@ const Checkout = () => {
                 <option selected value="" disabled>Select Address</option>
                 {addresses.length > 0 ? (
                 addresses.map((address) => (
-                    <option key={address} value={address.id}>{address.data.address},{address.data.town},{address.data.postalCode},{address.data.country}</option>
+                    <option key={address} value={address.id}>{address.data.address},{address.data.city},{address.data.postalCode},{address.data.country}</option>
                 ))
               ) : (
                 <option value="" disabled>No Added Address</option>

@@ -1,4 +1,5 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context/user.context";
 
 import { getNextUsers, getUsers, deleteUser } from "../../utils/firebase/firebasefirestore.utils";
 
@@ -6,6 +7,8 @@ const UsersTable = () => {
   const defaultFormState = {
     searchKey: "",
   };
+
+  const { currentUser } = useContext(UserContext);
 
   const [formState, setFormState] = useState(defaultFormState);
   const {searchKey} = formState;
@@ -79,7 +82,7 @@ const UsersTable = () => {
             <tr>
               <th>#</th>
               <th>Email</th>
-              <th>User Name</th>
+                <th>User Name</th>
               <th>Action</th>
             </tr>
           </thead>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
 import { getUserAddresses, deleteUserAddress } from "../../utils/firebase/firebasefirestore.utils";
+import EditAddress from "../adit-address/EditAddress.component";
 
 const AddressesView = () => {
   const { currentUser } = useContext(UserContext);
@@ -47,13 +48,15 @@ const AddressesView = () => {
                   <td>{address.data.firstName}</td>
                   <td>{address.data.lastName}</td>
                   <td>{address.data.address}</td>
-                  <td>{address.data.town}</td>
+                  <td>{address.data.city}</td>
                   <td>{address.data.postalCode}</td>
                   <td>{address.data.country}</td>
                   <td>{address.data.phone}</td>
                   <td>{address.data.email}</td>
                   <td>
-                    <button className="btn btn-warning m-1">
+                    <button className="btn btn-warning m-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editAddressModal">
                       <i className="fa-solid fa-edit me-2"></i>Edit
                     </button>
                     <button className="btn btn-danger m-1" onClick={()=>{
@@ -77,6 +80,7 @@ const AddressesView = () => {
           </a>
         </div>
       </div>
+      <EditAddress/>
     </>
   );
 };

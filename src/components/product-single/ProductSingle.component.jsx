@@ -40,7 +40,7 @@ const ProductSingle = () => {
             Rs.
             {productData.price}/=
           </h4>
-          <div className="input-group mt-5 quantity-changer">
+          {/* <div className="input-group mt-5 quantity-changer">
             <div className="input-group-text" id="btnGroupAddon">
               <button type="button" className="btn">
                 <span className="button-font">-</span>
@@ -56,7 +56,7 @@ const ProductSingle = () => {
                 <span className="button-font">+</span>
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="row mt-5">
             <div className="col-sm-10 col-lg-6">
               <button

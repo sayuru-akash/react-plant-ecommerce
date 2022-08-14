@@ -474,6 +474,137 @@ export const getNextProducts = async (lastItem) => {
   };
 };
 
+export const getOrders = async (userEmail,uid,searchKey) => {
+  if (!auth) return;
+  if (searchKey === "") {
+    const ordersCollectionRef = await collection(db, "orders");
+    const documentSnapshots = await getDocs(
+      query(ordersCollectionRef, where("user", "==", uid),limit(10))
+    );
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    console.log("last", lastVisible);
+
+    return {
+      data: documentSnapshots.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })),
+      lastVisible,
+    };
+  } else {
+    const first = query(
+      collection(db, "orders"),
+      where("user", "==", uid),
+      orderBy("name", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
+    const documentSnapshots = await getDocs(first);
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    // console.log("last", lastVisible);
+
+    return {
+      data: documentSnapshots.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })),
+      lastVisible,
+    };
+  }
+};
+
+export const getNextOrders = async (uid,lastItem) => {
+  if (!auth) return;
+  const next = query(
+    collection(db, "orders"),
+    where("user", "==", uid),
+    startAfter(lastItem),
+    limit(10)
+  );
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
+
+
+export const getAdminOrders = async (searchKey) => {
+  if (searchKey === "") {
+    const first = query(collection(db, "orders"), limit(10));
+    const documentSnapshots = await getDocs(first);
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    console.log("last", lastVisible);
+
+    return {
+      data: documentSnapshots.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })),
+      lastVisible,
+    };
+  } else {
+    const first = query(
+      collection(db, "orders"),
+      orderBy("name", "asc"),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      limit(10)
+    );
+    const documentSnapshots = await getDocs(first);
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    // console.log("last", lastVisible);
+
+    return {
+      data: documentSnapshots.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })),
+      lastVisible,
+    };
+  }
+};
+
+export const getNextAdminOrders = async (lastItem) => {
+  if (!auth) return;
+  const next = query(
+    collection(db, "orders"),
+    startAfter(lastItem),
+    limit(10)
+  );
+  const documentSnapshots = await getDocs(next);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
+
+
+export const deleteOrder = async (orderId) => {
+  if (!auth) return;
+  await deleteDoc(doc(db, "orders", orderId));
+  if (deleteDoc) {
+    alert("Order deleted");
+  } else {
+    alert("Order not deleted");
+  }
+};
+
 export const getProductsToLoop = async () => {
   const first = query(collection(db, "products"), limit(4));
   const documentSnapshots = await getDocs(first);
@@ -612,9 +743,24 @@ export const addUserAddress = async (address) => {
     ...address,
   });
   if (docRef.id) {
-    alert("Address added");
+    alert("Address Added");
   } else {
     alert("Address not added");
+  }
+};
+
+export const editUserAddress = async (address) => {
+  if (!auth) return;
+  const userId = auth.currentUser.uid;
+  const addressCollectionRef = collection(db, "addresses");
+  const docRef = await updateDoc(addressCollectionRef, {
+    user: userId,
+    ...address,
+  });
+  if (docRef.id) {
+    alert("Address Updated");
+  } else {
+    alert("Address not Updated");
   }
 };
 
