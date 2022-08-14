@@ -481,12 +481,15 @@ export const getOrders = async (uid,searchKey) => {
     const documentSnapshots = await getDocs(
       query(ordersCollectionRef, where("user", "==", uid),limit(10))
     );
+    const userInfo = await getUser(uid);
+    // const userName = userInfo.name;
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
+        customer: userInfo,
         data: doc.data(),
         id: doc.id,
       })),

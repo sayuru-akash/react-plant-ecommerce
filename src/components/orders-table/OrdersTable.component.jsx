@@ -93,7 +93,7 @@ const OrdersTable = () => {
           {orders.map((order, index) => (
               <tr key={order.id}>
                 <th scope="row">{index}</th>
-                <td>{order.data.user}</td>
+                <td>{order.customer.firstName}</td>
                 <td>{order.data.deliveryDate}</td>
                 <td>{order.data.total}</td>
                 <td>{order.data.status}</td>
