@@ -115,7 +115,7 @@ const Catagories = () => {
         </table>
         <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
-      <AddCatagory />
+      <AddCatagory/>
       <EditCatagories/>
     </>
   );

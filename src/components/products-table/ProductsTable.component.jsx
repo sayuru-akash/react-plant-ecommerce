@@ -125,7 +125,123 @@ const ProductsTable = () => {
 
       {/* add products modal */}
       <AddProducts />
-      <EditProduct/>
+      {/* <EditProduct/> */}
+      <div
+      className="modal fade"
+      id="editProductModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              Edit Product
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form
+              className="row justify-content-center container"
+              onSubmit={handleSubmit}
+            >
+              <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="productName" className="form-label">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  id="productName"
+                  class="form-control"
+                  name="productName"
+                  value={productName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="category" className="form-label">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  id="category"
+                  name="category"
+                  class="form-control"
+                  value={category}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="description" className="form-label">
+                  Description
+                </label>
+                <textarea
+                  className="form-control"
+                  id="description"
+                  name="description"
+                  rows="5"
+                  value={description}
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="productImages" className="form-label">
+                  Product Images
+                </label>
+                <input
+                  className="form-control"
+                  name="productImage"
+                  type="file"
+                  accept="/image/*"
+                  id="productImages"
+                  onChange={handleImgChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="price" className="form-label">
+                  Price
+                </label>
+                <input
+                  type="text"
+                  id="price"
+                  name="price"
+                  className="form-control"
+                  value={price}
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="quantity" className="form-label">
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  className="form-control"
+                  value={quantity}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="row justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-warning mt-4 mb-4 w-75"
+                >
+                  Edit Product
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     </>
   );
 };
