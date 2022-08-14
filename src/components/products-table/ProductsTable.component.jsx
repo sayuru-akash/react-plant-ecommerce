@@ -51,8 +51,7 @@ const ProductsTable = () => {
     const handler = async () => {
       event.preventDefault();
       try {
-        //await addProduct(productName, category, description, price, quantity);
-        //setProductFormState(defaultProductFormState);
+        //await editProduct(productName, category, description, price, quantity);
       } catch (error) {
         console.log(error);
       }
