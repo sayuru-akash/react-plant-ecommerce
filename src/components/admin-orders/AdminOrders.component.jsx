@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { deleteOrder, getAdminOrders, getNextAdminOrders } from "../../utils/firebase/firebasefirestore.utils";
-import ViewOrder from "../view-order/ViewOrder.component";
 
+
+const defaultOrderFormState = {
+  ammount:"",
+  deliveryDate:"",
+  paymentMethod:"",
+  address:"",
+};
 
 const AdminOrders = () => {
   const defaultFormState = {
@@ -11,15 +17,18 @@ const AdminOrders = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const {searchKey} = formState;
 
-  const [adminOrders, setAdminOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [lastItem, setLastItem] = useState(null);
+
+  const [orderFormState, setOrderFormState] = useState(defaultOrderFormState);
+  const { ammount, deliveryDate, paymentMethod, address } = orderFormState;
 
   const handleSubmit = (event) => {
     const handler = async () => {
       event.preventDefault();
       try {
         getAdminOrders(searchKey).then((orderData) => {
-          setAdminOrders(orderData.data);
+          setOrders(orderData.data);
           setLastItem(orderData.lastVisible);
         });
       } catch (error) {
@@ -35,14 +44,14 @@ const AdminOrders = () => {
   useEffect(() => {
     getAdminOrders(searchKey).then((orderData) => {
       console.log(orderData);
-      setAdminOrders(orderData.data);
+      setOrders(orderData.data);
       setLastItem(orderData.lastVisible);
     });
   }, []);
 
   const loadNext = ()=>{
     getNextAdminOrders(lastItem).then((orderData) => {
-      setAdminOrders([...adminOrders, ...orderData.data])
+      setOrders([...orders, ...orderData.data])
       setLastItem(orderData.lastVisible);
     });
   };
@@ -88,7 +97,7 @@ const AdminOrders = () => {
             </tr>
           </thead>
           <tbody>
-          {adminOrders.map((order, index) => (
+          {orders.map((order, index) => (
               <tr key={order.id}>
                 <th scope="row">{index}</th>
                 <td>{order.data.user}</td>
@@ -98,7 +107,17 @@ const AdminOrders = () => {
                 <td>
                   <button type="button" className="btn btn-primary me-3"
                   data-bs-toggle="modal"
-                  data-bs-target="#viewOrderModal">
+                  data-bs-target="#viewOrderModal"
+                  onClick={() => {
+                    setOrderFormState({
+                      ...formState,
+                      ammount: order.data.total,
+                      deliveryDate: order.data.deliveryDate,
+                      paymentMethod: order.data.paymentMethod,
+                      address: order.address,
+                    });
+                  }}
+                  >
                     <i className="fa-solid fa-eye me-2"></i>View
                   </button>
                   <button onClick={()=>deleteOrder(order.id)} className="btn btn-danger">
@@ -111,7 +130,105 @@ const AdminOrders = () => {
         </table>
         <button className="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
-      <ViewOrder/>
+      <div
+      className="modal fade"
+      id="viewOrderModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              View Order
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+                <div className="modal-body">
+                <div className="col-12">
+                <h2 className="card-subtitle mb-2 mt-2 text-center">Ordered Items</h2>
+              </div>
+              <hr />
+                {/* {orderFormState.cartItems.map((product) => (
+                  <div className='row m-0 p-0' key={product.id}>
+                    <div className="col-6">
+                            <p className='card-subtitle mb-2 mt-2 text-start'>
+                        {product.data.data.name} x {product.qty}
+                        </p>
+                    </div>
+                    <div className="col-6">
+                        <p className='card-subtitle mb-2 mt-2 text-end'>
+                            Rs. {product.data.data.price * product.data.data.qty}/=
+                        </p>
+                    </div>
+                  </div>
+                ))} */}
+                  <div className='row m-0 p-0' >
+                    <div className="col-6">
+                            <p className='card-subtitle mb-2 mt-2 text-start'>
+                        test Product x 5
+                        </p>
+                    </div>
+                    <div className="col-6">
+                        <p className='card-subtitle mb-2 mt-2 text-end'>
+                            Rs. 5000/=
+                        </p>
+                    </div>
+              <div className="col-6">
+                <h5 className="card-subtitle mb-2 mt-2 text-start">Shipping</h5>
+              </div>
+              <div className="col-6">
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                  Rs. 400/=
+                </h6>
+              </div>
+              <hr />
+              <div className="col-6">
+                <h5 className="card-subtitle mb-2 mt-2 text-start">Ammount</h5>
+              </div>
+              <div className="col-6">
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                {orderFormState.ammount}
+                </h6>
+              </div>
+              <hr />
+              <div className="col-6">
+                <h5 className="card-subtitle mb-2 mt-2 text-start">Address</h5>
+              </div>
+              <div className="col-6">
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                {orderFormState.addrerss}
+                </h6>
+              </div>
+              <hr />
+              <div className="col-6">
+                <h5 className="card-subtitle mb-2 mt-2 text-start">Delivery Date</h5>
+              </div>
+              <div className="col-6">
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                {orderFormState.deliveryDate}
+                </h6>
+              </div>
+              <hr />
+              <div className="col-6">
+                <h5 className="card-subtitle mb-2 mt-2 text-start">Payment Method</h5>
+              </div>
+              <div className="col-6">
+                <h6 className="card-subtitle mb-2 mt-2 text-end">
+                {orderFormState.paymentMethod}
+                </h6>
+              </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
     </div>
   );
 };

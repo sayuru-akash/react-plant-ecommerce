@@ -83,6 +83,7 @@ const LoginForm = () => {
   };
 
   return (
+    <>
     <form className="mb-5" onSubmit={handleSubmit}>
       <div className="mb-5">
         <h3>LOG IN</h3>
@@ -124,7 +125,64 @@ const LoginForm = () => {
       >
         Sign In With Google
       </button>
+      <div className="row justify-content-center">
+      <a
+        className="link-dark mt-4 text-center"
+        data-bs-toggle="modal"
+        data-bs-target="#forgetPasswordModal"
+      >
+        Forget Password
+      </a>
+      </div>
     </form>
+
+    <div
+      className="modal fade"
+      id="forgetPasswordModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              Forget Password
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form
+              className="row justify-content-center container"
+            >
+              <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                />
+              </div>
+              <div className="row justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-warning mt-4 mb-4 w-75"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
   );
 };
 

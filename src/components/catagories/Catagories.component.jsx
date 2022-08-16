@@ -2,7 +2,10 @@ import {useState, useEffect} from "react";
 import AddCatagory from "../add-catagories/AddCatagory.component";
 
 import { getCatagories, getNextCatagories, deleteCategory } from "../../utils/firebase/firebasefirestore.utils";
-import EditCatagories from "../edit-categories/EditCatagories.component";
+
+const defaultCategoryFormState = {
+  categoryName:""
+};
 
 const Catagories = () => {
   const defaultFormState = {
@@ -14,6 +17,9 @@ const Catagories = () => {
 
   const [catagories, setCatagories] = useState([]);
   const [lastItem, setLastItem] = useState(null);
+
+  const [categoryFormState, setCategoryFormState] = useState(defaultCategoryFormState);
+  const { categoryName } = categoryFormState;
 
   const handleSubmit = (event) => {
     const handler = async () => {
@@ -31,6 +37,21 @@ const Catagories = () => {
       console.error(error);
     });
   };
+
+  const handleEditCategory = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      try {
+        //await editCategorie(categorieName);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
+    });
+  }
 
   useEffect(() => {
     getCatagories(searchKey).then((catagorieData) => {
@@ -50,6 +71,12 @@ const Catagories = () => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
+
+  const handleChangeCategory = (event) => {
+    const { name, value } = event.target;
+    setCategoryFormState({ ...categoryFormState, [name]: value });
+  }
+
 
   return (
     <>
@@ -101,7 +128,14 @@ const Catagories = () => {
                 <td>
                 <button type="button" className="btn btn-warning me-3"
                 data-bs-toggle="modal"
-                data-bs-target="#editCatagorieModal">
+                data-bs-target="#editCatagorieModal"
+                onClick={() => {
+                  setCategoryFormState({
+                    ...formState,
+                    categoryName: category.data.name,
+                  });
+                }}
+                >
                   <i className="fa-solid fa-pen-to-square me-2"
                   ></i>Edit
                 </button>
@@ -116,7 +150,71 @@ const Catagories = () => {
         <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
       <AddCatagory/>
-      <EditCatagories/>
+      <div
+      className="modal fade"
+      id="editCatagorieModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              Edit Category
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form
+              className="row justify-content-center container"
+              onSubmit={handleEditCategory}
+            >
+              <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="categoryName" className="form-label">
+                  Category Name
+                </label>
+                <input
+                  type="text"
+                  id="categoryName"
+                  class="form-control"
+                  name="categoryName"
+                  value={categoryFormState.categoryName}
+                    onChange={handleChangeCategory}
+                />
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="categoryImage" className="form-label">
+                  Category Image
+                </label>
+                <input
+                  className="form-control"
+                  name="categoryImage"
+                  type="file"
+                  id="categoryImage"
+                  accept="/image/*"
+                  // value={categoryFormState.categorieName}
+                  // onChange={handleChangeCategory}
+                />
+              </div>
+              <div className="row justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-warning mt-4 mb-4 w-75"
+                >
+                  Edit Category
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     </>
   );
 };

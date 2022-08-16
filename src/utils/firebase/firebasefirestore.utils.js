@@ -482,7 +482,7 @@ export const getOrders = async (uid,searchKey) => {
       query(ordersCollectionRef, where("user", "==", uid),limit(10))
     );
     const userInfo = await getUser(uid);
-    // const userName = userInfo.name;
+    //  userInfo.name;
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
@@ -507,10 +507,12 @@ export const getOrders = async (uid,searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
+      const userInfo = await getUser(uid);
     // console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
+        customer: userInfo,
         data: doc.data(),
         id: doc.id,
       })),
@@ -529,9 +531,11 @@ export const getNextOrders = async (uid,lastItem) => {
   );
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+  const userInfo = await getUser(uid);
 
   return {
     data: documentSnapshots.docs.map((doc) => ({
+      customer: userInfo,
       data: doc.data(),
       id: doc.id,
     })),
@@ -544,8 +548,7 @@ export const getAdminOrders = async (searchKey) => {
   if (searchKey === "") {
     const first = query(collection(db, "orders"), limit(10));
     const documentSnapshots = await getDocs(first);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
     console.log("last", lastVisible);
 
     return {

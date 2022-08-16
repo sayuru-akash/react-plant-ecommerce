@@ -3,7 +3,13 @@ import { useState, useEffect } from "react";
 import AddBlogPosts from "../add-blog-posts/AddBlogPosts.component";
 
 import { getNextPosts, getPosts, deleteBlogPosts } from "../../utils/firebase/firebasefirestore.utils";
-import EditBlogPosts from "../edit-blog-post/EditBlogPosts.component";
+
+const defaultPostFormState = {
+  postName: "",
+  date: "",
+  content: "",
+  auther: "",
+};
 
 const BlogTable = () => {
   const defaultFormState = {
@@ -15,6 +21,9 @@ const BlogTable = () => {
 
   const [posts, setPosts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
+
+  const [postFormState, setPostFormState] = useState(defaultPostFormState);
+  const { postName, auther, date, content} = postFormState;
 
   const handleSubmit = (event) => {
     const handler = async () => {
@@ -33,6 +42,21 @@ const BlogTable = () => {
     });
   };
 
+  const handleEditPost = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      try {
+        //await editPost(postName, auther, date, content);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
+    });
+  }
+
   useEffect(() => {
     getPosts(searchKey).then((userData) => {
       setPosts(userData.data);
@@ -45,12 +69,17 @@ const BlogTable = () => {
       setPosts([...posts, ...productData.data])
       setLastItem(productData.lastVisible);
     });
-  }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
+
+  const handleChangePost = (event) => {
+    const { name, value } = event.target;
+    setPostFormState({ ...postFormState, [name]: value });
+  }
 
   return (
     <>
@@ -106,7 +135,17 @@ const BlogTable = () => {
                 <td>
                   <button type="button" className="btn btn-warning me-3"
                   data-bs-toggle="modal"
-                  data-bs-target="#editBlogPostsModal">
+                  data-bs-target="#editBlogPostsModal"
+                  onClick={() => {
+                    setPostFormState({
+                      ...formState,
+                      postName: blogPost.data.title,
+                      auther: blogPost.data.author,
+                      date: blogPost.data.date,
+                      content: blogPost.data.content,
+                    });
+                  }}
+                  >
                     <i className="fa-solid fa-pen-to-square me-2"></i>Edit
                   </button>
                   <button onClick={()=> deleteBlogPosts(blogPost.id)} className="btn btn-danger">
@@ -121,7 +160,106 @@ const BlogTable = () => {
       </div>
 
       <AddBlogPosts />
-      <EditBlogPosts/>
+      <div
+      className="modal fade"
+      id="editBlogPostsModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              Edit Blog Post
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form className="row container" onSubmit={handleEditPost}>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="postName" className="form-label">
+                  Post Title
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="postName"
+                  name="postName"
+                  value={postFormState.postName}
+                  onChange={handleChangePost}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="author" className="form-label">
+                  Author
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="author"
+                  name="author"
+                  value={postFormState.auther}
+                  onChange={handleChangePost}
+                />
+              </div>
+              <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="date" className="form-label">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="date"
+                  name="date"
+                  value={postFormState.date}
+                  onChange={handleChangePost}
+                />
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="content" className="form-label">
+                  Article
+                </label>
+                <textarea
+                  className="form-control"
+                  id="content"
+                  name="content"
+                  rows="5"
+                  value={postFormState.content}
+                  onChange={handleChangePost}
+                ></textarea>
+              </div>
+              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <label htmlFor="articleImages" className="form-label">
+                  Article Images
+                </label>
+                <input
+                  className="form-control"
+                  name="articleImage"
+                  type="file"
+                  id="articleImages"
+                  // onChange={handleImgChange}
+                  accept="image/*"
+                />
+              </div>
+              <div className="row justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-warning mt-4 mb-4 w-75"
+                >
+                  Edit Blog Post
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     </>
   );
 };

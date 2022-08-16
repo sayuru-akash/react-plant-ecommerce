@@ -1,8 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
-import { getUserAddresses, deleteUserAddress } from "../../utils/firebase/firebasefirestore.utils";
-import EditAddress from "../adit-address/EditAddress.component";
+import { getUserAddresses, deleteUserAddress, editUserAddress } from "../../utils/firebase/firebasefirestore.utils";
+
+
+const defaultAddressFormState = {
+  firstName: "",
+  lastName: "",
+  country: "",
+  address: "",
+  city: "",
+  postalCode:"",
+  phone:"",
+  email:""
+};
 
 const AddressesView = () => {
   const { currentUser } = useContext(UserContext);
@@ -10,11 +21,52 @@ const AddressesView = () => {
 
   const [addresses, setAddresses] = useState([]);
 
+  const [addressFormState, setAddressFormState] = useState(defaultAddressFormState);
+  const { firstName, lastName, country, address, city, postalCode, phone, email} = addressFormState;
+
+  const navigate = useNavigate();
+
+
+  const handleEditAddress = (event) => {
+    const handler = async () => {
+      event.preventDefault();
+      if (firstName == "" || lastName == "" || country == "" || address == "" || city == "" || postalCode == "" || phone == "" || email=="") {
+        alert("no empty values allowed");
+        return;
+      }
+      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if(!email || regex.test(email) === false){
+          alert("email is not valid");
+          return;
+      }
+      try {
+        await editUserAddress(addressFormState);
+        resetForm();
+        navigate("/dashboard/addresses");
+      } catch (error) {
+        console.error("error occurred", error);
+      }
+    };
+
+    handler().catch((error) => {
+      console.error(error);
+    });
+  }
+
   useEffect(() => {
     getUserAddresses(userId).then((addresses) => {
       setAddresses(addresses);
     });
   }, []);
+
+  const handleChangeProduct = (event) => {
+    const { name, value } = event.target;
+    setAddressFormState({ ...addressFormState, [name]: value });
+  }
+
+  const resetForm = () => {
+    setAddressFormState(defaultAddressFormState);
+  };
 
   return (
     <>
@@ -56,7 +108,20 @@ const AddressesView = () => {
                   <td>
                     <button className="btn btn-warning m-1"
                     data-bs-toggle="modal"
-                    data-bs-target="#editAddressModal">
+                    data-bs-target="#editAddressModal"
+                    onClick={() => {
+                      setAddressFormState({
+                        firstName: address.data.firstName,
+                        lastName: address.data.lastName,
+                        address: address.data.address,
+                        city: address.data.city,
+                        postalCode: address.data.postalCode,
+                        country: address.data.country,
+                        phone: address.data.phone,
+                        email: address.data.email,
+                      });
+                    }}
+                    >
                       <i className="fa-solid fa-edit me-2"></i>Edit
                     </button>
                     <button className="btn btn-danger m-1" onClick={()=>{
@@ -80,7 +145,87 @@ const AddressesView = () => {
           </a>
         </div>
       </div>
-      <EditAddress/>
+      <div
+      className="modal fade"
+      id="editAddressModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-header text-center">
+            <h5 className="modal-title" id="exampleModalLabel">
+              Edit Address
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body"></div>
+    <form className='mb-5 p-5 pt-0' onSubmit={handleEditAddress}>
+        <div className="mb-3">
+            <label for="first_name" className="form-label">First Name</label>
+            <input type="text" className="form-control"
+            value={addressFormState.firstName}
+            onChange={handleChangeProduct}/>
+        </div>
+        <div className="mb-3">
+            <label for="last_name" className="form-label">Last Name</label>
+            <input type="text" className="form-control"
+            value={addressFormState.lastName}
+            onChange={handleChangeProduct}/>
+        </div>
+        <div className="mb-3">
+            <label for="select_country" className="form-label">Select Country</label>
+            <select class="form-select" aria-label="Default select example"
+            value={addressFormState.country}
+            onChange={handleChangeProduct}>
+                <option value="" selected>Select Country</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="UK">UK</option>
+                <option value="US">USA</option>
+            </select>
+        </div>
+        <div className="mb-3">
+            <label for="address" className="form-label">Address</label>
+            <textarea rows="3"className="form-control"
+            value={addressFormState.address}
+            onChange={handleChangeProduct}>
+            </textarea>
+        </div>
+        <div className="mb-3">
+            <label for="city" className="form-label">Town / City</label>
+            <input type="text" className="form-control"
+            value={addressFormState.city}
+            onChange={handleChangeProduct}/>
+        </div>
+        <div className="mb-3">
+            <label for="postal_code" className="form-label">Postcode / ZIP</label>
+            <input type="text" className="form-control"
+            value={addressFormState.postalCode}
+            onChange={handleChangeProduct}/>
+        </div>
+        <div className="mb-3">
+            <label for="phone" className="form-label">Phone</label>
+            <input type="mobile" className="form-control"
+            value={addressFormState.phone}
+            onChange={handleChangeProduct}/>
+        </div>
+        <div className="mb-3">
+            <label for="email" className="form-label">Email Address</label>
+            <input type="email" className="form-control"
+            value={addressFormState.email}
+            onChange={handleChangeProduct}/>
+        </div>
+        <button type="submit" className="btn btn-warning mt-4 w-100">Update Address</button>
+    </form>
+    </div>
+    </div>
+    </div>
     </>
   );
 };

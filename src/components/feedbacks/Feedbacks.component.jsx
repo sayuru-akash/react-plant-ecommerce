@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-
 import { getMessages, getNextMessages } from "../../utils/firebase/firebasefirestore.utils";
-import ViewFeedback from "../view-feedback/ViewFeedback.component";
+
+const defaultFeedbackFormState = {
+  message: "",
+};
 
 const Feedbacks = () => {
   const defaultFormState = {
@@ -13,6 +15,9 @@ const Feedbacks = () => {
 
   const [messages, setMessages] = useState([]);
   const [lastItem, setLastItem] = useState(null);
+
+  const [feedbackFormState, setFeedbackFormState] = useState(defaultFeedbackFormState);
+  const { message } = feedbackFormState;
 
   const handleSubmit = (event) => {
     const handler = async () => {
@@ -43,12 +48,17 @@ const Feedbacks = () => {
       setMessages([...messages, ...messageData.data])
       setLastItem(messageData.lastVisible);
     });
-  }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
+
+  const handleChangeFeedback = (event) => {
+    const { name, value } = event.target;
+    setFeedbackFormState({ ...feedbackFormState, [name]: value });
+  }
 
   return (
     <>
@@ -94,7 +104,14 @@ const Feedbacks = () => {
                 <td>
                   <button type="button" className="btn btn-primary me-2"
                   data-bs-toggle="modal" 
-                  data-bs-target="#viewFeedbackModal">
+                  data-bs-target="#viewFeedbackModal"
+                  onClick={() => {
+                    setFeedbackFormState({
+                      ...formState,
+                      message: message.data.name,
+                    });
+                  }}
+                  >
                     <i class="fa-solid fa-eye me-2"
                     ></i>View
                   </button>
@@ -108,7 +125,25 @@ const Feedbacks = () => {
         </table>
         <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>Load More...</button>
       </div>
-      <ViewFeedback/>
+      <div class="modal fade" id="viewFeedbackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">View Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <textarea
+                    type="text"
+                    class="form-control"
+                    rows={10}
+                    value={feedbackFormState.message}
+                    onChange={handleChangeFeedback}
+                  />
+                </div>
+            </div>
+        </div>
+    </div>
     </>
   );
 };
