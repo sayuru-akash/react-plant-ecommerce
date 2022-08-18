@@ -173,6 +173,7 @@ const ProductsTable = () => {
             ))}
           </tbody>
         </table>
+        <button className="btn btn-outline-dark shadow-none" onClick={loadNext}>
           Load More...
         </button>
       </div>
@@ -244,7 +245,6 @@ const ProductsTable = () => {
                     onChange={handleChangeProduct}
                   ></textarea>
                 </div>
-                <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
                 <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
                   <label htmlFor="productImages" className="form-label">
                     Product Images
