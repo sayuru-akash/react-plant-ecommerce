@@ -169,7 +169,7 @@ const ProductsTable = () => {
             ))}
           </tbody>
         </table>
-        <button class="btn btn-outline-dark shadow-none" onClick={loadNext}>
+        <button className="btn btn-outline-dark shadow-none" onClick={loadNext}>
           Load More...
         </button>
       </div>
@@ -206,13 +206,13 @@ const ProductsTable = () => {
                   <input
                     type="text"
                     id="productName"
-                    class="form-control"
+                    className="form-control"
                     name="productName"
                     value={productFormState.productName}
                     onChange={handleChangeProduct}
                   />
                 </div>
-                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
                   <label htmlFor="category" className="form-label">
                     Category
                   </label>
@@ -220,12 +220,12 @@ const ProductsTable = () => {
                     type="text"
                     id="category"
                     name="category"
-                    class="form-control"
+                    className="form-control"
                     value={productFormState.category}
                     onChange={handleChangeProduct}
                   />
                 </div>
-                <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
                   <label htmlFor="description" className="form-label">
                     Description
                   </label>
@@ -238,7 +238,7 @@ const ProductsTable = () => {
                     onChange={handleChangeProduct}
                   ></textarea>
                 </div>
-                <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
                   <label htmlFor="productImages" className="form-label">
                     Product Images
                   </label>
@@ -250,7 +250,7 @@ const ProductsTable = () => {
                     id="productImages"
                   />
                 </div>
-                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
                   <label htmlFor="price" className="form-label">
                     Price
                   </label>
@@ -263,7 +263,7 @@ const ProductsTable = () => {
                     onChange={handleChangeProduct}
                   />
                 </div>
-                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
                   <label htmlFor="quantity" className="form-label">
                     Quantity
                   </label>
