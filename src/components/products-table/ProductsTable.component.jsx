@@ -6,10 +6,11 @@ import {
   getNextProducts,
   getProducts,
   deleteProduct,
+  editProduct,
 } from "../../utils/firebase/firebasefirestore.utils";
 
 const defaultProductFormState = {
-  productName: "",
+  name: "",
   category: "",
   description: "",
   price: "",
@@ -24,8 +25,10 @@ const ProductsTable = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const { searchKey } = formState;
 
-  const [productFormState, setProductFormState] = useState(defaultProductFormState);
-  const { productName, category, description, price, quantity } = productFormState;
+  const [productFormState, setProductFormState] = useState(
+    defaultProductFormState
+  );
+  const { name, category, description, price, quantity } = productFormState;
 
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
@@ -51,7 +54,7 @@ const ProductsTable = () => {
     const handler = async () => {
       event.preventDefault();
       try {
-        //await editProduct(productName, category, description, price, quantity);
+        await editProduct(productFormState);
       } catch (error) {
         console.log(error);
       }
@@ -60,7 +63,7 @@ const ProductsTable = () => {
     handler().catch((error) => {
       console.error(error);
     });
-  }
+  };
 
   useEffect(() => {
     getProducts(searchKey).then((productData) => {
@@ -84,7 +87,7 @@ const ProductsTable = () => {
   const handleChangeProduct = (event) => {
     const { name, value } = event.target;
     setProductFormState({ ...productFormState, [name]: value });
-  }
+  };
 
   return (
     <>
@@ -148,7 +151,8 @@ const ProductsTable = () => {
                     onClick={() => {
                       setProductFormState({
                         ...formState,
-                        productName: product.data.name,
+                        id: product.id,
+                        name: product.data.name,
                         category: product.data.category,
                         description: product.data.description,
                         price: product.data.price,
@@ -198,17 +202,20 @@ const ProductsTable = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleEditProduct} className="row justify-content-center container">
+              <form
+                onSubmit={handleEditProduct}
+                className="row justify-content-center container"
+              >
                 <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
-                  <label htmlFor="productName" className="form-label">
+                  <label htmlFor="name" className="form-label">
                     Product Name
                   </label>
                   <input
                     type="text"
-                    id="productName"
+                    id="name"
                     class="form-control"
-                    name="productName"
-                    value={productFormState.productName}
+                    name="name"
+                    value={productFormState.name}
                     onChange={handleChangeProduct}
                   />
                 </div>

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { deleteOrder, getAdminOrders, getNextAdminOrders } from "../../utils/firebase/firebasefirestore.utils";
-
+import { useEffect, useState, useContext } from "react";
+import { deleteOrder, getAdminOrders, getNextAdminOrders, getUser } from "../../utils/firebase/firebasefirestore.utils";
 
 const defaultOrderFormState = {
   ammount:"",
@@ -89,7 +88,7 @@ const AdminOrders = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>User</th>
+              <th>User ID</th>
               <th>Delivery Date</th>
               <th>Total</th>
               <th>Status</th>

@@ -474,12 +474,12 @@ export const getNextProducts = async (lastItem) => {
   };
 };
 
-export const getOrders = async (uid,searchKey) => {
+export const getOrders = async (uid, searchKey) => {
   if (!auth) return;
   if (searchKey === "") {
     const ordersCollectionRef = await collection(db, "orders");
     const documentSnapshots = await getDocs(
-      query(ordersCollectionRef, where("user", "==", uid),limit(10))
+      query(ordersCollectionRef, where("user", "==", uid), limit(10))
     );
     const userInfo = await getUser(uid);
     //  userInfo.name;
@@ -507,7 +507,7 @@ export const getOrders = async (uid,searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      const userInfo = await getUser(uid);
+    const userInfo = await getUser(uid);
     // console.log("last", lastVisible);
 
     return {
@@ -521,7 +521,7 @@ export const getOrders = async (uid,searchKey) => {
   }
 };
 
-export const getNextOrders = async (uid,lastItem) => {
+export const getNextOrders = async (uid, lastItem) => {
   if (!auth) return;
   const next = query(
     collection(db, "orders"),
@@ -543,13 +543,13 @@ export const getNextOrders = async (uid,lastItem) => {
   };
 };
 
-
 export const getAdminOrders = async (searchKey) => {
   if (searchKey === "") {
     const first = query(collection(db, "orders"), limit(10));
     const documentSnapshots = await getDocs(first);
-    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -583,11 +583,7 @@ export const getAdminOrders = async (searchKey) => {
 
 export const getNextAdminOrders = async (lastItem) => {
   if (!auth) return;
-  const next = query(
-    collection(db, "orders"),
-    startAfter(lastItem),
-    limit(10)
-  );
+  const next = query(collection(db, "orders"), startAfter(lastItem), limit(10));
   const documentSnapshots = await getDocs(next);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -599,7 +595,6 @@ export const getNextAdminOrders = async (lastItem) => {
     lastVisible,
   };
 };
-
 
 export const deleteOrder = async (orderId) => {
   if (!auth) return;
@@ -844,4 +839,13 @@ export const placeCODOrder = async (
   } else {
     alert("Order not placed");
   }
+};
+
+export const editProduct = async (product) => {
+  if (!auth) return;
+  const productsCollectionRef = collection(db, "products");
+  const docRef = await updateDoc(doc(productsCollectionRef, product.id), {
+    ...product,
+  });
+  alert("Product updated");
 };
