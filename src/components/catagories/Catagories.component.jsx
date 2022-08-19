@@ -1,10 +1,10 @@
 import {useState, useEffect} from "react";
 import AddCatagory from "../add-catagories/AddCatagory.component";
 
-import { getCatagories, getNextCatagories, deleteCategory } from "../../utils/firebase/firebasefirestore.utils";
+import { getCatagories, getNextCatagories, deleteCategory, editCategory } from "../../utils/firebase/firebasefirestore.utils";
 
 const defaultCategoryFormState = {
-  categoryName:""
+  name:"",
 };
 
 const Catagories = () => {
@@ -42,7 +42,7 @@ const Catagories = () => {
     const handler = async () => {
       event.preventDefault();
       try {
-        //await editCategorie(categorieName);
+        await editCategory(categoryFormState);
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +51,7 @@ const Catagories = () => {
     handler().catch((error) => {
       console.error(error);
     });
-  }
+  };
 
   useEffect(() => {
     getCatagories(searchKey).then((catagorieData) => {
@@ -132,7 +132,8 @@ const Catagories = () => {
                 onClick={() => {
                   setCategoryFormState({
                     ...formState,
-                    categoryName: category.data.name,
+                    id: category.id,
+                    name: category.data.name,
                   });
                 }}
                 >
@@ -153,7 +154,7 @@ const Catagories = () => {
       <div
       className="modal fade"
       id="editCatagorieModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
@@ -176,15 +177,15 @@ const Catagories = () => {
               onSubmit={handleEditCategory}
             >
               <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
-                <label htmlFor="categoryName" className="form-label">
+                <label htmlFor="bane" className="form-label">
                   Category Name
                 </label>
                 <input
                   type="text"
-                  id="categoryName"
+                  id="name"
                   class="form-control"
-                  name="categoryName"
-                  value={categoryFormState.categoryName}
+                  name="name"
+                  value={categoryFormState.name}
                     onChange={handleChangeCategory}
                 />
               </div>

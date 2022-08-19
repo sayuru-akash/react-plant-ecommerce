@@ -213,7 +213,7 @@ const ProductsTable = () => {
                   <input
                     type="text"
                     id="name"
-                    class="form-control"
+                    className="form-control"
                     name="name"
                     value={productFormState.name}
                     onChange={handleChangeProduct}

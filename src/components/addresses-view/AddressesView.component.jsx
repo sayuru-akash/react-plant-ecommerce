@@ -26,32 +26,22 @@ const AddressesView = () => {
 
   const navigate = useNavigate();
 
-
   const handleEditAddress = (event) => {
     const handler = async () => {
       event.preventDefault();
-      if (firstName == "" || lastName == "" || country == "" || address == "" || city == "" || postalCode == "" || phone == "" || email=="") {
-        alert("no empty values allowed");
-        return;
-      }
-      const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-      if(!email || regex.test(email) === false){
-          alert("email is not valid");
-          return;
-      }
       try {
         await editUserAddress(addressFormState);
         resetForm();
-        navigate("/dashboard/addresses");
       } catch (error) {
-        console.error("error occurred", error);
+        console.log(error);
       }
     };
 
     handler().catch((error) => {
       console.error(error);
     });
-  }
+  };
+
 
   useEffect(() => {
     getUserAddresses(userId).then((addresses) => {
@@ -111,6 +101,7 @@ const AddressesView = () => {
                     data-bs-target="#editAddressModal"
                     onClick={() => {
                       setAddressFormState({
+                        id: address.id,
                         firstName: address.data.firstName,
                         lastName: address.data.lastName,
                         address: address.data.address,
@@ -148,7 +139,7 @@ const AddressesView = () => {
       <div
       className="modal fade"
       id="editAddressModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
@@ -168,56 +159,72 @@ const AddressesView = () => {
           <div className="modal-body"></div>
     <form className='mb-5 p-5 pt-0' onSubmit={handleEditAddress}>
         <div className="mb-3">
-            <label for="first_name" className="form-label">First Name</label>
+            <label htmlFor="first_name" className="form-label">First Name</label>
             <input type="text" className="form-control"
             value={addressFormState.firstName}
+            name="firstName"
+            id="firstName"
             onChange={handleChangeProduct}/>
         </div>
         <div className="mb-3">
-            <label for="last_name" className="form-label">Last Name</label>
+            <label htmlFor="last_name" className="form-label">Last Name</label>
             <input type="text" className="form-control"
             value={addressFormState.lastName}
+            name="lastName"
+            id="lastName"
             onChange={handleChangeProduct}/>
         </div>
         <div className="mb-3">
-            <label for="select_country" className="form-label">Select Country</label>
-            <select class="form-select" aria-label="Default select example"
+            <label htmlFor="select_country" className="form-label">Select Country</label>
+            <select className="form-select" aria-label="Default select example"
+            id="country"
+            name="country"
             value={addressFormState.country}
             onChange={handleChangeProduct}>
-                <option value="" selected>Select Country</option>
+                <option value="" defaultValue>Select Country</option>
                 <option value="LK">Sri Lanka</option>
                 <option value="UK">UK</option>
                 <option value="US">USA</option>
             </select>
         </div>
         <div className="mb-3">
-            <label for="address" className="form-label">Address</label>
+            <label htmlFor="address" className="form-label">Address</label>
             <textarea rows="3"className="form-control"
+            id="address"
+            name="address"
             value={addressFormState.address}
             onChange={handleChangeProduct}>
             </textarea>
         </div>
         <div className="mb-3">
-            <label for="city" className="form-label">Town / City</label>
+            <label htmlFor="city" className="form-label">Town / City</label>
             <input type="text" className="form-control"
+            id="city"
+            name="city"
             value={addressFormState.city}
             onChange={handleChangeProduct}/>
         </div>
         <div className="mb-3">
-            <label for="postal_code" className="form-label">Postcode / ZIP</label>
+            <label htmlFor="postal_code" className="form-label">Postcode / ZIP</label>
             <input type="text" className="form-control"
+            name="postalCode"
+            id="postalCode"
             value={addressFormState.postalCode}
             onChange={handleChangeProduct}/>
         </div>
         <div className="mb-3">
-            <label for="phone" className="form-label">Phone</label>
+            <label htmlFor="phone" className="form-label">Phone</label>
             <input type="mobile" className="form-control"
+            id="phone"
+            name="phone"
             value={addressFormState.phone}
             onChange={handleChangeProduct}/>
         </div>
         <div className="mb-3">
-            <label for="email" className="form-label">Email Address</label>
+            <label htmlFor="email" className="form-label">Email Address</label>
             <input type="email" className="form-control"
+            id="email"
+            name="email"
             value={addressFormState.email}
             onChange={handleChangeProduct}/>
         </div>

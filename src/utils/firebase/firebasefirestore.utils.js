@@ -752,17 +752,11 @@ export const addUserAddress = async (address) => {
 
 export const editUserAddress = async (address) => {
   if (!auth) return;
-  const userId = auth.currentUser.uid;
   const addressCollectionRef = collection(db, "addresses");
-  const docRef = await updateDoc(addressCollectionRef, {
-    user: userId,
+  const docRef = await updateDoc(doc(addressCollectionRef, address.id), {
     ...address,
   });
-  if (docRef.id) {
-    alert("Address Updated");
-  } else {
-    alert("Address not Updated");
-  }
+  alert("Address updated");
 };
 
 export const getUserAddresses = async (uid) => {
@@ -848,4 +842,23 @@ export const editProduct = async (product) => {
     ...product,
   });
   alert("Product updated");
+};
+
+export const editBlogPost = async (post) => {
+  if (!auth) return;
+  const postCollectionRef = collection(db, "posts");
+  const docRef = await updateDoc(doc(postCollectionRef, post.id), {
+    ...post,
+  });
+  alert("Blog updated");
+};
+
+export const editCategory = async (category) => {
+  console.log(category);
+  if (!auth) return;
+  const categoryCollectionRef = collection(db, "categories");
+  const docRef = await updateDoc(doc(categoryCollectionRef, category.id), {
+    ...category
+  });
+  alert("Category updated");
 };

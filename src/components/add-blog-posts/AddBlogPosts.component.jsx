@@ -102,7 +102,7 @@ const AddBlogPosts = () => {
     <div
       className="modal fade"
       id="addBlogPostsModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >

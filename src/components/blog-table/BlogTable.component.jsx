@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 
 import AddBlogPosts from "../add-blog-posts/AddBlogPosts.component";
 
-import { getNextPosts, getPosts, deleteBlogPosts } from "../../utils/firebase/firebasefirestore.utils";
+import { getNextPosts, getPosts, deleteBlogPosts, editBlogPost } from "../../utils/firebase/firebasefirestore.utils";
 
-const defaultPostFormState = {
+const defaultEditPostFormState = {
+  id:"",
   postName: "",
   date: "",
   content: "",
-  auther: "",
+  author: "",
 };
 
 const BlogTable = () => {
@@ -22,8 +23,8 @@ const BlogTable = () => {
   const [posts, setPosts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
 
-  const [postFormState, setPostFormState] = useState(defaultPostFormState);
-  const { postName, auther, date, content} = postFormState;
+  const [postEditFormState, setPostFormState] = useState(defaultEditPostFormState);
+  const { postName, auther, date, content} = postEditFormState;
 
   const handleSubmit = (event) => {
     const handler = async () => {
@@ -46,7 +47,7 @@ const BlogTable = () => {
     const handler = async () => {
       event.preventDefault();
       try {
-        //await editPost(postName, auther, date, content);
+        await editBlogPost(postEditFormState);
       } catch (error) {
         console.log(error);
       }
@@ -55,7 +56,8 @@ const BlogTable = () => {
     handler().catch((error) => {
       console.error(error);
     });
-  }
+  };
+
 
   useEffect(() => {
     getPosts(searchKey).then((userData) => {
@@ -78,7 +80,7 @@ const BlogTable = () => {
 
   const handleChangePost = (event) => {
     const { name, value } = event.target;
-    setPostFormState({ ...postFormState, [name]: value });
+    setPostFormState({ ...postEditFormState, [name]: value });
   }
 
   return (
@@ -129,7 +131,7 @@ const BlogTable = () => {
             {posts.map((blogPost, index) => (
               <tr key={blogPost.count}>
                 <th scope="row">{index}</th>
-                <td>{blogPost.data.title}</td>
+                <td>{blogPost.data.postName}</td>
                 <td>{blogPost.data.author}</td>
                 <td>{blogPost.data.date}</td>
                 <td>
@@ -139,8 +141,9 @@ const BlogTable = () => {
                   onClick={() => {
                     setPostFormState({
                       ...formState,
-                      postName: blogPost.data.title,
-                      auther: blogPost.data.author,
+                      id: blogPost.id,
+                      postName: blogPost.data.postName,
+                      author: blogPost.data.author,
                       date: blogPost.data.date,
                       content: blogPost.data.content,
                     });
@@ -163,7 +166,7 @@ const BlogTable = () => {
       <div
       className="modal fade"
       id="editBlogPostsModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
@@ -191,7 +194,7 @@ const BlogTable = () => {
                   class="form-control"
                   id="postName"
                   name="postName"
-                  value={postFormState.postName}
+                  value={postEditFormState.postName}
                   onChange={handleChangePost}
                 />
               </div>
@@ -204,7 +207,7 @@ const BlogTable = () => {
                   class="form-control"
                   id="author"
                   name="author"
-                  value={postFormState.auther}
+                  value={postEditFormState.author}
                   onChange={handleChangePost}
                 />
               </div>
@@ -217,7 +220,7 @@ const BlogTable = () => {
                   class="form-control"
                   id="date"
                   name="date"
-                  value={postFormState.date}
+                  value={postEditFormState.date}
                   onChange={handleChangePost}
                 />
               </div>
@@ -230,7 +233,7 @@ const BlogTable = () => {
                   id="content"
                   name="content"
                   rows="5"
-                  value={postFormState.content}
+                  value={postEditFormState.content}
                   onChange={handleChangePost}
                 ></textarea>
               </div>

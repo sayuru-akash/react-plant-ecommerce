@@ -5,7 +5,7 @@ const ViewOrder = () => {
     <div
       className="modal fade"
       id="viewOrderModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
