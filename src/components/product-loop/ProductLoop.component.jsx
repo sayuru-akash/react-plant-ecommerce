@@ -78,7 +78,7 @@ const ProductLoop = () => {
       ))}
       <div>
         <button
-          class="btn btn-outline-dark shadow-none mt-4"
+          className="btn btn-outline-dark shadow-none mt-4"
           onClick={loadNext}
         >
           Load More...

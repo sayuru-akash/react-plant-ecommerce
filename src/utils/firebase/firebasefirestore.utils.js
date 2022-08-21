@@ -43,7 +43,7 @@ export const getMessages = async (searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -100,7 +100,7 @@ export const getUsers = async (searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -251,7 +251,7 @@ export const getCatagories = async (searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -306,7 +306,7 @@ export const getCatagoriesToLoop = async () => {
   const first = query(collection(db, "categories"), limit(6));
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  console.log("last", lastVisible);
+  //console.log("last", lastVisible);
 
   return {
     data: documentSnapshots.docs.map((doc) => ({
@@ -341,7 +341,7 @@ export const getPosts = async (searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -392,7 +392,7 @@ export const getPostsToLoop = async () => {
   const first = query(collection(db, "posts"), limit(4));
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  console.log("last", lastVisible);
+  //console.log("last", lastVisible);
 
   return {
     data: documentSnapshots.docs.map((doc) => ({
@@ -423,7 +423,7 @@ export const getProducts = async (searchKey) => {
     const documentSnapshots = await getDocs(first);
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -485,7 +485,7 @@ export const getOrders = async (uid, searchKey) => {
     //  userInfo.name;
     const lastVisible =
       documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    console.log("last", lastVisible);
+    //console.log("last", lastVisible);
 
     return {
       data: documentSnapshots.docs.map((doc) => ({
@@ -610,7 +610,7 @@ export const getProductsToLoop = async () => {
   const first = query(collection(db, "products"), limit(4));
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  console.log("last", lastVisible);
+  //console.log("last", lastVisible);
 
   return {
     data: documentSnapshots.docs.map((doc) => ({
@@ -712,7 +712,7 @@ export const getSearchProductsToLoop = async (searchKey) => {
   );
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  console.log("last", lastVisible);
+  //console.log("last", lastVisible);
 
   return {
     data: documentSnapshots.docs.map((doc) => ({
@@ -733,7 +733,7 @@ export const getCategoryProductsToLoop = async (categoryKey) => {
   );
   const documentSnapshots = await getDocs(first);
   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  console.log("last", lastVisible);
+  //console.log("last", lastVisible);
 
   return {
     data: documentSnapshots.docs.map((doc) => ({
@@ -887,7 +887,7 @@ export const editCategory = async (category) => {
   if (!auth) return;
   const categoryCollectionRef = collection(db, "categories");
   const docRef = await updateDoc(doc(categoryCollectionRef, category.id), {
-    ...category
+    ...category,
   });
   alert("Category updated");
 };
