@@ -723,6 +723,27 @@ export const getSearchProductsToLoop = async (searchKey) => {
   };
 };
 
+export const getCategoryProductsToLoop = async (categoryKey) => {
+  const first = query(
+    collection(db, "products"),
+    orderBy("category", "asc"),
+    startAt(categoryKey),
+    endAt(categoryKey + "\uf8ff"),
+    limit(4)
+  );
+  const documentSnapshots = await getDocs(first);
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+  console.log("last", lastVisible);
+
+  return {
+    data: documentSnapshots.docs.map((doc) => ({
+      data: doc.data(),
+      id: doc.id,
+    })),
+    lastVisible,
+  };
+};
+
 export const getProductData = async (id) => {
   const productsCollectionRef = await collection(db, "products");
   const data = getDoc(doc(productsCollectionRef, id));

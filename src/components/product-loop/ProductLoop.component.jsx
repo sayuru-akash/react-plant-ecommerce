@@ -6,6 +6,7 @@ import {
   getProductsToLoop,
   addProductToCart,
   getSearchProductsToLoop,
+  getCategoryProductsToLoop,
 } from "../../utils/firebase/firebasefirestore.utils";
 
 import "./ProductLoop.styles.css";
@@ -13,19 +14,29 @@ import "./ProductLoop.styles.css";
 const ProductLoop = () => {
   const [searchParams] = useSearchParams();
   const sKey = searchParams.get("search");
-  console.log(sKey);
+
+  const [catParams] = useSearchParams();
+  const cKey = catParams.get("category");
+  console.log(cKey);
 
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
 
   useEffect(() => {
-    if (sKey === null) {
+    if (sKey === null && cKey === null) {
       getProductsToLoop().then((productData) => {
         setProducts(productData.data);
         setLastItem(productData.lastVisible);
       });
-    } else {
+    } 
+    else if (sKey !== null && cKey === null) {
       getSearchProductsToLoop(sKey).then((productData) => {
+        setProducts(productData.data);
+        setLastItem(productData.lastVisible);
+      });
+    }
+    else if (sKey === null && cKey !== null) {
+      getCategoryProductsToLoop(cKey).then((productData) => {
         setProducts(productData.data);
         setLastItem(productData.lastVisible);
       });
