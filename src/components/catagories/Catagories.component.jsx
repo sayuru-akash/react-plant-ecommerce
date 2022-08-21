@@ -189,20 +189,6 @@ const Catagories = () => {
                     onChange={handleChangeCategory}
                 />
               </div>
-              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                <label htmlFor="categoryImage" className="form-label">
-                  Category Image
-                </label>
-                <input
-                  className="form-control"
-                  name="categoryImage"
-                  type="file"
-                  id="categoryImage"
-                  accept="/image/*"
-                  // value={categoryFormState.categorieName}
-                  // onChange={handleChangeCategory}
-                />
-              </div>
               <div className="row justify-content-center">
                 <button
                   type="submit"

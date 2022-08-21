@@ -48,7 +48,7 @@ const Checkout = () => {
       //   return;
       // }
       try {
-        await placeCODOrder(currentUser.uid, cartItems, deliveryDate, deliveryAddress, calculateTotal(cartItems));
+        await placeCODOrder(currentUser.uid, cartItems, deliveryDate, deliveryAddress, calculateTotal(cartItems)+400);
         resetForm();
       } catch (error) {
         console.error("error during placing order", error);

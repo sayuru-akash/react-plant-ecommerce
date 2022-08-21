@@ -818,6 +818,12 @@ export const getUser = async (uid) => {
   return (await data).data();
 };
 
+export const getAddress = async (aid) => {
+  const addCollectionRef = collection(db, "addresses");
+  const data = await getDoc(doc(addCollectionRef, aid));
+  return (await data).data();
+};
+
 export const placeCODOrder = async (
   uid,
   cartItems,
@@ -839,8 +845,10 @@ export const placeCODOrder = async (
     return;
   }
   const orderCollectionRef = collection(db, "orders");
+  const userName = (await getUser(uid)).firstName;
   const docRef = await addDoc(orderCollectionRef, {
     user: uid,
+    userName,
     cartItems,
     deliveryDate,
     address,
