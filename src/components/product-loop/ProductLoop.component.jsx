@@ -17,7 +17,6 @@ const ProductLoop = () => {
 
   const [catParams] = useSearchParams();
   const cKey = catParams.get("category");
-  console.log(cKey);
 
   const [products, setProducts] = useState([]);
   const [lastItem, setLastItem] = useState(null);
