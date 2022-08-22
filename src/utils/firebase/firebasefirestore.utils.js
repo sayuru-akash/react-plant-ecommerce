@@ -864,6 +864,46 @@ export const placeCODOrder = async (
   }
 };
 
+export const placePPOrder = async (
+  // uid,
+  // cartItems,
+  deliveryDate,
+  address,
+  total
+) => {
+  // if (!auth) return;
+  // if (!address) {
+  //   alert("Please select an address");
+  //   return;
+  // }
+  // if (!deliveryDate) {
+  //   alert("Please select a delivery date");
+  //   return;
+  // }
+  // if (!cartItems.length) {
+  //   alert("Cart is empty");
+  //   return;
+  // }
+  const orderCollectionRef = collection(db, "orders");
+  // const userName = (await getUser(uid)).firstName;
+  const docRef = await addDoc(orderCollectionRef, {
+    // user: uid,
+    // userName,
+    // cartItems,
+    deliveryDate,
+    address,
+    total,
+    paymentMethod: "PayPal",
+    status: "confirmed",
+  });
+  if (docRef.id) {
+    // await clearCart(cartItems);
+    alert("Order placed");
+  } else {
+    alert("Order not placed");
+  }
+};
+
 export const editProduct = async (product) => {
   if (!auth) return;
   const productsCollectionRef = collection(db, "products");
