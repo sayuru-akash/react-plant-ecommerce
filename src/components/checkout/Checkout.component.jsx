@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react'
 import { auth } from '../../utils/firebase/firebaseauth.utils';
 import { getCartData, getUserAddresses, placeCODOrder } from '../../utils/firebase/firebasefirestore.utils';
 import { UserContext } from '../../context/user.context';
+import PaypalCheckout from '../../paypal-checkout/PaypalCheckout.component';
 
 const calculateTotal = (cartItems) => {
     const total = cartItems.reduce(
@@ -182,10 +183,9 @@ const Checkout = () => {
                         value={deliveryDate}/>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary mt-5 mb-2 w-100">
-                <i class="fa-brands fa-paypal me-3"></i>
-                Paypal
-              </button>
+                <div className="mt-5 mb-2 w-100">
+                <PaypalCheckout/>
+              </div>
               <button type="submit" className="btn btn-success mt-4 mb-2 w-100">
                 Cash On Delivery
               </button>
