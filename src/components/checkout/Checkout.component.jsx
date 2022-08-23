@@ -4,7 +4,6 @@ import {
   getCartData,
   getUserAddresses,
   placeCODOrder,
-  placePPOrder,
 } from "../../utils/firebase/firebasefirestore.utils";
 import { UserContext } from "../../context/user.context";
 import PaypalCheckout from "../../paypal-checkout/PaypalCheckout.component";
@@ -35,42 +34,13 @@ const Checkout = () => {
     setFormState(defaultFormState);
   };
 
-  const handleSuccess = (data) => {
-    const handler = async () => {
-      console.log(data);
-      try {
-        await placePPOrder(
-          currentUser.uid,
-          cartItems,
-          deliveryDate,
-          deliveryAddress,
-          calculateTotal(cartItems) + 400
-        );
-        resetForm();
-      } catch (error) {
-        console.error("error during placing order", error);
-      }
-    };
-    handler().catch((error) => {
-      console.error(error);
-    });
-  };
-
   const handleSubmit = (event) => {
     const handler = async () => {
-      // const today = new Date()
-      // const date = today.addOne;
       event.preventDefault();
       if (deliveryAddress === "" || deliveryDate === "") {
         alert("no empty values allowed");
         return;
       }
-      // if (
-      //   deliveryDate < date.toString()
-      // ) {
-      //   alert("Date should be +3 days after placing the order");
-      //   return;
-      // }
       try {
         await placeCODOrder(
           currentUser.uid,
@@ -231,7 +201,12 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="mt-5 mb-2 w-100">
-                <PaypalCheckout />
+                <PaypalCheckout
+                  cartItems={cartItems}
+                  total={calculateTotal(cartItems) + 400}
+                  address={deliveryAddress}
+                  deliveryDate={deliveryDate}
+                />
               </div>
               <button type="submit" className="btn btn-success mt-4 mb-2 w-100">
                 Cash On Delivery

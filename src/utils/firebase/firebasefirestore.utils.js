@@ -183,6 +183,34 @@ export const deleteCategory = async (categoryId) => {
 
 export const addProduct = async (product) => {
   if (!auth) return;
+  let newDate = new Date()
+  let m = await newDate.getMonth() + 1
+  if ((m = 1)) {
+    m = "January";
+  } else if ((m = 2)) {
+    m = "February";
+  } else if ((m = 3)) {
+    m = "March";
+  } else if ((m = 4)) {
+    m = "April";
+  } else if ((m = 5)) {
+    m = "May";
+  } else if ((m = 6)) {
+    m = "June";
+  } else if ((m = 7)) {
+    m = "July";
+  } else if ((m = 8)) {
+    m = "August";
+  } else if ((m = 9)) {
+    m = "September";
+  } else if ((m = 10)) {
+    m = "October";
+  } else if ((m = 11)) {
+    m = "November";
+  } else if ((m = 12)) {
+    m = "December";
+  }
+
   const productsCollectionRef = collection(db, "products");
   const docRef = await addDoc(productsCollectionRef, {
     name: product.productName,
@@ -191,6 +219,7 @@ export const addProduct = async (product) => {
     price: product.price,
     quantity: product.quantity,
     image: product.productImage,
+    createdAt: m,
   });
   if (docRef.id) {
     return true;
@@ -210,6 +239,34 @@ export const deleteProduct = async (productId) => {
 
 export const addBlogPosts = async (post) => {
   if (!auth) return;
+  let newDate = new Date()
+  let m = await newDate.getMonth() + 1
+  if ((m == 1)) {
+    m = "January";
+  } else if ((m == 2)) {
+    m = "February";
+  } else if ((m == 3)) {
+    m = "March";
+  } else if ((m == 4)) {
+    m = "April";
+  } else if ((m == 5)) {
+    m = "May";
+  } else if ((m == 6)) {
+    m = "June";
+  } else if ((m == 7)) {
+    m = "July";
+  } else if ((m == 8)) {
+    m = "August";
+  } else if ((m == 9)) {
+    m = "September";
+  } else if ((m == 10)) {
+    m = "October";
+  } else if ((m == 11)) {
+    m = "November";
+  } else if ((m == 12)) {
+    m = "December";
+  }
+
   const postsCollectionRef = collection(db, "posts");
   const docRef = await addDoc(postsCollectionRef, {
     title: post.postName,
@@ -217,6 +274,7 @@ export const addBlogPosts = async (post) => {
     date: post.date,
     content: post.content,
     image: post.postImage,
+    createdAt: m,
   });
   if (docRef.id) {
     return true;
@@ -864,32 +922,14 @@ export const placeCODOrder = async (
   }
 };
 
-export const placePPOrder = async (
-  // uid,
-  // cartItems,
-  deliveryDate,
-  address,
-  total
-) => {
-  // if (!auth) return;
-  // if (!address) {
-  //   alert("Please select an address");
-  //   return;
-  // }
-  // if (!deliveryDate) {
-  //   alert("Please select a delivery date");
-  //   return;
-  // }
-  // if (!cartItems.length) {
-  //   alert("Cart is empty");
-  //   return;
-  // }
+export const placePPOrder = async (cartItems, deliveryDate, address, total) => {
+  const uid = await auth.currentUser.uid;
   const orderCollectionRef = collection(db, "orders");
-  // const userName = (await getUser(uid)).firstName;
+  const userName = (await getUser(uid)).firstName;
   const docRef = await addDoc(orderCollectionRef, {
-    // user: uid,
-    // userName,
-    // cartItems,
+    user: uid,
+    userName,
+    cartItems,
     deliveryDate,
     address,
     total,
@@ -930,4 +970,22 @@ export const editCategory = async (category) => {
     ...category,
   });
   alert("Category updated");
+};
+
+export const getProductsbyMonth = async (month) => {
+  const productsCollectionRef = collection(db, "products");
+  const querySnapshot = await getDocs(
+    query(productsCollectionRef, where("createdAt", "==", month))
+  );
+  const length = await querySnapshot.docs.length;
+  return length;
+};
+
+export const getPostsbyMonth = async (month) => {
+  const postCollectionRef = collection(db, "posts");
+  const querySnapshot = await getDocs(
+    query(postCollectionRef, where("createdAt", "==", month))
+  );
+  const length = await querySnapshot.docs.length;
+  return length;
 };
