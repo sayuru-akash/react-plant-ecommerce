@@ -245,7 +245,7 @@ const ProductsTable = () => {
                     onChange={handleChangeProduct}
                   ></textarea>
                 </div>
-                <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
+                {/* <div className="mb-3 col-lg-12 col-md-12 col-sm-12">
                   <label htmlFor="productImages" className="form-label">
                     Product Images
                   </label>
@@ -256,7 +256,7 @@ const ProductsTable = () => {
                     accept="/image/*"
                     id="productImages"
                   />
-                </div>
+                </div> */}
                 <div className="mb-3 col-lg-6 col-md-6 col-sm-12">
                   <label htmlFor="price" className="form-label">
                     Price

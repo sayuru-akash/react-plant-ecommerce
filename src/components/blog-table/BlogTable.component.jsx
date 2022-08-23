@@ -237,7 +237,7 @@ const BlogTable = () => {
                   onChange={handleChangePost}
                 ></textarea>
               </div>
-              <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+              {/* <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
                 <label htmlFor="articleImages" className="form-label">
                   Article Images
                 </label>
@@ -249,7 +249,7 @@ const BlogTable = () => {
                   // onChange={handleImgChange}
                   accept="image/*"
                 />
-              </div>
+              </div> */}
               <div className="row justify-content-center">
                 <button
                   type="submit"
