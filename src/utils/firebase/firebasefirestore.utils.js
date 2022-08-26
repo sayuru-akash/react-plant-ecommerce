@@ -147,7 +147,6 @@ export const getNextUsers = async (lastItem) => {
   };
 };
 
-//modify to delete user via auth as well
 export const deleteUser = async (userId) => {
   if (!auth) return;
   await deleteDoc(doc(db, "users", userId));
@@ -747,7 +746,12 @@ export const increaseQty = async (id) => {
   const cartCollectionRef = await collection(db, "cart");
   const data = getDoc(doc(cartCollectionRef, id));
   const qty = (await data).data().qty + 1;
-  await updateDoc(doc(cartCollectionRef, id), { qty: qty });
+  const quantity = (await data).data().data.quantity;
+  if (qty <= quantity) {
+    await updateDoc(doc(cartCollectionRef, id), { qty: qty });
+  } else {
+    alert("Quantity exceeds stock");
+  }
   return qty;
 };
 
@@ -756,7 +760,11 @@ export const decreaseQty = async (id) => {
   const cartCollectionRef = await collection(db, "cart");
   const data = getDoc(doc(cartCollectionRef, id));
   const qty = (await data).data().qty - 1;
+  if(qty > 0) {
   await updateDoc(doc(cartCollectionRef, id), { qty: qty });
+  } else {
+    await deleteDoc(doc(cartCollectionRef, id));
+  }
   return qty;
 };
 
