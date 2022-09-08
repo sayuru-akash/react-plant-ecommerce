@@ -912,6 +912,10 @@ export const placeCODOrder = async (
   }
   const orderCollectionRef = collection(db, "orders");
   const userName = (await getUser(uid)).firstName;
+  if(userName === "") {
+    alert("Please update your profile");
+    return;
+  }
   const docRef = await addDoc(orderCollectionRef, {
     user: uid,
     userName,
